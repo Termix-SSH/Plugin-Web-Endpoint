@@ -5,7 +5,7 @@ import {
   separatedTunnelHost,
   sharesCookieSiteWithPage,
   webEndpointRefusalReason,
-} from "./web-endpoint-url";
+} from "../../src/frontend/web-endpoint-url";
 import type { WebEndpoint } from "@/types/index";
 
 function endpoint(overrides: Partial<WebEndpoint> = {}): WebEndpoint {

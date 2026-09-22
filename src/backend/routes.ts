@@ -1,22 +1,22 @@
 import express from "express";
 import { Client } from "ssh2";
-import { AuthManager } from "../../../src/backend/utils/auth-manager.js";
-import { tunnelLogger } from "../../../src/backend/utils/logger.js";
-import { parseWebUiConfig } from "../../../src/backend/database/routes/host-web-endpoints.js";
+import { AuthManager } from "../../../../src/backend/utils/auth-manager.js";
+import { tunnelLogger } from "../../../../src/backend/utils/logger.js";
+import { parseWebUiConfig } from "../../../../src/backend/database/routes/host-web-endpoints.js";
 import {
   activeTunnelRuntimes,
   cleanupTunnelResources,
   connectSSHTunnel,
   connectionStatus,
   tunnelConnecting,
-} from "../../../src/backend/hosts/tunnel/manager.js";
-import { forwardOut } from "../../../src/backend/hosts/tunnel/ssh-primitives.js";
-import { buildWebEndpointTunnelName } from "../../../src/backend/hosts/tunnel/utils.js";
+} from "../../../../src/backend/hosts/tunnel/manager.js";
+import { forwardOut } from "../../../../src/backend/hosts/tunnel/ssh-primitives.js";
+import { buildWebEndpointTunnelName } from "../../../../src/backend/hosts/tunnel/utils.js";
 import {
   registerWebEndpointRouter,
   unregisterWebEndpointRouter,
-} from "../../../src/backend/hosts/tunnel/web-endpoint-dispatch.js";
-import type { TunnelConfig, WebEndpoint } from "../../../src/types/index.js";
+} from "../../../../src/backend/hosts/tunnel/web-endpoint-dispatch.js";
+import type { TunnelConfig, WebEndpoint } from "../../../../src/types/index.js";
 
 /** Matches the spec's ten minutes. */
 const WEB_ENDPOINT_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
@@ -151,7 +151,7 @@ export async function handleWebEndpointOpen(
   // a web deployment.
 
   const { resolveHostById } =
-    await import("../../../src/backend/hosts/host-resolver.js");
+    await import("../../../../src/backend/hosts/host-resolver.js");
   const host = await resolveHostById(hostId, userId);
   if (!host) {
     return res.status(403).json({ error: "Host not found or access denied" });
