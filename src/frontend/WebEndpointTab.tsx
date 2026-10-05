@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "@termix/plugin-sdk/frontend";
-import { Globe, RotateCw } from "lucide-react";
+import { RotateCw } from "lucide-react";
 import { toast } from "sonner";
 import {
   currentTunnelHost,
@@ -16,7 +16,7 @@ import {
 } from "./web-endpoint-api";
 import { copyToClipboard } from "@termix/plugin-sdk/ui";
 import { isElectron } from "@termix/plugin-sdk/ui";
-import { Button } from "@termix/plugin-sdk/ui";
+import { Button, ConnectionScreen } from "@termix/plugin-sdk/ui";
 import type { PluginHostRecord as Host } from "@termix/plugin-sdk/frontend";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
@@ -144,21 +144,25 @@ export function WebEndpointTab({
 
   if (!endpoint) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-xs text-muted-foreground">
-        <Globe className="size-5 opacity-60" />
-        <p>{t("webEndpoint.notFound")}</p>
+      <div className="relative h-full">
+        <ConnectionScreen
+          status="error"
+          unavailable={{ title: t("webEndpoint.notFound") }}
+        />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-xs">
-        <Globe className="size-5 opacity-60" />
-        <p className="text-center">{error}</p>
-        <Button variant="outline" size="sm" onClick={() => void resolve()}>
-          {t("webEndpoint.retry")}
-        </Button>
+      <div className="relative h-full">
+        <ConnectionScreen
+          status="error"
+          errorMessage={t("webEndpoint.openFailed")}
+          errorDetail={error}
+          onManualRetry={() => void resolve()}
+          retryLabel={t("webEndpoint.retry")}
+        />
       </div>
     );
   }

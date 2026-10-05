@@ -13,7 +13,8 @@
     "openExternally": "Open externally",
     "isolationUnavailable": "This browser cannot isolate web endpoints from your Termix session. Use a browser with credentialless iframe support.",
     "isolationNotice": "Embedded pages use an isolated session. For pages requiring storage or popup sign-in, use an isolated window in the desktop app.",
-    "openIsolatedWindow": "Open isolated window"
+    "openIsolatedWindow": "Open isolated window",
+    "openFailed": "Could not open this web page"
   },
   "hosts": {
     "tabWebUi": "Web UI",
