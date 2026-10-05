@@ -3,9 +3,9 @@ import { fireEvent } from "@testing-library/react";
 import {
   renderWithApp,
   type RenderedPluginApp,
-} from "@termix/plugin-sdk/testing";
-import type { PluginHostRecord as Host } from "@termix/plugin-sdk/frontend";
-import type { PluginManifest } from "@termix/plugin-sdk/manifest";
+} from "@termix-ssh/plugin-sdk/testing";
+import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
+import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 import type { WebEndpoint } from "../../src/shared/web-endpoint-config";
 import * as plugin from "../../src/frontend/index";
 import manifestJson from "../../manifest.json";

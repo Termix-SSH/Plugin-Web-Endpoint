@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { WebEndpoint } from "../../src/shared/web-endpoint-config";
 
 const isElectron = vi.hoisted(() => vi.fn(() => false));
-vi.mock("@termix/plugin-sdk/ui", async (importOriginal) => ({
+vi.mock("@termix-ssh/plugin-sdk/ui", async (importOriginal) => ({
   ...(await importOriginal<object>()),
   isElectron,
 }));

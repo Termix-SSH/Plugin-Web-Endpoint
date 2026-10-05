@@ -5,8 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createMockCtx,
   type MockPluginContext,
-} from "@termix/plugin-sdk/testing";
-import type { PluginManifest } from "@termix/plugin-sdk/manifest";
+} from "@termix-ssh/plugin-sdk/testing";
+import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 import manifestJson from "../../manifest.json";
 import { createWebEndpointRoutes } from "../../src/backend/routes.js";
 

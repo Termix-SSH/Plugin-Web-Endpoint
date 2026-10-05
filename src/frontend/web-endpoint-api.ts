@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { PluginApiClient } from "@termix/plugin-sdk/frontend";
-import { isElectron } from "@termix/plugin-sdk/ui";
+import type { PluginApiClient } from "@termix-ssh/plugin-sdk/frontend";
+import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
 let pluginApi: PluginApiClient | null = null;

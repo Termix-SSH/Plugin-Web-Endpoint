@@ -3,7 +3,7 @@ import { Globe } from "lucide-react";
 import {
   useTranslation,
   type HostEditorSectionProps,
-} from "@termix/plugin-sdk/frontend";
+} from "@termix-ssh/plugin-sdk/frontend";
 import {
   Button,
   Checkbox,
@@ -16,9 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
   SettingRow,
-} from "@termix/plugin-sdk/ui";
-import { resolveConnectionOrigin } from "@termix/plugin-sdk/ui";
-import { isElectron } from "@termix/plugin-sdk/ui";
+} from "@termix-ssh/plugin-sdk/ui";
+import { resolveConnectionOrigin } from "@termix-ssh/plugin-sdk/ui";
+import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import {
   MAX_WEB_ENDPOINTS,
   MAX_WEB_ENDPOINT_LABEL_LENGTH,

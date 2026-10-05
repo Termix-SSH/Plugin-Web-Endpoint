@@ -8,7 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import type { WebEndpoint } from "../../src/shared/web-endpoint-config";
-import type { PluginHostRecord as Host } from "@termix/plugin-sdk/frontend";
+import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 
 const openWebEndpointTunnel = vi.hoisted(() => vi.fn());
 const allowInvalidCertificateForOrigin = vi.hoisted(() => vi.fn());
@@ -31,7 +31,7 @@ vi.mock("../../src/frontend/web-endpoint-api", async (importOriginal) => {
 });
 
 const electron = vi.hoisted(() => ({ isElectron: vi.fn(() => true) }));
-vi.mock("@termix/plugin-sdk/ui", async (importOriginal) => ({
+vi.mock("@termix-ssh/plugin-sdk/ui", async (importOriginal) => ({
   ...(await importOriginal<object>()),
   ...electron,
 }));
