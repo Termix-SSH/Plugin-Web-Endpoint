@@ -158,10 +158,8 @@ export function WebEndpointTab({
       <div className="relative h-full">
         <ConnectionScreen
           status="error"
-          errorMessage={t("webEndpoint.openFailed")}
           errorDetail={error}
           onManualRetry={() => void resolve()}
-          retryLabel={t("webEndpoint.retry")}
         />
       </div>
     );

@@ -5,7 +5,6 @@
     "tunnelUnreachableFromBrowser": "This endpoint tunnels to 127.0.0.1 on the machine running Termix, which your browser cannot reach. Set the endpoint's Bind Host to an address that machine answers on, such as 0.0.0.0, and give it a fixed Local Port.",
     "tunnelSharesSessionCookie": "Opening this tunnel would send your Termix session to the tunnelled service, because your browser would reach it at the same hostname Termix is served from. Cookies ignore the port, so the two cannot be told apart. Use the Termix desktop app, or open Termix at localhost.",
     "directSharesSessionCookie": "Opening this endpoint would send your Termix session to it, because your browser reaches it at the same site Termix is served from. Cookies ignore the port, so a different port is not a different identity. Use the Termix desktop app, or serve this web UI from a different hostname.",
-    "retry": "Retry",
     "reload": "Reload",
     "copyUrl": "Copy URL",
     "urlCopied": "URL copied",
@@ -13,8 +12,7 @@
     "openExternally": "Open externally",
     "isolationUnavailable": "This browser cannot isolate web endpoints from your Termix session. Use a browser with credentialless iframe support.",
     "isolationNotice": "Embedded pages use an isolated session. For pages requiring storage or popup sign-in, use an isolated window in the desktop app.",
-    "openIsolatedWindow": "Open isolated window",
-    "openFailed": "Could not open this web page"
+    "openIsolatedWindow": "Open isolated window"
   },
   "hosts": {
     "tabWebUi": "Web UI",
