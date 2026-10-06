@@ -8,8 +8,8 @@
  * so this file has no runtime dependencies of its own.
  */
 
-export type WebEndpointAccess = "direct" | "tunnel";
-export type WebEndpointRender = "external" | "embedded";
+type WebEndpointAccess = "direct" | "tunnel";
+type WebEndpointRender = "external" | "embedded";
 
 /** One web UI a host serves, declared in this plugin's host settings. */
 export interface WebEndpoint {

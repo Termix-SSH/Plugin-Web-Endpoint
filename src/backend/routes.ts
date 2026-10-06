@@ -27,10 +27,7 @@ interface TunnelsAccess {
  * the host id in it is what the tunnels plugin checks before letting anyone
  * stop one by name.
  */
-export function webEndpointTunnelName(
-  hostId: number,
-  endpointId: string,
-): string {
+function webEndpointTunnelName(hostId: number, endpointId: string): string {
   return `web:${hostId}:${endpointId}`;
 }
 
