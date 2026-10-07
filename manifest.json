@@ -10,6 +10,11 @@
   "repository": "https://github.com/Termix-SSH/Plugin-Web-Endpoint",
   "category": "Networking",
   "icon": "Globe",
+  "features": [
+    "Open a web UI in a Termix tab or its own desktop window",
+    "Connect directly, or over an SSH tunnel through the host",
+    "Embedded pages never see your Termix login"
+  ],
   "engine": {
     "termix": ">=26.10.0",
     "api": "1"
