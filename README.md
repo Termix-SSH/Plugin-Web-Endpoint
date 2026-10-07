@@ -16,12 +16,6 @@ Web Endpoint opens a host's own web interface, like a router admin page, inside 
 
 <br />
 
-## Install
-
-Web Endpoint ships with [Termix](https://github.com/Termix-SSH/Termix). Admins can turn it on or off, update it or install it again from the Plugins tab. Want to see it first? Try the [demo](https://demo.termix.site/), any username and password works.
-
-<br />
-
 ## Features
 
 - Open a web UI in a Termix tab or its own desktop window
