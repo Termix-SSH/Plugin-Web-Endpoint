@@ -24,14 +24,6 @@ Web Endpoint opens a host's own web interface, like a router admin page, inside 
 
 <br />
 
-## Services
-
-Uses from other plugins:
-
-- `tunnels.access` to open tunnels. Required
-
-<br />
-
 ## Sponsors
 
 Interested in a paid placement to support development? Email [mail@termix.site](mailto:mail@termix.site).

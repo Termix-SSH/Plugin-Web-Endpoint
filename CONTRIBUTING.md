@@ -16,3 +16,9 @@ npm run format     # format the code with Prettier
 
 - **Enable web endpoints:** open this host's web interfaces from the sidebar
 - **Endpoints:** up to 16 endpoints for this host
+
+## Services
+
+Uses from other plugins:
+
+- `tunnels.access` to open tunnels. Required
