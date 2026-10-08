@@ -14,6 +14,8 @@
 
 Web Endpoint opens a host's own web interface, like a router admin page, inside Termix instead of a separate browser tab.
 
+Read the [docs](https://docs.termix.site/plugins/web-endpoint) to set it up and use it.
+
 <br />
 
 ## Features
