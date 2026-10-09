@@ -37,14 +37,14 @@ export interface WebEndpoint {
    * the tunnels plugin exposes it. Defaults to 127.0.0.1, reachable only from
    * the machine running the backend. A web deployment runs the backend on a
    * server, so reaching the forward from a browser needs an address that
-   * machine answers on -- which also exposes the target's web UI to anyone
+   * machine answers on, which also exposes the target's web UI to anyone
    * who can reach the port, with no login in front of it.
    */
   bindHost?: string;
   /**
    * Tunnel endpoints only. Which port the forward listens on, as the tunnels
    * plugin's Source Port does. Left unset the kernel picks a free one, which
-   * is fine when backend and browser share a machine -- but a container can
+   * is fine when backend and browser share a machine, but a container can
    * only publish ports it knows in advance.
    */
   localPort?: number;
@@ -93,7 +93,7 @@ function hasControlCharacter(value: string): boolean {
  * Coerces a path to begin with "/", or returns null to drop the endpoint.
  *
  * This is THE enforcement point for a value that reaches an href and an
- * iframe src -- the editor's checks are UX. Anything that could redirect the
+ * iframe src, the editor's checks are UX. Anything that could redirect the
  * frame away from the endpoint is rejected rather than sanitized, because
  * sanitizing invites a second, subtly different implementation elsewhere.
  */
@@ -196,7 +196,7 @@ function normalizeEndpoint(raw: unknown): WebEndpoint | null {
 }
 
 /**
- * Drops any endpoint it refuses rather than rejecting the whole host -- one
+ * Drops any endpoint it refuses rather than rejecting the whole host, one
  * bad row must not make a host unsaveable or unlistable. The editor is
  * responsible for telling the user before that happens
  * (src/frontend/web-endpoint-validation.ts).

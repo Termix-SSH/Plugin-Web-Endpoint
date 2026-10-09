@@ -1,14 +1,21 @@
 import axios from "axios";
+import i18next from "i18next";
 import type { PluginApiClient } from "@termix-ssh/plugin-sdk/frontend";
 import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
 let pluginApi: PluginApiClient | null = null;
 
-function genericFailure(error: unknown, action: string): never {
+/** This plugin's string, or the key itself when i18next is not set up. */
+function message(key: string): string {
+  const text = i18next.t(`web-endpoint:${key}`);
+  return typeof text === "string" && text ? text : key;
+}
+
+function genericFailure(error: unknown, key: string): never {
   if (!axios.isAxiosError(error) && error instanceof Error) throw error;
   const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-  throw new WebEndpointTunnelError(`Could not ${action}`, status);
+  throw new WebEndpointTunnelError(message(key), status);
 }
 
 /** Set from activate with app.api, cleared on deactivate. */
@@ -18,7 +25,7 @@ export function setWebEndpointApi(api: PluginApiClient | null): void {
 
 /**
  * Thrown when the backend rejects a web endpoint tunnel open with a specific,
- * actionable reason -- most commonly a 502 carrying the real cause: SSH auth
+ * actionable reason, most commonly a 502 carrying the real cause: SSH auth
  * rejected, host unreachable, or nothing listening on the target port.
  * Preserves that reason instead of collapsing three actionable errors into
  * one generic failure.
@@ -44,7 +51,7 @@ export async function openWebEndpointTunnel(
   endpointId: string,
 ): Promise<number> {
   try {
-    if (!pluginApi) throw new Error("The web endpoint plugin is not active");
+    if (!pluginApi) throw new Error(message("errors.notActive"));
     // Relative to the plugin mount, /plugin-api/web-endpoint.
     const response = await pluginApi.post("/open", {
       hostId,
@@ -52,7 +59,7 @@ export async function openWebEndpointTunnel(
     });
     const port = (response?.data as { port?: number } | undefined)?.port;
     if (!port) {
-      throw new Error("The endpoint tunnel returned no port");
+      throw new Error(message("errors.noPort"));
     }
     return port;
   } catch (error) {
@@ -72,13 +79,13 @@ export async function openWebEndpointTunnel(
         );
       }
     }
-    return genericFailure(error, "open web endpoint tunnel");
+    return genericFailure(error, "errors.openTunnelFailed");
   }
 }
 
 /**
  * Registers one exact origin as allowed to present an invalid TLS certificate.
- * Only meaningful on the desktop, and only for direct endpoints -- a tunnel
+ * Only meaningful on the desktop, and only for direct endpoints, a tunnel
  * endpoint's host component is loopback, which the main process already
  * exempts.
  */
@@ -100,15 +107,13 @@ export async function allowInvalidCertificateForOrigin(
 /**
  * A web endpoint tunnel opens through the backend's numeric host id.
  * Quick-connect hosts (ids like "quick-connect-<n>") have no row on the
- * server, so there is nothing to open a tunnel through -- unlike a direct
+ * server, so there is nothing to open a tunnel through, unlike a direct
  * endpoint, which never touches the backend and works regardless.
  */
 export function requireNumericHostId(id: string): number {
   const numericId = Number(id);
   if (!Number.isInteger(numericId) || numericId <= 0) {
-    throw new Error(
-      "This endpoint needs an SSH tunnel, which requires a saved host",
-    );
+    throw new Error(message("errors.savedHostRequired"));
   }
   return numericId;
 }
@@ -119,7 +124,7 @@ export function requireNumericHostId(id: string): number {
  * The backend resolves and validates the target URL (the host's own declared
  * address for a direct endpoint, or the tunnel port it opens for a tunnel
  * one) and opens the window itself through ctx.desktop.openIsolatedWindow, so
- * the capability check and audit line cover the whole decision -- this call
+ * the capability check and audit line cover the whole decision, this call
  * only asks for it and reports whether it worked.
  */
 export async function openWebEndpointExternally(
@@ -127,11 +132,9 @@ export async function openWebEndpointExternally(
   endpoint: WebEndpoint,
 ): Promise<void> {
   if (!isElectron()) {
-    throw new Error(
-      "Isolated windows require the desktop app. Choose Embedded in the endpoint settings.",
-    );
+    throw new Error(message("errors.desktopOnly"));
   }
-  if (!pluginApi) throw new Error("The web endpoint plugin is not active");
+  if (!pluginApi) throw new Error(message("errors.notActive"));
   try {
     await pluginApi.post("/open-window", {
       hostId: requireNumericHostId(host.id),
@@ -150,6 +153,6 @@ export async function openWebEndpointExternally(
         );
       }
     }
-    return genericFailure(error, "open isolated web endpoint");
+    return genericFailure(error, "errors.openWindowFailed");
   }
 }

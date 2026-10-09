@@ -93,7 +93,7 @@ describe("openWebEndpointTunnel", () => {
     const { openWebEndpointTunnel } =
       await import("../../src/frontend/web-endpoint-api");
     await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(
-      /Could not open web endpoint tunnel/,
+      /errors\.openTunnelFailed/,
     );
   });
 
@@ -101,7 +101,9 @@ describe("openWebEndpointTunnel", () => {
     pluginPost.mockResolvedValue({ data: {} });
     const { openWebEndpointTunnel } =
       await import("../../src/frontend/web-endpoint-api");
-    await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(/no port/);
+    await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(
+      /errors\.noPort/,
+    );
   });
 });
 
@@ -111,7 +113,9 @@ describe("requireNumericHostId", () => {
       await import("../../src/frontend/web-endpoint-api");
     expect(requireNumericHostId("7")).toBe(7);
     for (const bad of ["quick-connect-1", "", "0", "-3", "abc"]) {
-      expect(() => requireNumericHostId(bad)).toThrow(/saved host/);
+      expect(() => requireNumericHostId(bad)).toThrow(
+        /errors\.savedHostRequired/,
+      );
     }
   });
 });
@@ -127,7 +131,7 @@ describe("openWebEndpointExternally", () => {
     const { openWebEndpointExternally } =
       await import("../../src/frontend/web-endpoint-api");
     await expect(openWebEndpointExternally(host, endpoint())).rejects.toThrow(
-      /desktop app/,
+      /errors\.desktopOnly/,
     );
     expect(pluginPost).not.toHaveBeenCalled();
   });

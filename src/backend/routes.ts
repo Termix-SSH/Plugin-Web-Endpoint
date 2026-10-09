@@ -236,7 +236,6 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
    *             properties:
    *               hostId: { type: integer }
    *               endpointId: { type: string }
-   *               ignoreCert: { type: boolean, description: Accept a self-signed certificate for this window. }
    *     responses:
    *       200: { description: The window opened. }
    *       400: { description: Invalid request. }
@@ -249,7 +248,7 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
       return res.status(401).json({ error: "Authentication required" });
     }
 
-    const { hostId, endpointId, ignoreCert } = req.body ?? {};
+    const { hostId, endpointId } = req.body ?? {};
     if (
       !Number.isInteger(hostId) ||
       hostId < 1 ||
@@ -284,7 +283,9 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
       const result = await ctx.desktop.openIsolatedWindow({
         url,
         title: endpoint.label,
-        ignoreCert: endpoint.access === "direct" && ignoreCert === true,
+        // Only the saved endpoint can allow a bad certificate, never the request.
+        ignoreCert:
+          endpoint.access === "direct" && endpoint.ignoreCert === true,
       });
       return res.status(200).json(result);
     } catch (error) {

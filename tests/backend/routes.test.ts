@@ -263,7 +263,14 @@ describe("POST /open-window", () => {
 
   it("opens a direct endpoint at the host's own address without a tunnel", async () => {
     await start({
-      endpoints: [endpoint({ access: "direct", scheme: "https", port: 443 })],
+      endpoints: [
+        endpoint({
+          access: "direct",
+          scheme: "https",
+          port: 443,
+          ignoreCert: true,
+        }),
+      ],
     });
     const res = await fetch(`${baseUrl}/open-window`, {
       method: "POST",
@@ -275,6 +282,18 @@ describe("POST /open-window", () => {
     expect(mock.desktopWindows).toEqual([
       { url: "https://10.0.0.5:443/", title: "Proxmox", ignoreCert: true },
     ]);
+  });
+
+  it("does not let the request allow a bad certificate the endpoint does not", async () => {
+    await start({
+      endpoints: [endpoint({ access: "direct", scheme: "https", port: 443 })],
+    });
+    await fetch(`${baseUrl}/open-window`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ hostId: 7, endpointId: "e1", ignoreCert: true }),
+    });
+    expect(mock.desktopWindows[0].ignoreCert).toBe(false);
   });
 
   it("ignores ignoreCert for a tunnel endpoint, whose host component is already loopback", async () => {

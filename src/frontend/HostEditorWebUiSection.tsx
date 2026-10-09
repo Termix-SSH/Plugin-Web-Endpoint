@@ -40,7 +40,7 @@ type PluginSettingsForm = Record<string, Record<string, unknown>>;
 
 /**
  * crypto.randomUUID is undefined outside a secure context, so a plain-http web
- * deployment -- a first-class target for the direct+external path -- would
+ * deployment, a first-class target for the direct+external path, would
  * throw on "Add endpoint".
  */
 function endpointId(): string {
@@ -103,7 +103,7 @@ function newEndpoint(label: string): WebEndpoint {
  * RDP/VNC/Telnet guacamole special case, which always resolves to "remote".
  *
  * Note the deliberate asymmetry with the sidebar: the sidebar entry appears on
- * enableWebUi alone, because a direct endpoint needs no SSH -- but Web UI is
+ * enableWebUi alone, because a direct endpoint needs no SSH, but Web UI is
  * an SSH sub-tab, so a host with SSH disabled cannot configure endpoints at
  * all. That is the accepted behaviour, not an oversight.
  */
@@ -312,7 +312,7 @@ export function HostEditorWebUiSection({
                           max={MAX_WEB_ENDPOINT_PORT}
                           value={endpoint.port}
                           onChange={(e) => {
-                            // Number("") is 0, which the normalizer rejects --
+                            // Number("") is 0, which the normalizer rejects,
                             // so clearing the field would otherwise write an
                             // endpoint that is silently dropped on save.
                             // Commit only a value the normalizer would keep;

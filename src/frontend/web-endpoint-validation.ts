@@ -5,7 +5,7 @@ import type { WebEndpoint } from "../shared/web-endpoint-config";
  *
  * The authority on what a stored endpoint may look like is
  * `normalizeWebEndpoints` in ../shared/web-endpoint-config.ts, and it DROPS
- * any row it refuses rather than reporting it -- so without a check here the
+ * any row it refuses rather than reporting it, so without a check here the
  * user adds a row, saves, sees no error, and finds the endpoint gone on
  * reload.
  *
@@ -55,7 +55,7 @@ function hasControlCharacter(value: string): boolean {
 
 /**
  * True if the normalizer would accept this path. An empty or absent path is
- * fine -- the normalizer defaults it to "/" -- and so is a path with no
+ * fine, the normalizer defaults it to "/", and so is a path with no
  * leading slash, which the normalizer coerces.
  */
 export function isWebEndpointPathValid(

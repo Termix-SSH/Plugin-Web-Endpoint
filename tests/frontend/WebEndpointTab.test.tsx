@@ -276,7 +276,7 @@ describe("WebEndpointTab", () => {
       />,
     );
     await waitFor(() =>
-      expect(screen.getByText(/requires a saved host/)).toBeInTheDocument(),
+      expect(screen.getByText(/errors\.savedHostRequired/)).toBeInTheDocument(),
     );
     expect(openWebEndpointTunnel).not.toHaveBeenCalled();
   });

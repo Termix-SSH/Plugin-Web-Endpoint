@@ -50,5 +50,13 @@
     "webUiRemoveEndpoint": "Remove endpoint",
     "webUiOpenFailed": "Failed to open the web endpoint",
     "bindHost": "Bind Host"
+  },
+  "errors": {
+    "notActive": "The web endpoint plugin is not active",
+    "noPort": "The endpoint tunnel returned no port",
+    "openTunnelFailed": "Could not open the web endpoint tunnel",
+    "openWindowFailed": "Could not open the isolated window",
+    "savedHostRequired": "This endpoint needs an SSH tunnel, which requires a saved host",
+    "desktopOnly": "Isolated windows need the desktop app. Choose Termix tab in the endpoint settings."
   }
 }

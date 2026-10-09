@@ -29,7 +29,7 @@ const REFUSAL_MESSAGES: Record<WebEndpointRefusalReason, string> = {
 /**
  * Renders one web endpoint in an iframe.
  *
- * Takes the whole host plus the endpoint's ID -- not the endpoint object --
+ * Takes the whole host plus the endpoint's ID, not the endpoint object,
  * so a tab whose endpoint was deleted while it was open (or that never matched
  * one, if the host's webUiConfig raced the tab's mount) can be detected here
  * and shown a plain "no longer exists" message instead of throwing on
@@ -55,14 +55,14 @@ export function WebEndpointTab({
   /**
    * Bumped on every resolution that lands, and folded into the iframe's key
    * alongside the URL. A direct endpoint's URL never changes, and a live
-   * tunnel returns the SAME port on every open -- so the URL alone is not
+   * tunnel returns the SAME port on every open, so the URL alone is not
    * enough to key on: React bails out of a same-value setState, the key would
    * not change, and Reload would silently do nothing in the two most common
    * cases.
    */
   const [generation, setGeneration] = useState(0);
   /**
-   * Guards two in-flight resolutions completing out of order -- a
+   * Guards two in-flight resolutions completing out of order, a
    * double-clicked Reload, or a manual reload racing the mount effect. Only
    * the most recently started resolution may apply its result.
    */
@@ -77,8 +77,8 @@ export function WebEndpointTab({
       // from a browser when a loopback bind on a remote backend would leave
       // nothing to connect to, or when the tunnel URL would land on the page's
       // own host string. A DIRECT endpoint on the same host that serves Termix
-      // leaks the session cookie exactly the same way -- cookies ignore the
-      // port -- so it is refused here too, before any navigation, rather than
+      // leaks the session cookie exactly the same way, cookies ignore the
+      // port, so it is refused here too, before any navigation, rather than
       // framing the URL and leaking on the first request.
       const refusal = webEndpointRefusalReason(endpoint, isElectron(), host.ip);
       if (refusal) {
