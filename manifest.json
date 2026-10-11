@@ -1,7 +1,7 @@
 {
   "id": "web-endpoint",
   "name": "Web Endpoint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel.",
   "author": {
     "name": "Termix"
@@ -41,7 +41,9 @@
         "id": "web-endpoint",
         "titleKey": "hosts.tabWebUi",
         "icon": "Globe",
-        "openFrom": ["host-context-menu"]
+        "openFrom": [
+          "host-context-menu"
+        ]
       }
     ],
     "settings": {
@@ -67,5 +69,9 @@
     }
   },
   "locales": "locales",
-  "platforms": ["linux", "win32", "darwin"]
+  "platforms": [
+    "linux",
+    "win32",
+    "darwin"
+  ]
 }
