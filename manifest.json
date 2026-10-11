@@ -41,9 +41,7 @@
         "id": "web-endpoint",
         "titleKey": "hosts.tabWebUi",
         "icon": "Globe",
-        "openFrom": [
-          "host-context-menu"
-        ]
+        "openFrom": ["host-context-menu"]
       }
     ],
     "settings": {
@@ -69,9 +67,5 @@
     }
   },
   "locales": "locales",
-  "platforms": [
-    "linux",
-    "win32",
-    "darwin"
-  ]
+  "platforms": ["linux", "win32", "darwin"]
 }
