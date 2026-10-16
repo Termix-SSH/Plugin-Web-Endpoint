@@ -58,5 +58,9 @@
     "openWindowFailed": "Could not open the isolated window",
     "savedHostRequired": "This endpoint needs an SSH tunnel, which requires a saved host",
     "desktopOnly": "Isolated windows need the desktop app. Choose Termix tab in the endpoint settings."
+  },
+  "plugin": {
+    "name": "Web Endpoint",
+    "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel."
   }
 }

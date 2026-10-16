@@ -58,5 +58,9 @@
     "openWindowFailed": "无法打开隔离窗口",
     "savedHostRequired": "此端点需要 SSH 隧道，这要求保存主机",
     "desktopOnly": "隔离窗口需要桌面应用。请在端点设置中选择 Termix 标签页。"
+  },
+  "plugin": {
+    "name": "Web 端点",
+    "description": "在 Termix 中直接或通过 SSH 隧道打开主机的 Web 界面。"
   }
 }
