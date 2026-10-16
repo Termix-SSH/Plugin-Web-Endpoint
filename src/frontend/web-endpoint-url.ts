@@ -146,10 +146,7 @@ function defaultPageHost(): string {
  * the `jwt` to it (and accepts one back). A different port is not a different
  * cookie key. See `sharesCookieSiteWithPage`.
  */
-export type WebEndpointRefusalReason =
-  | "loopback-bind-on-remote-backend"
-  | "shares-session-cookie-with-termix"
-  | "direct-shares-session-cookie";
+export type WebEndpointRefusalReason = "direct-shares-session-cookie";
 
 /**
  * Why a web endpoint must not be opened from this client, or null when it may.
@@ -182,18 +179,9 @@ export function webEndpointRefusalReason(
     return null;
   }
 
-  if (endpoint.access !== "tunnel") return null;
-
-  const bindHost = (endpoint.bindHost ?? "").trim().toLowerCase();
-  // Reported first when both apply: the bind address is what the user has to
-  // change either way, and it is the more specific instruction.
-  if (!bindHost || LOOPBACK_HOSTS.has(bindHost)) {
-    return "loopback-bind-on-remote-backend";
-  }
-
-  if (!separatedTunnelHost(pageHost)) {
-    return "shares-session-cookie-with-termix";
-  }
+  // A browser reaches a tunnel through the backend's own proxy, in a
+  // credentialless, sandboxed frame, so neither the bind address nor the
+  // page host matters any more.
   return null;
 }
 

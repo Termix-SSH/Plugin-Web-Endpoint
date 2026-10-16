@@ -291,6 +291,21 @@ describe("webEndpointRefusalReason", () => {
     ).toBeNull();
   });
 
+  it("never refuses a tunnel, which a browser reaches through the proxy", () => {
+    for (const pageHost of [
+      "localhost",
+      "termix.example.com",
+      "192.168.1.50",
+    ]) {
+      expect(
+        webEndpointRefusalReason(tunnel(), false, undefined, pageHost),
+      ).toBeNull();
+      expect(
+        webEndpointRefusalReason(tunnel("0.0.0.0"), false, undefined, pageHost),
+      ).toBeNull();
+    }
+  });
+
   it("passes anything on the desktop", () => {
     expect(
       webEndpointRefusalReason(tunnel(), true, undefined, "localhost"),
@@ -298,70 +313,5 @@ describe("webEndpointRefusalReason", () => {
     expect(
       webEndpointRefusalReason(tunnel("0.0.0.0"), true, undefined, "localhost"),
     ).toBeNull();
-  });
-
-  it("refuses a loopback bind a remote backend would strand", () => {
-    expect(
-      webEndpointRefusalReason(tunnel(), false, undefined, "localhost"),
-    ).toBe("loopback-bind-on-remote-backend");
-    expect(
-      webEndpointRefusalReason(
-        tunnel("127.0.0.1"),
-        false,
-        undefined,
-        "localhost",
-      ),
-    ).toBe("loopback-bind-on-remote-backend");
-  });
-
-  it("allows an exposed bind when the page host has a loopback alias", () => {
-    expect(
-      webEndpointRefusalReason(
-        tunnel("0.0.0.0"),
-        false,
-        undefined,
-        "localhost",
-      ),
-    ).toBeNull();
-    expect(
-      webEndpointRefusalReason(
-        tunnel("0.0.0.0"),
-        false,
-        undefined,
-        "127.0.0.1",
-      ),
-    ).toBeNull();
-  });
-
-  it("refuses when the tunnel URL would share Termix's cookie jar", () => {
-    expect(
-      webEndpointRefusalReason(
-        tunnel("0.0.0.0"),
-        false,
-        undefined,
-        "termix.example.com",
-      ),
-    ).toBe("shares-session-cookie-with-termix");
-    expect(
-      webEndpointRefusalReason(
-        tunnel("0.0.0.0"),
-        false,
-        undefined,
-        "192.168.1.50",
-      ),
-    ).toBe("shares-session-cookie-with-termix");
-  });
-
-  it("reports the reachability problem first when both apply", () => {
-    // The bind address is what the user has to change either way, and it is
-    // the more specific instruction.
-    expect(
-      webEndpointRefusalReason(
-        tunnel(),
-        false,
-        undefined,
-        "termix.example.com",
-      ),
-    ).toBe("loopback-bind-on-remote-backend");
   });
 });
