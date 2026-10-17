@@ -64,5 +64,9 @@
         "description": "Lets an endpoint's bind address publish its tunnel on this server's network, with no Termix login in front of it. Leave off: browsers reach tunnels through Termix itself."
       }
     }
+  },
+  "plugin": {
+    "name": "Web Endpoint",
+    "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel."
   }
 }

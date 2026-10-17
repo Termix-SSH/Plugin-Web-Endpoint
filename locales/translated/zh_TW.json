@@ -58,5 +58,9 @@
     "openWindowFailed": "無法開啟隔離視窗",
     "savedHostRequired": "此端點需要 SSH 隧道，而 SSH 隧道需要已儲存的主機",
     "desktopOnly": "隔離視窗需要桌面應用程式。請在端點設定中選擇「Termix 分頁」。"
+  },
+  "plugin": {
+    "name": "Web 端點",
+    "description": "在 Termix 中直接或透過 SSH 通道開啟主機的 Web 介面。"
   }
 }

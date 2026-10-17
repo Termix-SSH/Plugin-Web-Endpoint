@@ -6,6 +6,7 @@
 
 - In the browser, tunnel endpoints now open through Termix itself, behind your login, and the tunnel only listens on 127.0.0.1
 - Bind Host is ignored unless an admin turns on Allow tunnels on other addresses
+- The plugin name and description show in your language
 
 ### Fixed
 
