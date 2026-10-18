@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Niciun gazdă selectată",
     "notFound": "Acest punct de acces nu mai există.",
-    "tunnelUnreachableFromBrowser": "Acest punct de acces folosește un tunel către 127.0.0.1 pe mașina care rulează Termix, la care browserul tău nu poate ajunge. Setează „Bind Host” al punctului de acces la o adresă pe care mașina o răspunde, cum ar fi 0.0.0.0, și atribuie-i un Port Local fix.",
-    "tunnelSharesSessionCookie": "Deschiderea acestui tunel ar trimite sesiunea ta Termix către serviciul tunelat, deoarece browserul tău ar ajunge la el pe același nume de gazdă de unde este servit Termix. Cookie-urile ignoră portul, așa că cele două nu pot fi distinse. Folosește aplicația desktop Termix sau deschide Termix pe localhost.",
     "directSharesSessionCookie": "Deschiderea acestui punct de acces ar trimite sesiunea ta Termix către el, deoarece browserul tău ajunge la el pe același site de unde este servit Termix. Cookie-urile ignoră portul, așa că un port diferit nu este o identitate diferită. Folosește aplicația desktop Termix sau servește această interfață web de pe un nume de gazdă diferit.",
     "reload": "Reîncarcă",
     "copyUrl": "Copiază URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Adaugă punct de acces",
     "webUiAddress": "Adresă",
     "webUiOpening": "Se deschide",
-    "webUiBindHostDesc": "Unde backend-ul leagă forward-ul. Lasă gol pentru 127.0.0.1, care poate fi atins doar de mașina care rulează Termix.",
-    "webUiBindHostExposed": "Această adresă este accesibilă dincolo de mașina Termix, deci oricine poate ajunge la port va vedea această interfață web fără autentificare.",
+    "webUiBindHostDesc": "Unde se leagă forward-ul de backend. Lasă necompletat: browserele ajung la el prin Termix, iar orice altă adresă este folosită doar dacă un administrator o permite.",
+    "webUiBindHostExposed": "Această adresă este accesibilă dincolo de mașina Termix, astfel încât oricine poate ajunge la port va vedea această interfață web fără autentificare. Este ignorată, cu excepția cazului în care un administrator activează „Permite tuneluri pe alte adrese”.",
     "webUiLocalPort": "Port Local",
     "webUiLocalPortAuto": "Automat",
     "webUiLocalPortDesc": "Portul pe care ascultă forward-ul. Lasă gol pentru a lăsa sistemul să aleagă, sau setează unul când portul trebuie cunoscut dinainte, cum ar fi un container care îl publică.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Nu s-a putut deschide fereastra izolată",
     "savedHostRequired": "Acest punct de acces necesită un tunel SSH, ceea ce necesită o gazdă salvată",
     "desktopOnly": "Ferestrele izolate necesită aplicația desktop. Alege „Tab Termix” în setările punctului de acces."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Permite tuneluri pe alte adrese",
+        "description": "Permite unei adrese de legare a unui punct final să publice tunelul său pe rețeaua acestui server, fără autentificare Termix în fața sa. Dezactivează: browserele ajung la tuneluri prin Termix însuși."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Punct final web",
+    "description": "Deschide interfața web a unui gazdă în Termix, direct sau printr-un tunel SSH."
   }
 }

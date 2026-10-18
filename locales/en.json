@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "No host selected",
     "notFound": "This endpoint no longer exists.",
-    "tunnelUnreachableFromBrowser": "This endpoint tunnels to 127.0.0.1 on the machine running Termix, which your browser cannot reach. Set the endpoint's Bind Host to an address that machine answers on, such as 0.0.0.0, and give it a fixed Local Port.",
-    "tunnelSharesSessionCookie": "Opening this tunnel would send your Termix session to the tunnelled service, because your browser would reach it at the same hostname Termix is served from. Cookies ignore the port, so the two cannot be told apart. Use the Termix desktop app, or open Termix at localhost.",
     "directSharesSessionCookie": "Opening this endpoint would send your Termix session to it, because your browser reaches it at the same site Termix is served from. Cookies ignore the port, so a different port is not a different identity. Use the Termix desktop app, or serve this web UI from a different hostname.",
     "reload": "Reload",
     "copyUrl": "Copy URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Add endpoint",
     "webUiAddress": "Address",
     "webUiOpening": "Opening",
-    "webUiBindHostDesc": "Where the backend binds the forward. Leave blank for 127.0.0.1, which only the machine running Termix can reach.",
-    "webUiBindHostExposed": "This address is reachable beyond the Termix machine, so anyone who can reach the port gets this web UI with no login.",
+    "webUiBindHostDesc": "Where the backend binds the forward. Leave blank: browsers reach it through Termix, and any other address is only used when an admin allows it.",
+    "webUiBindHostExposed": "This address is reachable beyond the Termix machine, so anyone who can reach the port gets this web UI with no login. It is ignored unless an admin turns on Allow tunnels on other addresses.",
     "webUiLocalPort": "Local Port",
     "webUiLocalPortAuto": "Automatic",
     "webUiLocalPortDesc": "Which port the forward listens on. Leave blank to let the system pick, or set one when the port has to be known in advance, such as a container that publishes it.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Could not open the isolated window",
     "savedHostRequired": "This endpoint needs an SSH tunnel, which requires a saved host",
     "desktopOnly": "Isolated windows need the desktop app. Choose Termix tab in the endpoint settings."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Allow tunnels on other addresses",
+        "description": "Lets an endpoint's bind address publish its tunnel on this server's network, with no Termix login in front of it. Leave off: browsers reach tunnels through Termix itself."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web Endpoint",
+    "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel."
   }
 }

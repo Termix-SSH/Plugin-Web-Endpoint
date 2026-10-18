@@ -1,8 +1,6 @@
 {
   "webEndpoint.noHostSelected": "9a1c405b1079",
   "webEndpoint.notFound": "03d4598a006f",
-  "webEndpoint.tunnelUnreachableFromBrowser": "217d0426ea92",
-  "webEndpoint.tunnelSharesSessionCookie": "b28addc47f17",
   "webEndpoint.directSharesSessionCookie": "4c72c75e8a5a",
   "webEndpoint.reload": "cce7155371fc",
   "webEndpoint.copyUrl": "1ad646dc1f7f",
@@ -24,8 +22,8 @@
   "hosts.webUiAddEndpoint": "bfc1935cdb4f",
   "hosts.webUiAddress": "d70f93df5e8f",
   "hosts.webUiOpening": "56e44065a564",
-  "hosts.webUiBindHostDesc": "8153461ff6d9",
-  "hosts.webUiBindHostExposed": "d11676f9d930",
+  "hosts.webUiBindHostDesc": "9c3379da53e3",
+  "hosts.webUiBindHostExposed": "199af5a14c15",
   "hosts.webUiLocalPort": "29c15a794b62",
   "hosts.webUiLocalPortAuto": "ac9041e76816",
   "hosts.webUiLocalPortDesc": "5a3fc03ac6f7",
@@ -52,5 +50,9 @@
   "errors.openTunnelFailed": "16ee9406c4af",
   "errors.openWindowFailed": "e61500a73cf1",
   "errors.savedHostRequired": "5288cb02db49",
-  "errors.desktopOnly": "92e53fc05cf8"
+  "errors.desktopOnly": "92e53fc05cf8",
+  "settings.admin.allowExposedBind.label": "0fb4189f4b2b",
+  "settings.admin.allowExposedBind.description": "4cef67c1de33",
+  "plugin.name": "5adc327b241e",
+  "plugin.description": "cc56bb6bdeed"
 }

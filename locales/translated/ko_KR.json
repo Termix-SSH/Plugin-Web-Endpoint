@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "호스트가 선택되지 않았습니다",
     "notFound": "이 엔드포인트는 더 이상 존재하지 않습니다.",
-    "tunnelUnreachableFromBrowser": "이 엔드포인트는 Termix가 실행 중인 기기의 127.0.0.1로 터널링되며, 브라우저에서는 이를 도달할 수 없습니다. 엔드포인트의 바인드 호스트를 0.0.0.0과 같이 해당 기기가 응답하는 주소로 설정하고 고정 로컬 포트를 지정하세요.",
-    "tunnelSharesSessionCookie": "이 터널을 열면 Termix 세션이 터널링된 서비스로 전송됩니다. 브라우저가 Termix와 동일한 호스트명으로 서비스에 도달하기 때문입니다. 쿠키는 포트를 무시하므로 두 서비스를 구분할 수 없습니다. Termix 데스크톱 앱을 사용하거나 Termix를 localhost에서 열어보세요.",
     "directSharesSessionCookie": "이 엔드포인트를 열면 Termix 세션이 해당 엔드포인트로 전송됩니다. 브라우저가 Termix와 동일한 사이트에서 이를 도달하기 때문입니다. 쿠키는 포트를 무시하므로 다른 포트는 다른 아이덴티티가 아닙니다. Termix 데스크톱 앱을 사용하거나 이 웹 UI를 다른 호스트명에서 제공하세요.",
     "reload": "다시 로드",
     "copyUrl": "URL 복사",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "엔드포인트 추가",
     "webUiAddress": "주소",
     "webUiOpening": "열고 있음",
-    "webUiBindHostDesc": "백엔드가 포워드를 바인드할 위치입니다. Termix가 실행 중인 기기에서만 도달 가능한 127.0.0.1을 위해 비워두세요.",
-    "webUiBindHostExposed": "이 주소는 Termix 기기 외부에서도 도달 가능하므로, 포트에 도달할 수 있는 누구나 로그인 없이 이 웹 UI에 접근할 수 있습니다.",
+    "webUiBindHostDesc": "백엔드가 포워드를 바인딩할 위치입니다. 비워 두면 브라우저는 Termix를 통해 이를 접근하며, 다른 주소는 관리자가 허용한 경우에만 사용됩니다.",
+    "webUiBindHostExposed": "이 주소는 Termix 머신 외부에서도 접근할 수 있으므로, 해당 포트에 접근할 수 있는 모든 사용자가 로그인 없이 이 웹 UI에 접근할 수 있습니다. 관리자가 '다른 주소에서 터널 허용'을 켜지 않는 한 무시됩니다.",
     "webUiLocalPort": "로컬 포트",
     "webUiLocalPortAuto": "자동",
     "webUiLocalPortDesc": "포워드가 수신 대기할 포트입니다. 시스템이 선택하도록 비워두거나, 컨테이너가 이를 게시하는 등 포트가 미리 알려져야 하는 경우 설정하세요.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "격리된 창을 열 수 없습니다",
     "savedHostRequired": "이 엔드포인트는 저장된 호스트가 필요한 SSH 터널이 필요합니다",
     "desktopOnly": "격리된 창은 데스크톱 앱이 필요합니다. 엔드포인트 설정에서 Termix 탭을 선택하세요."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "다른 주소에서 터널 허용",
+        "description": "엔드포인트의 바인드 주소를 이 서버의 네트워크에 터널을 게시하도록 허용합니다. Termix 로그인이 필요하지 않습니다. 비활성화하면 브라우저는 Termix를 통해 터널에 접근합니다."
+      }
+    }
+  },
+  "plugin": {
+    "name": "웹 엔드포인트",
+    "description": "호스트의 웹 UI를 Termix에서 직접 또는 SSH 터널을 통해 엽니다."
   }
 }

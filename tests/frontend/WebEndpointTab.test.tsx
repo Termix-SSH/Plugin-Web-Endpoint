@@ -11,6 +11,7 @@ import type { WebEndpoint } from "../../src/shared/web-endpoint-config";
 import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 
 const openWebEndpointTunnel = vi.hoisted(() => vi.fn());
+const openWebEndpointProxy = vi.hoisted(() => vi.fn());
 const allowInvalidCertificateForOrigin = vi.hoisted(() => vi.fn());
 
 vi.mock("../../src/frontend/web-endpoint-api", async (importOriginal) => {
@@ -25,6 +26,7 @@ vi.mock("../../src/frontend/web-endpoint-api", async (importOriginal) => {
     ...actual,
     openWebEndpointTunnel: (...args: unknown[]) =>
       openWebEndpointTunnel(...args),
+    openWebEndpointProxy: (...args: unknown[]) => openWebEndpointProxy(...args),
     allowInvalidCertificateForOrigin: (...args: unknown[]) =>
       allowInvalidCertificateForOrigin(...args),
   };
@@ -94,6 +96,7 @@ afterEach(() => {
     value: realLocation,
   });
   openWebEndpointTunnel.mockReset();
+  openWebEndpointProxy.mockReset();
   allowInvalidCertificateForOrigin.mockReset();
 });
 
@@ -301,83 +304,6 @@ describe("WebEndpointTab", () => {
     expect(openWebEndpointTunnel).not.toHaveBeenCalled();
   });
 
-  it("frames a tunnel at the OTHER loopback spelling in a web deployment", async () => {
-    // jsdom serves the page at "localhost". The forward binds where the
-    // backend runs, so the browser must reach it on this same machine -- but
-    // NOT at the same host string, or the tunnelled service receives Termix's
-    // session cookie.
-    electron.isElectron.mockReturnValue(false);
-    openWebEndpointTunnel.mockResolvedValue(41234);
-    const { WebEndpointTab } =
-      await import("../../src/frontend/WebEndpointTab");
-    render(
-      <WebEndpointTab
-        host={host({}, [endpoint({ access: "tunnel", bindHost: "0.0.0.0" })])}
-        endpointId="e1"
-      />,
-    );
-
-    await waitFor(() =>
-      expect(screen.getByTitle("Proxmox")).toHaveAttribute(
-        "src",
-        "https://127.0.0.1:41234/",
-      ),
-    );
-    // The assertion carrying the security property: whatever host the frame
-    // lands on, it must not be the one serving Termix.
-    const framed = new URL(
-      screen.getByTitle("Proxmox").getAttribute("src") as string,
-    ).hostname;
-    expect(framed).not.toBe(window.location.hostname);
-  });
-
-  it("refuses a loopback-bound tunnel in a browser instead of framing a dead port", async () => {
-    electron.isElectron.mockReturnValue(false);
-    const { WebEndpointTab } =
-      await import("../../src/frontend/WebEndpointTab");
-    render(
-      <WebEndpointTab
-        host={host({}, [endpoint({ access: "tunnel" })])}
-        endpointId="e1"
-      />,
-    );
-    await waitFor(() =>
-      expect(
-        screen.getByText("webEndpoint.tunnelUnreachableFromBrowser"),
-      ).toBeInTheDocument(),
-    );
-    expect(openWebEndpointTunnel).not.toHaveBeenCalled();
-    expect(document.querySelector("iframe")).toBeNull();
-  });
-
-  it("refuses when the page host has no separate loopback spelling", async () => {
-    electron.isElectron.mockReturnValue(false);
-    pageHostname = "termix.example.com";
-    const { WebEndpointTab } =
-      await import("../../src/frontend/WebEndpointTab");
-    render(
-      <WebEndpointTab
-        host={host({}, [endpoint({ access: "tunnel", bindHost: "0.0.0.0" })])}
-        endpointId="e1"
-      />,
-    );
-    await waitFor(() =>
-      expect(
-        screen.getByText("webEndpoint.tunnelSharesSessionCookie"),
-      ).toBeInTheDocument(),
-    );
-    // Refusing after opening would still have bound the port and still have
-    // leaked on the first frame load.
-    expect(openWebEndpointTunnel).not.toHaveBeenCalled();
-    expect(document.querySelector("iframe")).toBeNull();
-  });
-
-  /**
-   * The leak the tunnel guard did not cover: a DIRECT endpoint points at the
-   * host's own address, so when that host is the one serving Termix the frame
-   * is same-site with Termix and the browser attaches the `jwt` cookie. A
-   * different port is not a different cookie key.
-   */
   it("refuses a direct endpoint on the same host that serves Termix", async () => {
     electron.isElectron.mockReturnValue(false);
     pageHostname = "termix.example";
@@ -454,5 +380,30 @@ describe("WebEndpointTab", () => {
         "https://192.168.1.10:8006/",
       ),
     );
+  });
+
+  it("frames a tunnel in a browser through the backend's proxy", async () => {
+    electron.isElectron.mockReturnValue(false);
+    pageHostname = "termix.example.com";
+    openWebEndpointProxy.mockResolvedValue(
+      "https://termix.example.com/plugin-api/web-endpoint/p/token/",
+    );
+    const { WebEndpointTab } =
+      await import("../../src/frontend/WebEndpointTab");
+    render(
+      <WebEndpointTab
+        host={host({}, [endpoint({ access: "tunnel" })])}
+        endpointId="e1"
+      />,
+    );
+    await waitFor(() =>
+      expect(screen.getByTitle("Proxmox")).toHaveAttribute(
+        "src",
+        "https://termix.example.com/plugin-api/web-endpoint/p/token/",
+      ),
+    );
+    expect(openWebEndpointProxy).toHaveBeenCalledWith(7, "e1");
+    // Never a raw forward port from a browser.
+    expect(openWebEndpointTunnel).not.toHaveBeenCalled();
   });
 });

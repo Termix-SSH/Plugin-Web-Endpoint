@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nije odabran host",
     "notFound": "Ovaj endpoint više ne postoji.",
-    "tunnelUnreachableFromBrowser": "Ovaj endpoint tunelira na 127.0.0.1 na stroju na kojem se pokreće Termix, što vaš preglednik ne može doseći. Postavite Bind Host endpointa na adresu na koju taj stroj odgovara, poput 0.0.0.0, i dodijelite mu fiksni Local Port.",
-    "tunnelSharesSessionCookie": "Otvaranje ovog tunela poslat će vašu Termix sesiju tuneliranoj usluzi jer je vaš preglednik doseže na istom hostnameu s kojeg se služi Termix. Cookies ignoriraju port, pa se ne mogu razlikovati. Koristite Termix desktop aplikaciju ili otvorite Termix na localhostu.",
     "directSharesSessionCookie": "Otvaranje ovog endpointa poslat će vašu Termix sesiju na njega jer ga vaš preglednik doseže na istoj stranici s koje se služi Termix. Cookies ignoriraju port, pa različit port nije različiti identitet. Koristite Termix desktop aplikaciju ili poslužite ovaj web UI s drugog hostnamea.",
     "reload": "Osvježi",
     "copyUrl": "Kopiraj URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Dodaj endpoint",
     "webUiAddress": "Adresa",
     "webUiOpening": "Otvaranje",
-    "webUiBindHostDesc": "Gdje backend veže forward. Ostavite prazno za 127.0.0.1, koji može doseći samo stroj na kojem se pokreće Termix.",
-    "webUiBindHostExposed": "Ova adresa je dostupna izvan Termix stroja, pa svatko tko može doseći port dobiva ovaj web UI bez prijave.",
+    "webUiBindHostDesc": "Gdje se pozadinski sustav veže na preusmjeravanje. Ostavite prazno: preglednici ga dosežu putem Termixa, a bilo koja druga adresa koristi se samo ako to administrator dopusti.",
+    "webUiBindHostExposed": "Ova adresa je dostupna izvan Termix stroja, pa svatko tko može pristupiti portu dobiva ovaj web sučelje bez prijave. Ignorira se osim ako administrator ne uključi opciju Dozvoli tuneliranje na drugim adresama.",
     "webUiLocalPort": "Lokalni port",
     "webUiLocalPortAuto": "Automatski",
     "webUiLocalPortDesc": "Na kojem portu forward sluša. Ostavite prazno da sustav odabere, ili postavite kada port mora biti unaprijed poznat, poput kontejnera koji ga objavljuje.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Otvaranje izoliranog prozora nije uspjelo",
     "savedHostRequired": "Ovaj endpoint zahtijeva SSH tunel, što zahtijeva spremljeni host",
     "desktopOnly": "Izolirani prozori zahtijevaju desktop aplikaciju. Odaberite Termix karticu u postavkama endpointa."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Dopusti tunelove na drugim adresama",
+        "description": "Omogućuje da adresa vezivanja krajnje točke objavi svoj tunel na mreži ovog poslužitelja, bez Termix prijave ispred nje. Ostavite isključeno: preglednici pristupaju tunelima putem samog Termixa."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web krajnja točka",
+    "description": "Otvorite web sučelje poslužitelja unutar Termixa, izravno ili putem SSH tunela."
   }
 }

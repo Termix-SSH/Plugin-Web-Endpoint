@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nincs kiválasztva host",
     "notFound": "Ez a végpont már nem létezik.",
-    "tunnelUnreachableFromBrowser": "Ez a végpont egy alagutat hoz létre a 127.0.0.1 címre azon a gépen, ahol a Termix fut, amelyhez a böngésződ nem fér hozzá. Állítsd be a végpont Bind Host értékét egy olyan címre, amelyre a gép válaszol, például 0.0.0.0-ra, és adj neki egy rögzített Helyi portot.",
-    "tunnelSharesSessionCookie": "Ennek az alagútjának a megnyitása során a Termix munkamenetedet továbbítaná az alagúton keresztül elérhető szolgáltatásnak, mivel a böngésződ ugyanazon a hosztnéven érné el, mint ahonnan a Termix szolgálja ki a tartalmat. A sütik figyelmen kívül hagyják a portot, így a kettőt nem lehet megkülönböztetni. Használd a Termix asztali alkalmazást, vagy nyisd meg a Termixet a localhost címen.",
     "directSharesSessionCookie": "Ennek a végpontnak a megnyitása során a Termix munkamenetedet továbbítaná neki, mivel a böngésződ ugyanazon a webhelyen érné el, mint ahonnan a Termix szolgálja ki a tartalmat. A sütik figyelmen kívül hagyják a portot, így egy másik port nem jelent más identitást. Használd a Termix asztali alkalmazást, vagy szolgálj ki ezt a webes felületet egy másik hosztnévről.",
     "reload": "Frissítés",
     "copyUrl": "URL másolása",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Végpont hozzáadása",
     "webUiAddress": "Cím",
     "webUiOpening": "Megnyitás",
-    "webUiBindHostDesc": "Ahol a backend köti a továbbítást. Hagyd üresen a 127.0.0.1-hez, amelyet csak a Termix futtatása alatt lévő gép érhet el.",
-    "webUiBindHostExposed": "Ez a cím elérhető a Termix gépén kívül is, így bárki, aki elérheti a portot, bejut ebbe a webes felületbe bejelentkezés nélkül.",
+    "webUiBindHostDesc": "Ahol a háttérrendszer köti a továbbítást. Hagyja üresen: a böngészők a Termix-en keresztül érik el, és bármely más cím csak akkor használatos, ha egy rendszergazda engedélyezi.",
+    "webUiBindHostExposed": "Ez a cím a Termix gépen kívül is elérhető, így bárki, aki elérheti a portot, bejelentkezés nélkül hozzáfér ehhez a webes felülethez. Ezt a beállítást figyelmen kívül hagyjuk, hacsak egy rendszergazda nem kapcsolja be a „Tunnelengedélyezés más címeken” lehetőséget.",
     "webUiLocalPort": "Helyi port",
     "webUiLocalPortAuto": "Automatikus",
     "webUiLocalPortDesc": "Melyik porton hallgat a továbbítás. Hagyd üresen, hogy a rendszer válasszon, vagy állíts be egyet, ha a portnak előre ismertnek kell lennie, például egy olyan konténer esetén, amely publikálja azt.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Nem sikerült megnyitni az elkülönített ablakot",
     "savedHostRequired": "Ez a végpont SSH-alagutat igényel, amihez mentett host szükséges",
     "desktopOnly": "Az elkülönített ablakokhoz asztali alkalmazás szükséges. Válaszd a Termix-fül lehetőséget a végpont beállításaiban."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Engedélyezze az alagutakat más címeken",
+        "description": "Lehetővé teszi, hogy egy végpont kötési címe közzétesse az alagútját ezen a szerveren, Termix-bejelentkezés nélkül. Hagyja üresen: a böngészők a Termixen keresztül férnek hozzá az alagutakhoz."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web végpont",
+    "description": "Nyissa meg egy host webes felületét a Termixben, közvetlenül vagy SSH-alagúton keresztül."
   }
 }

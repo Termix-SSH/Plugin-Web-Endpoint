@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Tiada hos dipilih",
     "notFound": "Hujung ini tidak lagi wujud.",
-    "tunnelUnreachableFromBrowser": "Hujung ini menerowong ke 127.0.0.1 pada mesin yang menjalankan Termix, yang mana pelayar anda tidak dapat capai. Tetapkan Bind Host hujung kepada alamat yang dijawab oleh mesin tersebut, seperti 0.0.0.0, dan berikan ia Port Tempatan yang tetap.",
-    "tunnelSharesSessionCookie": "Membuka terowong ini akan menghantar sesi Termix anda ke perkhidmatan yang diterowong, kerana pelayar anda akan mencapainya pada nama hos yang sama di mana Termix dilayan. Kuki mengabaikan port, jadi kedua-duanya tidak dapat dibezakan. Gunakan aplikasi desktop Termix, atau buka Termix di localhost.",
     "directSharesSessionCookie": "Membuka hujung ini akan menghantar sesi Termix anda kepadanya, kerana pelayar anda mencapainya di laman web yang sama di mana Termix dilayan. Kuki mengabaikan port, jadi port yang berbeza bukan identiti yang berbeza. Gunakan aplikasi desktop Termix, atau layan antara muka web ini dari nama hos yang berbeza.",
     "reload": "Muat semula",
     "copyUrl": "Salin URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Tambah hujung",
     "webUiAddress": "Alamat",
     "webUiOpening": "Sedang membuka",
-    "webUiBindHostDesc": "Di mana backend mengikat terusan. Biarkan kosong untuk 127.0.0.1, yang hanya boleh dicapai oleh mesin yang menjalankan Termix.",
-    "webUiBindHostExposed": "Alamat ini boleh dicapai melebihi mesin Termix, jadi sesiapa sahaja yang boleh mencapai port ini akan mendapat antara muka web ini tanpa log masuk.",
+    "webUiBindHostDesc": "Di mana backend mengikat terusan. Kosongkan: pelayar web mengaksesnya melalui Termix, dan sebarang alamat lain hanya digunakan jika pentadbir mengizinkannya.",
+    "webUiBindHostExposed": "Alamat ini boleh dicapai di luar mesin Termix, jadi sesiapa sahaja yang boleh mengakses port ini akan mendapat antara muka web ini tanpa log masuk. Ia diabaikan melainkan pentadbir mengaktifkan Izinkan terusan pada alamat lain.",
     "webUiLocalPort": "Port Tempatan",
     "webUiLocalPortAuto": "Automatik",
     "webUiLocalPortDesc": "Port mana yang didengar oleh terusan. Biarkan kosong untuk membiarkan sistem memilih, atau tetapkan satu apabila port perlu diketahui terlebih dahulu, seperti bekas yang menerbitkannya.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Tidak dapat membuka tetingkap terasing",
     "savedHostRequired": "Hujung ini memerlukan terowong SSH, yang memerlukan hos yang disimpan",
     "desktopOnly": "Tetingkap terasing memerlukan aplikasi desktop. Pilih tab Termix dalam tetapan hujung."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Izinkan terusan pada alamat lain",
+        "description": "Membolehkan alamat pengikat hujung akhir menerbitkan terusan pada rangkaian pelayan ini, tanpa log masuk Termix di hadapannya. Biarkan tidak aktif: pelayar web mengakses terusan melalui Termix itu sendiri."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Hujung Akhir Web",
+    "description": "Buka antara muka web hos di dalam Termix, secara langsung atau melalui terusan SSH."
   }
 }

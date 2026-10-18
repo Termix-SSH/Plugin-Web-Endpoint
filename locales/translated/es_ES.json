@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Ningún host seleccionado",
     "notFound": "Este punto de conexión ya no existe.",
-    "tunnelUnreachableFromBrowser": "Este punto de conexión hace túnel a 127.0.0.1 en la máquina que ejecuta Termix, a la que tu navegador no puede acceder. Establece el Host de enlace del punto de conexión en una dirección que esa máquina responda, como 0.0.0.0, y asígnale un Puerto local fijo.",
-    "tunnelSharesSessionCookie": "Abrir este túnel enviaría tu sesión de Termix al servicio en túnel, porque tu navegador lo alcanzaría en el mismo nombre de host desde el que se sirve Termix. Las cookies ignoran el puerto, por lo que no se pueden distinguir. Usa la aplicación de escritorio de Termix o abre Termix en localhost.",
     "directSharesSessionCookie": "Abrir este punto de conexión enviaría tu sesión de Termix a él, porque tu navegador lo alcanza en el mismo sitio desde el que se sirve Termix. Las cookies ignoran el puerto, por lo que un puerto diferente no es una identidad diferente. Usa la aplicación de escritorio de Termix o sirve esta interfaz web desde un nombre de host diferente.",
     "reload": "Recargar",
     "copyUrl": "Copiar URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Añadir punto de conexión",
     "webUiAddress": "Dirección",
     "webUiOpening": "Abriendo",
-    "webUiBindHostDesc": "Dónde se enlaza el reenvío en el backend. Déjalo en blanco para 127.0.0.1, que solo puede alcanzar la máquina que ejecuta Termix.",
-    "webUiBindHostExposed": "Esta dirección es accesible más allá de la máquina de Termix, por lo que cualquiera que pueda alcanzar el puerto obtendrá esta interfaz web sin inicio de sesión.",
+    "webUiBindHostDesc": "Dónde enlaza el backend el reenvío. Déjalo en blanco: los navegadores lo alcanzan a través de Termix, y cualquier otra dirección solo se usa cuando un administrador lo permite.",
+    "webUiBindHostExposed": "Esta dirección es accesible más allá de la máquina Termix, por lo que cualquiera que pueda alcanzar el puerto obtiene esta interfaz web sin inicio de sesión. Se ignora a menos que un administrador active Permitir túneles en otras direcciones.",
     "webUiLocalPort": "Puerto local",
     "webUiLocalPortAuto": "Automático",
     "webUiLocalPortDesc": "En qué puerto escucha el reenvío. Déjalo en blanco para que el sistema elija, o establece uno cuando el puerto tenga que conocerse de antemano, como un contenedor que lo publica.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "No se pudo abrir la ventana aislada",
     "savedHostRequired": "Este punto de conexión necesita un túnel SSH, lo que requiere un host guardado",
     "desktopOnly": "Las ventanas aisladas necesitan la aplicación de escritorio. Elige Pestaña de Termix en la configuración del punto de conexión."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Permitir túneles en otras direcciones",
+        "description": "Permite que la dirección de enlace de un extremo publique su túnel en la red de este servidor, sin inicio de sesión de Termix delante. Desactivado: los navegadores alcanzan los túneles a través de Termix mismo."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Extremo web",
+    "description": "Abre la interfaz web de un host dentro de Termix, directamente o a través de un túnel SSH."
   }
 }

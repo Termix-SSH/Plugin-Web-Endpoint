@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Ingen vert er valgt",
     "notFound": "Denne endepunktet finnes ikke lenger.",
-    "tunnelUnreachableFromBrowser": "Dette endepunktet tunnelerer til 127.0.0.1 på maskinen som kjører Termix, noe nettleseren din ikke kan nå. Sett endepunktets Bind Host til en adresse som maskinen svarer på, for eksempel 0.0.0.0, og gi den en fast lokal port.",
-    "tunnelSharesSessionCookie": "Å åpne denne tunnelen vil sende Termix-økten din til den tunnelerte tjenesten, fordi nettleseren din når den på samme vertsnavn som Termix leveres fra. Cookies ignorerer porten, så de to kan ikke skilles fra hverandre. Bruk Termix-skrivebordsappen, eller åpne Termix på localhost.",
     "directSharesSessionCookie": "Å åpne dette endepunktet vil sende Termix-økten din til det, fordi nettleseren din når det på samme nettsted som Termix leveres fra. Cookies ignorerer porten, så en annen port er ikke en annen identitet. Bruk Termix-skrivebordsappen, eller lever denne web-UI-en fra et annet vertsnavn.",
     "reload": "Last inn på nytt",
     "copyUrl": "Kopier URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Legg til endepunkt",
     "webUiAddress": "Adresse",
     "webUiOpening": "Åpner",
-    "webUiBindHostDesc": "Hvor bakenden binder forover. La stå tomt for 127.0.0.1, som bare maskinen som kjører Termix kan nå.",
-    "webUiBindHostExposed": "Denne adressen er tilgjengelig utenfor Termix-maskinen, så alle som kan nå porten får denne web-UI-en uten innlogging.",
+    "webUiBindHostDesc": "Hvor bakenden binder tilkoblingen. La stå tomt: nettlesere når det gjennom Termix, og andre adresser brukes kun hvis en administrator tillater det.",
+    "webUiBindHostExposed": "Denne adressen er tilgjengelig utenfor Termix-maskinen, så alle som kan nå porten, får tilgang til denne webgrensesnittet uten pålogging. Den ignoreres med mindre en administrator aktiverer «Tillat tunneler på andre adresser».",
     "webUiLocalPort": "Lokal port",
     "webUiLocalPortAuto": "Automatisk",
     "webUiLocalPortDesc": "Hvilken port forover lytter på. La stå tomt for å la systemet velge, eller sett en når porten må være kjent på forhånd, for eksempel en beholder som publiserer den.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Kunne ikke åpne det isolerte vinduet",
     "savedHostRequired": "Dette endepunktet trenger en SSH-tunnel, som krever en lagret vert",
     "desktopOnly": "Isolerte vinduer trenger skrivebordsappen. Velg Termix-fane i endepunktinnstillingene."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Tillat tunneler på andre adresser",
+        "description": "Lar en endepunktsbindingsadresse publisere tunnelen på denne serverens nettverk, uten Termix-pålogging foran. Slå av: nettlesere når tunneler gjennom selve Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web-endepunkt",
+    "description": "Åpne en verts webgrensesnitt inne i Termix, direkte eller over en SSH-tunnel."
   }
 }

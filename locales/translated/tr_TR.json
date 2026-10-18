@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Hiçbir ana bilgisayar seçilmedi",
     "notFound": "Bu uç nokta artık mevcut değil.",
-    "tunnelUnreachableFromBrowser": "Bu uç nokta, Termix'in çalıştığı makinedeki 127.0.0.1 adresine tünel açar; tarayıcınız bu adrese ulaşamaz. Uç noktanın Bağlanacak Ana Bilgisayar değerini, makinenin yanıt verdiği bir adrese (örneğin 0.0.0.0) ve sabit bir Yerel Port değerine ayarlayın.",
-    "tunnelSharesSessionCookie": "Bu tüneli açmak, tarayıcınızın Termix'in sunulduğu aynı ana bilgisayar adından hizmete ulaşması nedeniyle Termix oturumunuzu tünel edilen hizmete gönderir. Çerezler portu görmezden gelir, bu nedenle ikisi birbirinden ayırt edilemez. Termix masaüstü uygulamasını kullanın veya Termix'i localhost adresinde açın.",
     "directSharesSessionCookie": "Bu uç noktayı açmak, tarayıcınızın Termix'in sunulduğu aynı siteden hizmete ulaşması nedeniyle Termix oturumunuzu bu hizmete gönderir. Çerezler portu görmezden gelir, bu nedenle farklı bir port farklı bir kimlik değildir. Termix masaüstü uygulamasını kullanın veya bu web arayüzünü farklı bir ana bilgisayar adresinden sunun.",
     "reload": "Yenile",
     "copyUrl": "URL'yi Kopyala",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Uç nokta ekle",
     "webUiAddress": "Adres",
     "webUiOpening": "Açılıyor",
-    "webUiBindHostDesc": "Arka uç yönlendirmeyi nereye bağlayacak. Termix'in çalıştığı makinenin erişebileceği 127.0.0.1 için boş bırakın.",
-    "webUiBindHostExposed": "Bu adres Termix makinesinin ötesinden erişilebilir, bu nedenle porta erişebilen herkes giriş yapmadan bu web arayüzüne ulaşır.",
+    "webUiBindHostDesc": "Arka uç ileri yönlendirmeyi burada bağlar. Boş bırakın: tarayıcılar Termix üzerinden erişir ve diğer adresler yalnızca bir yönetici izin verdiğinde kullanılır.",
+    "webUiBindHostExposed": "Bu adres Termix makinesinin ötesinden erişilebilir, bu nedenle porta erişebilen herkes giriş yapmadan bu web arayüzünü görür. Bir yönetici 'Diğer adreslerde tünellemeye izin ver' seçeneğini açmadığı sürece yok sayılır.",
     "webUiLocalPort": "Yerel Port",
     "webUiLocalPortAuto": "Otomatik",
     "webUiLocalPortDesc": "Yönlendirmenin dinleyeceği port. Sistemin seçmesine izin vermek için boş bırakın veya portun önceden bilinmesi gerektiğinde (örneğin bunu yayınlayan bir kapsayıcı) bir değer belirleyin.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "İzole pencere açılamadı",
     "savedHostRequired": "Bu uç nokta, kayıtlı bir ana bilgisayar gerektiren bir SSH tüneli kullanıyor",
     "desktopOnly": "İzole pencereler masaüstü uygulamasını gerektirir. Uç nokta ayarlarında Termix sekmesi'ni seçin."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Diğer adreslerde tünellemeye izin ver",
+        "description": "Bir uç noktanın bağlandığı adresin, Termix girişi olmadan bu sunucunun ağında tünelini yayınlamasına olanak tanır. Kapatın: tarayıcılar tünelere Termix üzerinden erişir."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web Uç Noktası",
+    "description": "Bir sunucunun web arayüzünü Termix içinde doğrudan veya bir SSH tüneli üzerinden açın."
   }
 }

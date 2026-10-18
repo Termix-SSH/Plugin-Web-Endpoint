@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Geen host geselecteerd",
     "notFound": "Dit eindpunt bestaat niet meer.",
-    "tunnelUnreachableFromBrowser": "Dit eindpunt maakt een tunnel naar 127.0.0.1 op de machine waarop Termix draait, wat uw browser niet kan bereiken. Stel de Bind Host van het eindpunt in op een adres waarop die machine luistert, zoals 0.0.0.0, en geef het een vaste lokale poort.",
-    "tunnelSharesSessionCookie": "Het openen van deze tunnel zou uw Termix-sessie doorsturen naar de getunneld service, omdat uw browser deze bereikt via dezelfde hostnaam als waar Termix zelf vanaf wordt geserveerd. Cookies negeren de poort, dus de twee kunnen niet van elkaar onderscheiden worden. Gebruik de Termix-desktopapp, of open Termix op localhost.",
     "directSharesSessionCookie": "Het openen van dit eindpunt zou uw Termix-sessie ernaar doorsturen, omdat uw browser het bereikt via dezelfde site als waar Termix zelf vanaf wordt geserveerd. Cookies negeren de poort, dus een andere poort is geen andere identiteit. Gebruik de Termix-desktopapp, of serveer deze web-UI vanaf een andere hostnaam.",
     "reload": "Herladen",
     "copyUrl": "URL kopiëren",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Eindpunt toevoegen",
     "webUiAddress": "Adres",
     "webUiOpening": "Bezig met openen",
-    "webUiBindHostDesc": "Waar de backend de forward bindt. Laat leeg voor 127.0.0.1, wat alleen de machine waarop Termix draait kan bereiken.",
-    "webUiBindHostExposed": "Dit adres is bereikbaar buiten de Termix-machine, dus iedereen die de poort kan bereiken, krijgt toegang tot deze web-UI zonder inloggen.",
+    "webUiBindHostDesc": "Waar de backend de forward bindt. Laat leeg: browsers bereiken het via Termix, en elk ander adres wordt alleen gebruikt als een beheerder dit toestaat.",
+    "webUiBindHostExposed": "Dit adres is bereikbaar buiten de Termix-machine, dus iedereen die de poort kan bereiken, krijgt deze web-UI zonder inloggen. Het wordt genegeerd tenzij een beheerder 'Tunnels op andere adressen toestaan' inschakelt.",
     "webUiLocalPort": "Lokale poort",
     "webUiLocalPortAuto": "Automatisch",
     "webUiLocalPortDesc": "Op welke poort de forward luistert. Laat leeg zodat het systeem er een kiest, of stel er een in wanneer de poort vooraf bekend moet zijn, zoals bij een container die deze publiceert.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Het geïsoleerde venster kon niet worden geopend",
     "savedHostRequired": "Dit eindpunt vereist een SSH-tunnel, wat een opgeslagen host nodig heeft",
     "desktopOnly": "Geïsoleerde vensters vereisen de desktopapp. Kies Termix-tabblad in de instellingen van het eindpunt."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Tunnels op andere adressen toestaan",
+        "description": "Staat een eindpunt toe om zijn bindadres te publiceren op het netwerk van deze server, zonder Termix-inlog er voor. Zet uit: browsers bereiken tunnels via Termix zelf."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web-eindpunt",
+    "description": "Open de web-UI van een host binnen Termix, direct of via een SSH-tunnel."
   }
 }

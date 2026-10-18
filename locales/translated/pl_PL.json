@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nie wybrano hosta",
     "notFound": "Ten punkt końcowy nie istnieje już.",
-    "tunnelUnreachableFromBrowser": "Ten punkt końcowy tuneluje do 127.0.0.1 na maszynie uruchamiającej Termix, do której przeglądarka nie może się połączyć. Ustaw Host Wiązania punktu końcowego na adres, na którym ta maszyna odpowiada, np. 0.0.0.0, i przypisz mu stały Port Lokalny.",
-    "tunnelSharesSessionCookie": "Otwarcie tego tunelu spowoduje przesłanie Twojej sesji Termix do usługi tunelowanej, ponieważ przeglądarka łączy się z nią pod tą samą nazwą hosta, z której serwowany jest Termix. Ciasteczka ignorują port, więc nie można ich rozróżnić. Użyj aplikacji Termix na komputerze lub otwórz Termix na localhost.",
     "directSharesSessionCookie": "Otwarcie tego punktu końcowego spowoduje przesłanie Twojej sesji Termix do niego, ponieważ przeglądarka łączy się z nim z tej samej strony, z której serwowany jest Termix. Ciasteczka ignorują port, więc inny port to nie tożsamość. Użyj aplikacji Termix na komputerze lub serwuj ten interfejs webowy z innej nazwy hosta.",
     "reload": "Odśwież",
     "copyUrl": "Kopiuj URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Dodaj punkt końcowy",
     "webUiAddress": "Adres",
     "webUiOpening": "Otwieranie",
-    "webUiBindHostDesc": "Gdzie backend wiąże przekierowanie. Pozostaw puste dla 127.0.0.1, do którego może się połączyć tylko maszyna uruchamiająca Termix.",
-    "webUiBindHostExposed": "Ten adres jest osiągalny poza maszyną Termix, więc każdy, kto może się połączyć z portem, ma dostęp do tego interfejsu webowego bez logowania.",
+    "webUiBindHostDesc": "Gdzie backend wiąże przekierowanie. Pozostaw puste: przeglądarki łączą się przez Termix, a każdy inny adres jest używany tylko wtedy, gdy administrator to zezwoli.",
+    "webUiBindHostExposed": "Ten adres jest dostępny poza maszyną Termix, więc każdy, kto może połączyć się z portem, ma dostęp do tego interfejsu webowego bez logowania. Jest ignorowany, chyba że administrator włączy opcję „Zezwól na tunele na innych adresach”.",
     "webUiLocalPort": "Port Lokalny",
     "webUiLocalPortAuto": "Automatyczny",
     "webUiLocalPortDesc": "Na którym porcie nasłuchuje przekierowanie. Pozostaw puste, aby system wybrał, lub ustaw, gdy port musi być znany z góry, np. kontener, który go publikuje.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Nie udało się otworzyć izolowanego okna",
     "savedHostRequired": "Ten punkt końcowy wymaga tunelu SSH, który wymaga zapisanego hosta",
     "desktopOnly": "Izolowane okna wymagają aplikacji na komputer. Wybierz kartę Termix w ustawieniach punktu końcowego."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Zezwól na tunele na innych adresach",
+        "description": "Pozwala adresowi wiązania punktu końcowego opublikować tunel w sieci tego serwera, bez konieczności logowania się do Termix. Wyłącz: przeglądarki łączą się z tunelami przez sam Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Punkt końcowy webowy",
+    "description": "Otwórz interfejs webowy hosta w Termix, bezpośrednio lub przez tunel SSH."
   }
 }

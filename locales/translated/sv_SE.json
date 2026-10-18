@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Ingen värd vald",
     "notFound": "Den här ändpunkten finns inte längre.",
-    "tunnelUnreachableFromBrowser": "Den här ändpunkten tunnelar till 127.0.0.1 på den dator som kör Termix, vilket din webbläsare inte kan nå. Ställ in ändpunktens Bind Host till en adress som datorn svarar på, till exempel 0.0.0.0, och ange en fast lokal port.",
-    "tunnelSharesSessionCookie": "Om du öppnar den här tunneln skickas din Termix-session till den tunnelade tjänsten, eftersom din webbläsare når den på samma värdnamn som Termix serveras från. Cookies ignorerar porten, så de två kan inte skiljas åt. Använd Termix-skrivbordsappen eller öppna Termix på localhost.",
     "directSharesSessionCookie": "Om du öppnar den här ändpunkten skickas din Termix-session till den, eftersom din webbläsare når den på samma webbplats som Termix serveras från. Cookies ignorerar porten, så en annan port är inte en annan identitet. Använd Termix-skrivbordsappen eller servera den här webbgränssnittet från ett annat värdnamn.",
     "reload": "Ladda om",
     "copyUrl": "Kopiera URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Lägg till ändpunkt",
     "webUiAddress": "Adress",
     "webUiOpening": "Öppnar",
-    "webUiBindHostDesc": "Var backend binder framåt. Lämna tomt för 127.0.0.1, som bara den dator som kör Termix kan nå.",
-    "webUiBindHostExposed": "Den här adressen är nåbar utanför Termix-datorn, så vem som helst som kan nå porten får tillgång till detta webbgränssnitt utan inloggning.",
+    "webUiBindHostDesc": "Var backenden binder omvändningen. Lämna tomt: webbläsare når den via Termix, och andra adresser används endast om en administratör tillåter det.",
+    "webUiBindHostExposed": "Denna adress är nåbar utanför Termix-maskinen, så alla som kan nå porten får åtkomst till denna webbgränssnitt utan inloggning. Den ignoreras om inte en administratör aktiverar \"Tillåt tunnlar på andra adresser\".",
     "webUiLocalPort": "Lokal port",
     "webUiLocalPortAuto": "Automatisk",
     "webUiLocalPortDesc": "Vilken port framåt lyssnar på. Lämna tomt för att låta systemet välja, eller ange en när porten måste vara känd på förhand, till exempel en behållare som publicerar den.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Kunde inte öppna det isolerade fönstret",
     "savedHostRequired": "Den här ändpunkten behöver en SSH-tunnel, vilket kräver en sparad värd",
     "desktopOnly": "Isolerade fönster kräver skrivbordsappen. Välj Termix-flik i ändpunktens inställningar."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Tillåt tunnlar på andra adresser",
+        "description": "Låter en ändpunkts bindningsadress publicera sin tunnel på serverns nätverk, utan Termix-inloggning framför. Inaktivera: webbläsare når tunnlar via Termix självt."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Webbändpunkt",
+    "description": "Öppna en värdens webbgränssnitt inuti Termix, direkt eller via en SSH-tunnel."
   }
 }

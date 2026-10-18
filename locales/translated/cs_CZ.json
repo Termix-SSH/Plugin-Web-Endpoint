@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nebyl vybrán žádný host",
     "notFound": "Tento koncový bod již neexistuje.",
-    "tunnelUnreachableFromBrowser": "Tento koncový bod tuneluje na 127.0.0.1 na počítači, kde běží Termix, a váš prohlížeč se k němu nedostane. Nastavte Bind Host koncového bodu na adresu, na kterou tento počítač odpovídá, například 0.0.0.0, a přiřaďte mu pevný místní port.",
-    "tunnelSharesSessionCookie": "Otevření tohoto tunelu by odeslalo vaši relaci Termix do tunelované služby, protože by se k ní váš prohlížeč dostal na stejné doméně, ze které je Termix poskytován. Cookies ignorují port, takže se nedají rozlišit. Použijte desktopovou aplikaci Termix nebo otevřete Termix na localhost.",
     "directSharesSessionCookie": "Otevření tohoto koncového bodu by odeslalo vaši relaci Termix do něj, protože se k němu váš prohlížeč dostane na stejném webu, ze kterého je Termix poskytován. Cookies ignorují port, takže jiný port neznamená jinou identitu. Použijte desktopovou aplikaci Termix nebo tento web UI poskytněte z jiné domény.",
     "reload": "Obnovit",
     "copyUrl": "Kopírovat URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Přidat koncový bod",
     "webUiAddress": "Adresa",
     "webUiOpening": "Otevírání",
-    "webUiBindHostDesc": "Kde backend naváže forward. Nechte prázdné pro 127.0.0.1, který může dosáhnout pouze počítač, kde běží Termix.",
-    "webUiBindHostExposed": "Tato adresa je dosažitelná mimo počítač s Termixem, takže kdokoli, kdo se dostane k portu, získá přístup k tomuto web UI bez přihlášení.",
+    "webUiBindHostDesc": "Kde backend naváže forward. Nechte prázdné: prohlížeče se k němu dostanou přes Termix a jakákoliv jiná adresa se použije pouze tehdy, pokud to administrátor povolí.",
+    "webUiBindHostExposed": "Tato adresa je dostupná mimo stroj s Termixem, takže kdokoli, kdo se může připojit k portu, získá přístup k tomuto webovému rozhraní bez přihlášení. Je ignorována, dokud administrátor nezapne možnost Povolit tunely na jiných adresách.",
     "webUiLocalPort": "Místní port",
     "webUiLocalPortAuto": "Automaticky",
     "webUiLocalPortDesc": "Na kterém portu forward naslouchá. Nechte prázdné, aby systém vybral, nebo nastavte, když musí být port známý předem, například u kontejneru, který ho publikuje.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Nelze otevřít izolované okno",
     "savedHostRequired": "Tento koncový bod vyžaduje SSH tunel, což vyžaduje uloženého hosta",
     "desktopOnly": "Izolovaná okna vyžadují desktopovou aplikaci. V nastavení koncového bodu vyberte kartu Termix."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Povolit tunely na jiných adresách",
+        "description": "Umožňuje, aby se bindovací adresa koncového bodu zveřejnila v síti tohoto serveru bez nutnosti přihlášení do Termixu. Pokud je vypnuto: prohlížeče se k tunelům dostávají přímo přes Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Webový koncový bod",
+    "description": "Otevřete webové rozhraní hostitele přímo v Termixu, přímo nebo přes SSH tunel."
   }
 }

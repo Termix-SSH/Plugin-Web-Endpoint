@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nepasirinktas joks hostas",
     "notFound": "Šis galinis taškas nebeegzistuoja.",
-    "tunnelUnreachableFromBrowser": "Šis galinis taškas tuneliuoja į 127.0.0.1 Termix veikiančiame kompiuteryje, kurio naršyklė negali pasiekti. Nustatykite galinio taško „Bind Host“ į adresą, kurį šis kompiuteris priima, pavyzdžiui, 0.0.0.0, ir suteikite jam fiksuotą vietinį portą.",
-    "tunnelSharesSessionCookie": "Atidarius šį tunelį, jūsų Termix sesija būtų siunčiama tuneliuojamai paslaugai, nes naršyklė ją pasiektų tuo pačiu domeno vardu, iš kurio teikiama Termix. Slapukai ignoruoja portą, todėl jų negalima atskirti. Naudokite Termix darbalaukio programą arba atidarykite Termix adresu localhost.",
     "directSharesSessionCookie": "Atidarius šį galinį tašką, jūsų Termix sesija būtų į jį siunčiama, nes naršyklė jį pasiektų tame pačiame svetainės adrese, iš kurio teikiama Termix. Slapukai ignoruoja portą, todėl skirtingas portas nėra skirtinga tapatybė. Naudokite Termix darbalaukio programą arba teikite šią naršyklės sąsają iš skirtingo domeno vardo.",
     "reload": "Įkelti iš naujo",
     "copyUrl": "Kopijuoti URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Pridėti galinį tašką",
     "webUiAddress": "Adresas",
     "webUiOpening": "Atidaroma",
-    "webUiBindHostDesc": "Kur galinė sistema prisijungina prie persiuntimo. Palikite tuščią, kad būtų naudojamas 127.0.0.1, kurį gali pasiekti tik Termix veikiančio kompiuterio.",
-    "webUiBindHostExposed": "Šis adresas pasiekiamas už Termix kompiuterio ribų, todėl bet kas, kas gali pasiekti portą, gauna šią naršyklės sąsają be prisijungimo.",
+    "webUiBindHostDesc": "Kur galinė sistema prisijungia prie peradresavimo. Palikite tuščią: naršyklės pasiekia jį per Termix, o bet kuri kita adreso reikšmė naudojama tik tada, kai administratorius tai leidžia.",
+    "webUiBindHostExposed": "Šis adresas pasiekiamas už Termix mašinos ribų, todėl bet kas, kas gali pasiekti šį prievadą, gauna prieigą prie šios naršyklės sąsajos be prisijungimo. Ši reikšmė ignoruojama, nebent administratorius įjungia „Leisti tunelius kituose adresuose“.",
     "webUiLocalPort": "Vietinis portas",
     "webUiLocalPortAuto": "Automatinis",
     "webUiLocalPortDesc": "Kuriame porte persiuntimas laukia. Palikite tuščią, kad sistema pasirinktų, arba nustatykite, kai portas turi būti žinomas iš anksto, pavyzdžiui, konteineris, kuris jį skelbia.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Nepavyko atidaryti izoliuoto lango",
     "savedHostRequired": "Šiam galiniam taškui reikia SSH tunelio, kuriam reikia išsaugoto hosto",
     "desktopOnly": "Izoliuoti langai reikalauja darbalaukio programos. Galinio taško nustatymuose pasirinkite Termix skirtuką."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Leisti tunelius kituose adresuose",
+        "description": "Leidžia galinio taško prisijungimo adresui skelbti savo tunelį šio serverio tinkle, be Termix prisijungimo ekrano. Jei išjungta: naršyklės pasiekia tunelius per patį Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Naršyklės galinis taškas",
+    "description": "Atidarykite hosto naršyklės sąsają Termix viduje, tiesiogiai arba per SSH tunelį."
   }
 }

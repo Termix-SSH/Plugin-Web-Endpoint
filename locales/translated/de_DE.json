@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Kein Host ausgewählt",
     "notFound": "Dieser Endpunkt existiert nicht mehr.",
-    "tunnelUnreachableFromBrowser": "Dieser Endpunkt tunnelt zu 127.0.0.1 auf dem Rechner, auf dem Termix läuft, was Ihr Browser nicht erreichen kann. Legen Sie für den Endpunkt einen Bind-Host auf eine Adresse fest, die dieser Rechner beantwortet (z. B. 0.0.0.0), und weisen Sie ihm einen festen lokalen Port zu.",
-    "tunnelSharesSessionCookie": "Das Öffnen dieses Tunnels würde Ihre Termix-Sitzung an den getunnelten Dienst senden, da Ihr Browser ihn unter demselben Hostnamen erreicht, unter dem Termix bereitgestellt wird. Cookies ignorieren den Port, sodass die beiden nicht unterschieden werden können. Verwenden Sie die Termix-Desktop-App oder öffnen Sie Termix unter localhost.",
     "directSharesSessionCookie": "Das Öffnen dieses Endpunkts würde Ihre Termix-Sitzung an ihn senden, da Ihr Browser ihn unter derselben Site erreicht, unter der Termix bereitgestellt wird. Cookies ignorieren den Port, sodass ein anderer Port keine andere Identität bedeutet. Verwenden Sie die Termix-Desktop-App oder stellen Sie diese Web-UI unter einem anderen Hostnamen bereit.",
     "reload": "Neu laden",
     "copyUrl": "URL kopieren",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Endpunkt hinzufügen",
     "webUiAddress": "Adresse",
     "webUiOpening": "Wird geöffnet",
-    "webUiBindHostDesc": "Wo das Backend die Weiterbindung bindet. Leer lassen für 127.0.0.1, was nur der Rechner erreichen kann, auf dem Termix läuft.",
-    "webUiBindHostExposed": "Diese Adresse ist über den Termix-Rechner hinaus erreichbar, sodass jeder, der den Port erreichen kann, diese Web-UI ohne Anmeldung erhält.",
+    "webUiBindHostDesc": "Wo das Backend die Weiterleitung bindet. Leer lassen: Browser erreichen es über Termix, und jede andere Adresse wird nur verwendet, wenn ein Administrator es erlaubt.",
+    "webUiBindHostExposed": "Diese Adresse ist außerhalb des Termix-Systems erreichbar. Jeder, der auf den Port zugreifen kann, erhält Zugriff auf diese Weboberfläche ohne Anmeldung. Dies wird ignoriert, es sei denn, ein Administrator aktiviert „Tunnel auf anderen Adressen zulassen“.",
     "webUiLocalPort": "Lokaler Port",
     "webUiLocalPortAuto": "Automatisch",
     "webUiLocalPortDesc": "An welchem Port die Weiterbindung lauscht. Leer lassen, damit das System einen auswählt, oder einen festlegen, wenn der Port im Voraus bekannt sein muss, z. B. bei einem Container, der ihn veröffentlicht.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Das isolierte Fenster konnte nicht geöffnet werden",
     "savedHostRequired": "Dieser Endpunkt benötigt einen SSH-Tunnel, was einen gespeicherten Host erfordert",
     "desktopOnly": "Isolierte Fenster benötigen die Desktop-App. Wählen Sie im Endpunkt-Einstellungen Termix-Tab."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Tunnel an anderen Adressen zulassen",
+        "description": "Ermöglicht es der Bind-Adresse eines Endpunkts, seinen Tunnel im Netzwerk dieses Servers zu veröffentlichen, ohne dass eine Termix-Anmeldung davor steht. Deaktivieren: Browser erreichen Tunnel über Termix selbst."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web-Endpunkt",
+    "description": "Öffnen Sie die Web-UI eines Hosts direkt oder über einen SSH-Tunnel in Termix."
   }
 }

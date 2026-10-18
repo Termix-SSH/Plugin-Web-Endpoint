@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Aucun hôte sélectionné",
     "notFound": "Ce point de terminaison n'existe plus.",
-    "tunnelUnreachableFromBrowser": "Ce point de terminaison utilise un tunnel vers 127.0.0.1 sur la machine exécutant Termix, à laquelle votre navigateur ne peut pas accéder. Définissez l'hôte de liaison du point de terminaison sur une adresse que cette machine répond, comme 0.0.0.0, et attribuez-lui un port local fixe.",
-    "tunnelSharesSessionCookie": "L'ouverture de ce tunnel enverrait votre session Termix au service tunnelé, car votre navigateur y accéderait via le même nom d'hôte que celui servant Termix. Les cookies ignorent le port, donc les deux ne peuvent pas être distingués. Utilisez l'application de bureau Termix, ou ouvrez Termix sur localhost.",
     "directSharesSessionCookie": "L'ouverture de ce point de terminaison enverrait votre session Termix vers celui-ci, car votre navigateur y accède via le même site que celui servant Termix. Les cookies ignorent le port, donc un port différent n'est pas une identité différente. Utilisez l'application de bureau Termix, ou servez cette interface web depuis un nom d'hôte différent.",
     "reload": "Recharger",
     "copyUrl": "Copier l'URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Ajouter un point de terminaison",
     "webUiAddress": "Adresse",
     "webUiOpening": "Ouverture",
-    "webUiBindHostDesc": "Là où le backend lie le transfert. Laissez vide pour 127.0.0.1, auquel seul la machine exécutant Termix peut accéder.",
-    "webUiBindHostExposed": "Cette adresse est accessible au-delà de la machine Termix, donc quiconque peut atteindre le port obtient cette interface web sans connexion.",
+    "webUiBindHostDesc": "L'adresse sur laquelle le backend lie le transfert. Laissez vide : les navigateurs y accèdent via Termix, et toute autre adresse n'est utilisée que si un administrateur l'autorise.",
+    "webUiBindHostExposed": "Cette adresse est accessible depuis l’extérieur de la machine Termix, donc toute personne pouvant accéder au port peut utiliser cette interface web sans s’authentifier. Elle est ignorée sauf si un administrateur active « Autoriser les tunnels sur d’autres adresses ».",
     "webUiLocalPort": "Port local",
     "webUiLocalPortAuto": "Automatique",
     "webUiLocalPortDesc": "Le port sur lequel le transfert écoute. Laissez vide pour laisser le système choisir, ou définissez-en un lorsque le port doit être connu à l'avance, comme un conteneur qui le publie.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Impossible d'ouvrir la fenêtre isolée",
     "savedHostRequired": "Ce point de terminaison nécessite un tunnel SSH, ce qui exige un hôte enregistré",
     "desktopOnly": "Les fenêtres isolées nécessitent l'application de bureau. Choisissez l'onglet Termix dans les paramètres du point de terminaison."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Autoriser les tunnels sur d’autres adresses",
+        "description": "Permet à l'adresse de liaison d'un point de terminaison de publier son tunnel sur le réseau de ce serveur, sans passer par la connexion à Termix. Désactivé : les navigateurs accèdent aux tunnels via Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Point de terminaison Web",
+    "description": "Ouvrez l'interface web d'un hôte dans Termix, directement ou via un tunnel SSH."
   }
 }

@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "未选择主机",
     "notFound": "该端点已不存在。",
-    "tunnelUnreachableFromBrowser": "此端点将流量隧道转发至运行 Termix 的机器上的 127.0.0.1，您的浏览器无法访问该地址。请将端点的绑定主机设置为该机器可响应的地址（例如 0.0.0.0），并为其指定一个固定的本地端口。",
-    "tunnelSharesSessionCookie": "打开此隧道会将您的 Termix 会话发送给隧道目标服务，因为您的浏览器会通过托管 Termix 的同一主机名访问它。Cookie 忽略端口号，因此两者无法区分。请使用 Termix 桌面应用，或在 localhost 上打开 Termix。",
     "directSharesSessionCookie": "打开此端点会将您的 Termix 会话发送给该端点，因为您的浏览器会通过托管 Termix 的同一站点访问它。Cookie 忽略端口号，因此不同的端口并不代表不同的身份。请使用 Termix 桌面应用，或从不同的主机名提供此 Web UI。",
     "reload": "重新加载",
     "copyUrl": "复制 URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "添加端点",
     "webUiAddress": "地址",
     "webUiOpening": "正在打开",
-    "webUiBindHostDesc": "后端绑定转发的位置。留空则默认为 127.0.0.1，仅运行 Termix 的机器可访问。",
-    "webUiBindHostExposed": "此地址可从 Termix 机器之外访问，因此任何能访问该端口的人均可无需登录直接访问此 Web UI。",
+    "webUiBindHostDesc": "后端绑定转发的位置。留空：浏览器通过 Termix 访问，其他地址仅在管理员允许时使用。",
+    "webUiBindHostExposed": "此地址可从 Termix 机器外部访问，因此任何能访问该端口的人均可无需登录直接查看此 Web UI。除非管理员启用“允许在其他地址上建立隧道”，否则此设置将被忽略。",
     "webUiLocalPort": "本地端口",
     "webUiLocalPortAuto": "自动",
     "webUiLocalPortDesc": "转发监听的端口。留空由系统自动选择，或在端口需预先已知时（例如发布该端口的容器）手动设置。",
@@ -58,5 +56,17 @@
     "openWindowFailed": "无法打开隔离窗口",
     "savedHostRequired": "此端点需要 SSH 隧道，这要求保存主机",
     "desktopOnly": "隔离窗口需要桌面应用。请在端点设置中选择 Termix 标签页。"
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "允许在其他地址上创建隧道",
+        "description": "允许端点的绑定地址在此服务器的网络上发布其隧道，且无需经过 Termix 登录验证。若未启用：浏览器将通过 Termix 本身访问隧道。"
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web 端点",
+    "description": "在 Termix 中直接或通过 SSH 隧道打开主机的 Web 界面。"
   }
 }

@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Tidak ada host yang dipilih",
     "notFound": "Endpoint ini tidak lagi ada.",
-    "tunnelUnreachableFromBrowser": "Endpoint ini menerowongkan ke 127.0.0.1 pada mesin yang menjalankan Termix, yang tidak dapat dijangkau oleh browser Anda. Atur Bind Host endpoint ke alamat yang dijawab oleh mesin tersebut, seperti 0.0.0.0, dan berikan Local Port yang tetap.",
-    "tunnelSharesSessionCookie": "Membuka terowongan ini akan mengirimkan sesi Termix Anda ke layanan yang diterowongkan, karena browser Anda akan mencapainya di hostname yang sama dengan tempat Termix disajikan. Cookie mengabaikan port, sehingga keduanya tidak dapat dibedakan. Gunakan aplikasi desktop Termix, atau buka Termix di localhost.",
     "directSharesSessionCookie": "Membuka endpoint ini akan mengirimkan sesi Termix Anda ke endpoint tersebut, karena browser Anda mencapainya di situs yang sama dengan tempat Termix disajikan. Cookie mengabaikan port, sehingga port yang berbeda bukanlah identitas yang berbeda. Gunakan aplikasi desktop Termix, atau sajikan UI web ini dari hostname yang berbeda.",
     "reload": "Muat ulang",
     "copyUrl": "Salin URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Tambah endpoint",
     "webUiAddress": "Alamat",
     "webUiOpening": "Membuka",
-    "webUiBindHostDesc": "Di mana backend mengikat terowongan. Kosongkan untuk 127.0.0.1, yang hanya dapat dijangkau oleh mesin yang menjalankan Termix.",
-    "webUiBindHostExposed": "Alamat ini dapat dijangkau di luar mesin Termix, sehingga siapa pun yang dapat mencapai port ini akan mendapatkan UI web ini tanpa login.",
+    "webUiBindHostDesc": "Di mana backend mengikat terowongan. Kosongkan: browser mengaksesnya melalui Termix, dan alamat lain hanya digunakan jika diizinkan oleh admin.",
+    "webUiBindHostExposed": "Alamat ini dapat diakses dari luar mesin Termix, sehingga siapa pun yang dapat mengakses port ini akan mendapatkan antarmuka web ini tanpa login. Diabaikan kecuali admin mengaktifkan Izinkan terowongan pada alamat lain.",
     "webUiLocalPort": "Port Lokal",
     "webUiLocalPortAuto": "Otomatis",
     "webUiLocalPortDesc": "Port mana yang didengarkan oleh terowongan. Kosongkan untuk membiarkan sistem memilih, atau atur satu ketika port harus diketahui sebelumnya, seperti kontainer yang mempublikasikannya.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Tidak dapat membuka jendela terisolasi",
     "savedHostRequired": "Endpoint ini memerlukan terowongan SSH, yang memerlukan host yang disimpan",
     "desktopOnly": "Jendela terisolasi memerlukan aplikasi desktop. Pilih tab Termix di pengaturan endpoint."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Izinkan terowongan pada alamat lain",
+        "description": "Memungkinkan alamat pengikatan titik akhir menerbitkan terowongannya di jaringan server ini, tanpa login Termix di depannya. Nonaktifkan: browser mengakses terowongan melalui Termix itu sendiri."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Titik Akhir Web",
+    "description": "Buka antarmuka web host di dalam Termix, secara langsung atau melalui terowongan SSH."
   }
 }

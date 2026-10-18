@@ -83,6 +83,57 @@ export async function openWebEndpointTunnel(
   }
 }
 
+/** Where the browser reaches this plugin's routes, as an absolute URL. */
+export function pluginMountUrl(): URL {
+  if (!pluginApi) throw new Error(message("errors.notActive"));
+  // The client is core's shared axios instance with this plugin's prefix, so
+  // its baseURL is the deployment's: "" behind nginx, the dev proxy path, or
+  // a configured API host.
+  const base =
+    (pluginApi as { defaults?: { baseURL?: string } }).defaults?.baseURL ?? "";
+  const resolved = new URL(base || "/", window.location.href);
+  resolved.pathname = `${resolved.pathname.replace(/\/+$/, "")}/plugin-api/web-endpoint`;
+  resolved.search = "";
+  resolved.hash = "";
+  return resolved;
+}
+
+/**
+ * Opens a tunnel endpoint for this browser: the backend keeps the tunnel on
+ * 127.0.0.1 and serves it through a tokened path of its own, so nothing is
+ * ever published on another address. Returns the URL to frame.
+ */
+export async function openWebEndpointProxy(
+  hostId: number,
+  endpointId: string,
+): Promise<string> {
+  if (!pluginApi) throw new Error(message("errors.notActive"));
+  const mount = pluginMountUrl();
+  try {
+    const response = await pluginApi.post("/proxy", {
+      hostId,
+      endpointId,
+      mountPath: mount.pathname,
+    });
+    const path = (response?.data as { path?: string } | undefined)?.path;
+    if (!path) throw new Error(message("errors.openTunnelFailed"));
+    return new URL(path, mount.origin).toString();
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const data = error.response?.data as
+        { error?: unknown; message?: unknown } | undefined;
+      const backendMessage = data?.error ?? data?.message;
+      if (typeof backendMessage === "string" && backendMessage) {
+        throw new WebEndpointTunnelError(
+          backendMessage,
+          error.response?.status,
+        );
+      }
+    }
+    return genericFailure(error, "errors.openTunnelFailed");
+  }
+}
+
 /**
  * Registers one exact origin as allowed to present an invalid TLS certificate.
  * Only meaningful on the desktop, and only for direct endpoints, a tunnel

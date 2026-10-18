@@ -1,9 +1,15 @@
-import express, { type Router } from "express";
+import express, { type Request, type Response, type Router } from "express";
 import type { PluginContext } from "@termix-ssh/plugin-sdk/backend";
 import {
   parseWebUiConfig,
   type WebEndpoint,
 } from "../shared/web-endpoint-config.js";
+import {
+  createProxySessions,
+  forward,
+  normalizeMountPath,
+  type ProxySessions,
+} from "./proxy.js";
 
 /** Matches the spec's ten minutes. */
 const WEB_ENDPOINT_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
@@ -92,17 +98,22 @@ async function openTunnel(
     });
   }
 
+  // A non-loopback bind publishes the target's web UI to anyone who can
+  // reach the port, with no Termix login in front of it. Browsers reach a
+  // tunnel through the authenticated proxy instead, so another address is
+  // only honored when an admin turned that on.
+  const allowExposed =
+    (await ctx.settings.get<boolean>("allowExposedBind")) === true;
+  const bindHost =
+    allowExposed && endpoint.bindHost ? endpoint.bindHost : "127.0.0.1";
+
   try {
     return await tunnels.forward(
       hostId,
       {
         targetHost: "127.0.0.1",
         targetPort: endpoint.port,
-        // Loopback unless the endpoint asks otherwise. A non-loopback bind
-        // publishes the target's web UI to anyone who can reach the port,
-        // with no authentication in front of it, and is only ever an
-        // explicit per-endpoint choice.
-        bindHost: endpoint.bindHost || "127.0.0.1",
+        bindHost,
         // A fixed port when the endpoint names one, since a container can
         // only publish ports it knows in advance. Otherwise the kernel picks.
         bindPort: endpoint.localPort ?? undefined,
@@ -141,8 +152,14 @@ function endpointUrl(
   return `${endpoint.scheme}://${bracketIfIpv6(hostAddress)}:${endpoint.port}${path}`;
 }
 
-export function createWebEndpointRoutes(ctx: PluginContext): Router {
+export function createWebEndpointRoutes(
+  ctx: PluginContext,
+  sessions: ProxySessions = createProxySessions(),
+): Router {
   const router = express.Router();
+  // The router takes raw bodies so the proxy can stream them; these routes
+  // parse their own small JSON bodies.
+  const json = express.json({ limit: "64kb" });
 
   /**
    * @openapi
@@ -167,7 +184,7 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
    *       401: { description: Not signed in. }
    *       404: { description: Host or endpoint not found. }
    */
-  router.post("/open", async (req, res) => {
+  router.post("/open", json, async (req, res) => {
     const userId = ctx.currentActor();
     if (!userId) {
       return res.status(401).json({ error: "Authentication required" });
@@ -242,7 +259,7 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
    *       401: { description: Not signed in. }
    *       404: { description: Host not found or access denied. }
    */
-  router.post("/open-window", async (req, res) => {
+  router.post("/open-window", json, async (req, res) => {
     const userId = ctx.currentActor();
     if (!userId) {
       return res.status(401).json({ error: "Authentication required" });
@@ -293,6 +310,96 @@ export function createWebEndpointRoutes(ctx: PluginContext): Router {
       const message = error instanceof Error ? error.message : String(error);
       return res.status(status).json({ error: message });
     }
+  });
+
+  /**
+   * @openapi
+   * /plugin-api/web-endpoint/proxy:
+   *   post:
+   *     summary: Open a tunnel endpoint for a browser
+   *     description: Opens the tunnel on 127.0.0.1 and returns a path under /plugin-api/web-endpoint/p/ that serves it to this browser. The path carries a short lived token and is the only credential for it.
+   *     tags: [Web Endpoint]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required: [hostId, endpointId, mountPath]
+   *             properties:
+   *               hostId: { type: integer }
+   *               endpointId: { type: string }
+   *               mountPath: { type: string, description: "Where the browser reaches /plugin-api/web-endpoint" }
+   *     responses:
+   *       200: { description: The proxy path. }
+   *       400: { description: Invalid request, or the endpoint does not use a tunnel. }
+   *       401: { description: Not signed in. }
+   */
+  router.post("/proxy", json, async (req, res) => {
+    const userId = ctx.currentActor();
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+    const { hostId, endpointId, mountPath } = req.body ?? {};
+    const mount = normalizeMountPath(mountPath);
+    if (
+      !Number.isInteger(hostId) ||
+      hostId < 1 ||
+      typeof endpointId !== "string" ||
+      !mount
+    ) {
+      return res.status(400).json({ error: "Invalid web endpoint request" });
+    }
+    const resolved = await loadEndpoint(ctx, hostId, endpointId);
+    if ("error" in resolved) {
+      return res
+        .status(resolved.error.status)
+        .json({ error: resolved.error.message });
+    }
+    const { endpoint } = resolved;
+    if (endpoint.access !== "tunnel") {
+      return res
+        .status(400)
+        .json({ error: "This endpoint does not use a tunnel" });
+    }
+    try {
+      const handle = await openTunnel(ctx, hostId, endpointId, endpoint);
+      const { session } = sessions.mint(
+        {
+          userId,
+          hostId,
+          endpointId,
+          scheme: endpoint.scheme,
+          targetPort: endpoint.port,
+          localPort: handle.bindPort,
+        },
+        mount,
+      );
+      const path =
+        endpoint.path && endpoint.path.length > 1 ? endpoint.path : "/";
+      return res
+        .status(200)
+        .json({ path: session.publicPrefix + path.slice(1) });
+    } catch (error) {
+      const status = (error as { status?: number }).status ?? 500;
+      const message = error instanceof Error ? error.message : String(error);
+      return res.status(status).json({ error: message });
+    }
+  });
+
+  // Public: the token in the path is the credential, see proxy.ts.
+  router.use("/p/:token", async (req: Request, res: Response) => {
+    const token = req.baseUrl.split("/").pop() ?? "";
+    const session = sessions.use(token);
+    if (!session) {
+      res.status(404).type("text/plain").send("This link has expired.");
+      return;
+    }
+    if (req.url === "/" && !req.originalUrl.split("?")[0].endsWith("/")) {
+      res.redirect(301, session.publicPrefix);
+      return;
+    }
+    await forward(req, res, session, req.url);
   });
 
   return router;

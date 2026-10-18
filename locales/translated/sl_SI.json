@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Ni izbranega gostitelja",
     "notFound": "Ta končna točka ne obstaja več.",
-    "tunnelUnreachableFromBrowser": "Ta končna točka tunelira na 127.0.0.1 na računalniku, ki izvaja Termix, do katerega vaš brskalnik ne more dostopati. Nastavite vezavni gostitelj končne točke na naslov, na katerega ta računalnik odgovarja, na primer 0.0.0.0, in določite fiksni lokalni vrat.",
-    "tunnelSharesSessionCookie": "Odpiranje tega tunela bi poslalo vašo sejo Termix v tunelirano storitev, ker bi jo vaš brskalnik dosegel na istem imenu gostitelja, s katerega se streže Termix. Piškotki ignorirajo vrat, zato ju ni mogoče razlikovati. Uporabite namizno aplikacijo Termix ali odprite Termix na localhost.",
     "directSharesSessionCookie": "Odpiranje te končne točke bi poslalo vašo sejo Termix vanjo, ker jo vaš brskalnik doseže na istem spletnem mestu, s katerega se streže Termix. Piškotki ignorirajo vrat, zato drugačen vrat ni drugačna identiteta. Uporabite namizno aplikacijo Termix ali strežite to spletno vmesnik z drugega imena gostitelja.",
     "reload": "Osveži",
     "copyUrl": "Kopiraj URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Dodaj končno točko",
     "webUiAddress": "Naslov",
     "webUiOpening": "Odpiranje",
-    "webUiBindHostDesc": "Kje backend veže preusmeritev. Pustite prazno za 127.0.0.1, ki ga lahko doseže le računalnik, ki izvaja Termix.",
-    "webUiBindHostExposed": "Ta naslov je dosegljen zunaj računalnika Termix, zato lahko vsakdo, ki doseže vrat, dostopa do tega spletnega vmesnika brez prijave.",
+    "webUiBindHostDesc": "Kje backend veže preusmeritev. Pustite prazno: brskalniki se nanjo povežejo prek Termixa, katerikoli drug naslov pa se uporablja le, če to dovoli skrbnik.",
+    "webUiBindHostExposed": "Ta naslov je dosegljiv zunaj strežnika Termix, zato lahko vsakdo, ki ima dostop do vrat, dostopa do tega spletnega vmesnika brez prijave. Upošteva se le, če skrbnik vklopi možnost Omogoči tunele na drugih naslovih.",
     "webUiLocalPort": "Lokalni vrat",
     "webUiLocalPortAuto": "Samodejno",
     "webUiLocalPortDesc": "Na katerem vratu posluša preusmeritev. Pustite prazno, da sistem izbere, ali nastavite, ko mora biti vrat vnaprej znan, na primer za kontejner, ki ga objavi.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Ni bilo mogoče odpreti izoliranega okna",
     "savedHostRequired": "Ta končna točka potrebuje SSH tunel, kar zahteva shranjenega gostitelja",
     "desktopOnly": "Izolirana okna potrebujejo namizno aplikacijo. Izberite zavihek Termix v nastavitvah končne točke."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Omogoči tunele na drugih naslovih",
+        "description": "Omogoči, da naslov vezave končne točke objavi svoj tunel na omrežju tega strežnika, brez prijave v Termix. Če je izklopljeno: brskalniki dostopajo do tunelov prek samega Termixa."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Spletna končna točka",
+    "description": "Odprite spletni vmesnik gostitelja znotraj Termixa, neposredno ali prek SSH tunela."
   }
 }

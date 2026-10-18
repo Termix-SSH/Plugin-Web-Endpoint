@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nenhum host selecionado",
     "notFound": "Este endpoint não existe mais.",
-    "tunnelUnreachableFromBrowser": "Este endpoint faz túnel para 127.0.0.1 na máquina que executa o Termix, à qual seu navegador não consegue acessar. Defina o Bind Host do endpoint para um endereço que a máquina responda, como 0.0.0.0, e atribua uma Porta Local fixa.",
-    "tunnelSharesSessionCookie": "Abrir este túnel enviaria sua sessão do Termix para o serviço em túnel, porque seu navegador o acessaria no mesmo nome de host do qual o Termix é servido. Cookies ignoram a porta, então os dois não podem ser diferenciados. Use o aplicativo desktop do Termix ou abra o Termix em localhost.",
     "directSharesSessionCookie": "Abrir este endpoint enviaria sua sessão do Termix para ele, porque seu navegador o acessa no mesmo site do qual o Termix é servido. Cookies ignoram a porta, então uma porta diferente não é uma identidade diferente. Use o aplicativo desktop do Termix ou sirva esta interface web de um nome de host diferente.",
     "reload": "Recarregar",
     "copyUrl": "Copiar URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Adicionar endpoint",
     "webUiAddress": "Endereço",
     "webUiOpening": "Abrindo",
-    "webUiBindHostDesc": "Onde o backend vincula o encaminhamento. Deixe em branco para 127.0.0.1, que só a máquina que executa o Termix pode acessar.",
-    "webUiBindHostExposed": "Este endereço é acessível além da máquina do Termix, então qualquer pessoa que conseguir acessar a porta terá esta interface web sem login.",
+    "webUiBindHostDesc": "Onde o backend vincula o encaminhamento. Deixe em branco: os navegadores acessam por meio do Termix, e qualquer outro endereço só é usado quando um administrador permite.",
+    "webUiBindHostExposed": "Este endereço é acessível além da máquina do Termix, portanto, qualquer pessoa que consiga acessar a porta terá acesso a esta interface web sem necessidade de login. É ignorado, a menos que um administrador ative a opção Permitir túneis em outros endereços.",
     "webUiLocalPort": "Porta Local",
     "webUiLocalPortAuto": "Automático",
     "webUiLocalPortDesc": "Em qual porta o encaminhamento escuta. Deixe em branco para deixar o sistema escolher, ou defina uma quando a porta precisar ser conhecida antecipadamente, como um container que a publica.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Não foi possível abrir a janela isolada",
     "savedHostRequired": "Este endpoint precisa de um túnel SSH, o que requer um host salvo",
     "desktopOnly": "Janelas isoladas precisam do aplicativo desktop. Escolha a aba do Termix nas configurações do endpoint."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Permitir túneis em outros endereços",
+        "description": "Permite que o endereço de vinculação de um ponto de extremidade publique seu túnel na rede deste servidor, sem exigir login no Termix. Desative: os navegadores acessam os túneis por meio do próprio Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Ponto de Extremidade Web",
+    "description": "Abra a interface web de um host dentro do Termix, diretamente ou por meio de um túnel SSH."
   }
 }

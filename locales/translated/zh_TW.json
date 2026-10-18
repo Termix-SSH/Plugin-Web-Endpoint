@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "未選取主機",
     "notFound": "此端點已不存在。",
-    "tunnelUnreachableFromBrowser": "此端點會將流量轉送至執行 Termix 的機器上的 127.0.0.1，您的瀏覽器無法存取該位址。請將端點的「繫結主機」設為該機器可回應的位址（例如 0.0.0.0），並指定固定的「本機埠號」。",
-    "tunnelSharesSessionCookie": "開啟此隧道會將您的 Termix 會話傳送至隧道後端的服務，因為您的瀏覽器會透過與 Termix 相同的網域名稱存取該服務。Cookie 不區分埠號，因此兩者無法區分。請使用 Termix 桌面應用程式，或在 localhost 開啟 Termix。",
     "directSharesSessionCookie": "開啟此端點會將您的 Termix 會話傳送至該端點，因為您的瀏覽器會透過與 Termix 相同的網站存取它。Cookie 不區分埠號，因此不同的埠號不代表不同的身分。請使用 Termix 桌面應用程式，或從不同的網域名稱提供此網頁介面。",
     "reload": "重新載入",
     "copyUrl": "複製 URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "新增端點",
     "webUiAddress": "位址",
     "webUiOpening": "正在開啟",
-    "webUiBindHostDesc": "後端繫結轉發的位置。留空則預設為 127.0.0.1，僅執行 Termix 的機器可存取。",
-    "webUiBindHostExposed": "此位址可從 Termix 機器之外存取，因此任何能存取該埠號的人都能無需登入即可使用此網頁介面。",
+    "webUiBindHostDesc": "後端繫結轉發的位置。留空：瀏覽器透過 Termix 存取，其他位址僅在管理員允許時才使用。",
+    "webUiBindHostExposed": "此位址可從 Termix 機器外部存取，因此任何能連接到該埠的人都能無需登入即可使用此 Web UI。除非管理員開啟「允許在其他位址上建立隧道」，否則此設定將被忽略。",
     "webUiLocalPort": "本機埠號",
     "webUiLocalPortAuto": "自動",
     "webUiLocalPortDesc": "轉發監聽的埠號。留空則由系統自動選擇，或在需要事先知道埠號時（例如發布該埠號的容器）手動設定。",
@@ -58,5 +56,17 @@
     "openWindowFailed": "無法開啟隔離視窗",
     "savedHostRequired": "此端點需要 SSH 隧道，而 SSH 隧道需要已儲存的主機",
     "desktopOnly": "隔離視窗需要桌面應用程式。請在端點設定中選擇「Termix 分頁」。"
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "允許在其他位址上建立隧道",
+        "description": "允許端點的繫結位址在此伺服器的網路上發布其隧道，且無需經過 Termix 登入。關閉此選項：瀏覽器將透過 Termix 本身存取隧道。"
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web 端點",
+    "description": "在 Termix 中直接或透過 SSH 通道開啟主機的 Web 介面。"
   }
 }

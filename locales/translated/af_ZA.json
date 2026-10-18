@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Geen gasheer gekies nie",
     "notFound": "Hierdie eindpunt bestaan nie meer nie.",
-    "tunnelUnreachableFromBrowser": "Hierdie eindpunt tunnel na 127.0.0.1 op die masjien wat Termix uitvoer, wat jou blaaier nie kan bereik nie. Stel die eindpunt se Bind Host op 'n adres wat die masjien antwoord, soos 0.0.0.0, en gee dit 'n vaste Plaaslike Poort.",
-    "tunnelSharesSessionCookie": "As jy hierdie tunnel oopmaak, sal jou Termix-sessie na die getunnelde diens gestuur word, omdat jou blaaier dit op dieselfde gasheernaam bereik waar Termix bedien word. Koekies ignoreer die poort, so die twee kan nie onderskei word nie. Gebruik die Termix-burotoepassing, of maak Termix oop op localhost.",
     "directSharesSessionCookie": "As jy hierdie eindpunt oopmaak, sal jou Termix-sessie na dit gestuur word, omdat jou blaaier dit op dieselfde webwerf bereik waar Termix bedien word. Koekies ignoreer die poort, so 'n ander poort is nie 'n ander identiteit nie. Gebruik die Termix-burotoepassing, of bedien hierdie webkoppelvlak vanaf 'n ander gasheernaam.",
     "reload": "Herlaai",
     "copyUrl": "Kopieer URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Voeg eindpunt by",
     "webUiAddress": "Adres",
     "webUiOpening": "Oopmaak",
-    "webUiBindHostDesc": "Waar die agterkant die vorentoe-bind. Laat leeg vir 127.0.0.1, wat slegs die masjien wat Termix uitvoer kan bereik.",
-    "webUiBindHostExposed": "Hierdie adres is bereikbaar buite die Termix-masjien, so enigiemand wat die poort kan bereik, kry hierdie webkoppelvlak sonder aanmelding.",
+    "webUiBindHostDesc": "Waar die agterkant die vorentoe-binding koppel. Laat leeg: browsers bereik dit deur Termix, en enige ander adres word slegs gebruik wanneer 'n bestuurder dit toelaat.",
+    "webUiBindHostExposed": "Hierdie adres is bereikbaar buite die Termix-masjien, so enigiemand wat die poort kan bereik, kry hierdie web-gebruikerskoppelvlak sonder aanmelding. Dit word genegeer tensy 'n admin Toelaat tunnels op ander adresse aanskakel.",
     "webUiLocalPort": "Plaaslike Poort",
     "webUiLocalPortAuto": "Outomaties",
     "webUiLocalPortDesc": "Watter poort die vorentoe-bind luister. Laat leeg om die stelsel te kies, of stel een wanneer die poort vooraf bekend moet wees, soos 'n houer wat dit publiseer.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Kon nie die geïsoleerde venster oopmaak nie",
     "savedHostRequired": "Hierdie eindpunt benodig 'n SSH-tunnel, wat 'n gestoorde gasheer vereis",
     "desktopOnly": "Geïsoleerde vensters benodig die burotoepassing. Kies Termix-oortjie in die eindpunt-instellings."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Laat toe tunnels op ander adresse",
+        "description": "Laat 'n eindpunt se bindadres sy tunnel op hierdie bediener se netwerk publiseer, sonder 'n Termix-aanmelding daarvoor. Verwyder dit: browsers bereik tunnels deur Termix self."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web-eindpunt",
+    "description": "Open 'n gasheer se web-gebruikerskoppelvlak binne Termix, direk of oor 'n SSH-tunnel."
   }
 }

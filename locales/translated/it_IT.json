@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nessun host selezionato",
     "notFound": "Questo endpoint non esiste più.",
-    "tunnelUnreachableFromBrowser": "Questo endpoint inoltra a 127.0.0.1 sulla macchina che esegue Termix, a cui il tuo browser non può accedere. Imposta l'host di associazione dell'endpoint su un indirizzo a cui quella macchina risponde, come 0.0.0.0, e assegnagli una porta locale fissa.",
-    "tunnelSharesSessionCookie": "Aprire questo tunnel invierebbe la tua sessione Termix al servizio inoltrato, perché il tuo browser lo raggiungerebbe allo stesso nome host da cui viene servito Termix. I cookie ignorano la porta, quindi i due non possono essere distinti. Usa l'app desktop di Termix o apri Termix su localhost.",
     "directSharesSessionCookie": "Aprire questo endpoint invierebbe la tua sessione Termix ad esso, perché il tuo browser lo raggiunge sullo stesso sito da cui viene servito Termix. I cookie ignorano la porta, quindi una porta diversa non è un'identità diversa. Usa l'app desktop di Termix o servi questa interfaccia web da un nome host diverso.",
     "reload": "Ricarica",
     "copyUrl": "Copia URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Aggiungi endpoint",
     "webUiAddress": "Indirizzo",
     "webUiOpening": "Apertura",
-    "webUiBindHostDesc": "Dove il backend associa l'inoltro. Lascia vuoto per 127.0.0.1, raggiungibile solo dalla macchina che esegue Termix.",
-    "webUiBindHostExposed": "Questo indirizzo è raggiungibile oltre la macchina Termix, quindi chiunque possa raggiungere la porta ottiene questa interfaccia web senza accesso.",
+    "webUiBindHostDesc": "Dove il backend associa il forward. Lascia vuoto: i browser vi accedono tramite Termix, e qualsiasi altro indirizzo viene utilizzato solo se un amministratore lo consente.",
+    "webUiBindHostExposed": "Questo indirizzo è raggiungibile al di fuori della macchina Termix, quindi chiunque possa raggiungere la porta accede a questa interfaccia web senza login. Viene ignorato a meno che un amministratore non attivi Consenti tunnel su altri indirizzi.",
     "webUiLocalPort": "Porta locale",
     "webUiLocalPortAuto": "Automatica",
     "webUiLocalPortDesc": "La porta su cui l'inoltro ascolta. Lascia vuoto per lasciare che il sistema scelga, o impostane una quando la porta deve essere nota in anticipo, come un contenitore che la pubblica.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Impossibile aprire la finestra isolata",
     "savedHostRequired": "Questo endpoint richiede un tunnel SSH, che necessita di un host salvato",
     "desktopOnly": "Le finestre isolate richiedono l'app desktop. Scegli Scheda Termix nelle impostazioni dell'endpoint."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Consenti tunnel su altri indirizzi",
+        "description": "Permette all'indirizzo di associazione di un endpoint di pubblicare il suo tunnel sulla rete di questo server, senza login Termix davanti. Disattiva: i browser accedono ai tunnel tramite Termix stesso."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Endpoint Web",
+    "description": "Apri l'interfaccia web di un host all'interno di Termix, direttamente o tramite un tunnel SSH."
   }
 }

@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Ei valittua isäntää",
     "notFound": "Tätä päätepistettä ei enää ole olemassa.",
-    "tunnelUnreachableFromBrowser": "Tämä päätepiste tunneloi osoitteeseen 127.0.0.1 Termiä ajavalla koneella, jota selaimesi ei voi tavoittaa. Aseta päätepisteen Sidontaisäntä (Bind Host) osoitteeksi, jota kone vastaa, kuten 0.0.0.0, ja anna sille kiinteä Paikallinen portti.",
-    "tunnelSharesSessionCookie": "Tämän tunnelin avaaminen lähettäisi Termix-istuntosi tunneloitulle palvelulle, koska selaimesi tavoittaisi sen samasta isäntänimestä kuin Termix. Evästeet eivät huomioi porttia, joten niitä ei voida erottaa toisistaan. Käytä Termix-työpöytäsovellusta tai avaa Termix localhost-osoitteesta.",
     "directSharesSessionCookie": "Tämän päätepisteen avaaminen lähettäisi Termix-istuntosi sille, koska selaimesi tavoittaa sen samalta sivustolta kuin Termix. Evästeet eivät huomioi porttia, joten eri portti ei ole eri identiteetti. Käytä Termix-työpöytäsovellusta tai palvele tätä verkkokäyttöliittymää eri isäntänimestä.",
     "reload": "Päivitä",
     "copyUrl": "Kopioi URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Lisää päätepiste",
     "webUiAddress": "Osoite",
     "webUiOpening": "Avataan",
-    "webUiBindHostDesc": "Missä taustapalvelu sitoo eteenpäin ohjauksen. Jätä tyhjäksi, jolloin käytetään osoitetta 127.0.0.1, jota vain Termiä ajava kone voi tavoittaa.",
-    "webUiBindHostExposed": "Tämä osoite on tavoitettavissa Termix-konetta pidemmälle, joten kuka tahansa, joka pääsee porttiin, saa tämän verkkokäyttöliittymän ilman kirjautumista.",
+    "webUiBindHostDesc": "Missä backend sitoo eteenpäin ohjauksen. Jätä tyhjäksi: selaimet saavat siihen yhteyden Termixin kautta, ja muita osoitteita käytetään vain, jos ylläpitäjä sallii sen.",
+    "webUiBindHostExposed": "Tämä osoite on saavutettavissa Termix-koneen ulkopuolelta, joten kuka tahansa, joka pääsee porttiin, näkee tämän web-käyttöliittymän ilman kirjautumista. Se jätetään huomiotta, ellei ylläpitäjä ota käyttöön vaihtoehtoa Salli tunnelit muilla osoitteilla.",
     "webUiLocalPort": "Paikallinen portti",
     "webUiLocalPortAuto": "Automaattinen",
     "webUiLocalPortDesc": "Millaista porttia eteenpäin ohjaus kuuntelee. Jätä tyhjäksi, jotta järjestelmä valitsee portin, tai aseta portti, jos sen on tiedettävä etukäteen, kuten kontissa, joka julkaisee sen.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Eristettyä ikkunaa ei voitu avata",
     "savedHostRequired": "Tämä päätepiste tarvitsee SSH-tunnelin, joka vaatii tallennetun isännän",
     "desktopOnly": "Eristetyt ikkunat vaativat työpöytäsovelluksen. Valitse Termix-välilehti päätepisteen asetuksista."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Salli tunnelit muilla osoitteilla",
+        "description": "Mahdollistaa päätepisteen sitomisosoitteen julkaiseman tunnelin palvelimen verkossa ilman Termix-kirjautumista sen edessä. Jätä pois: selaimet saavat tunnelit Termixin kautta."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Web-päätepiste",
+    "description": "Avaa isäntäkonetta vastaava web-käyttöliittymä Termixin sisällä suoraan tai SSH-tunnelin kautta."
   }
 }

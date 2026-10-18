@@ -11,6 +11,7 @@ import {
 import {
   allowInvalidCertificateForOrigin,
   openWebEndpointExternally,
+  openWebEndpointProxy,
   openWebEndpointTunnel,
   requireNumericHostId,
 } from "./web-endpoint-api";
@@ -21,8 +22,6 @@ import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
 const REFUSAL_MESSAGES: Record<WebEndpointRefusalReason, string> = {
-  "loopback-bind-on-remote-backend": "webEndpoint.tunnelUnreachableFromBrowser",
-  "shares-session-cookie-with-termix": "webEndpoint.tunnelSharesSessionCookie",
   "direct-shares-session-cookie": "webEndpoint.directSharesSessionCookie",
 };
 
@@ -91,23 +90,25 @@ export function WebEndpointTab({
 
       // Always re-resolved rather than reloading the frame: the backend closes
       // an idle tunnel after ten minutes and re-binds a fresh kernel-assigned
-      // port, so a cached port may be gone.
+      // port, so a cached port may be gone. A browser goes through the
+      // backend's proxy; the desktop app dials its own local backend.
+      const viaProxy = endpoint.access === "tunnel" && !isElectron();
       const localPort =
-        endpoint.access === "tunnel"
+        endpoint.access === "tunnel" && !viaProxy
           ? await openWebEndpointTunnel(
               requireNumericHostId(host.id),
               endpoint.id,
             )
           : undefined;
 
-      const resolved = resolveWebEndpointUrl({
-        hostAddress: host.ip,
-        endpoint,
-        localPort,
-        // Non-null for a tunnel by the time we get here: a null separated host
-        // is exactly what the refusal above catches.
-        tunnelHost: currentTunnelHost(isElectron()) ?? undefined,
-      });
+      const resolved = viaProxy
+        ? await openWebEndpointProxy(requireNumericHostId(host.id), endpoint.id)
+        : resolveWebEndpointUrl({
+            hostAddress: host.ip,
+            endpoint,
+            localPort,
+            tunnelHost: currentTunnelHost(isElectron()) ?? undefined,
+          });
 
       if (endpoint.access === "direct" && endpoint.ignoreCert) {
         await allowInvalidCertificateForOrigin(new URL(resolved).origin);

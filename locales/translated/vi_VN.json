@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Chưa chọn máy chủ",
     "notFound": "Điểm cuối này không còn tồn tại.",
-    "tunnelUnreachableFromBrowser": "Điểm cuối này tạo đường hầm đến 127.0.0.1 trên máy đang chạy Termix, mà trình duyệt của bạn không thể truy cập được. Hãy đặt Bind Host của điểm cuối thành một địa chỉ mà máy đó phản hồi, chẳng hạn như 0.0.0.0, và gán cho nó một Cổng cục bộ cố định.",
-    "tunnelSharesSessionCookie": "Việc mở đường hầm này sẽ gửi phiên Termix của bạn đến dịch vụ được đường hầm, vì trình duyệt của bạn sẽ truy cập nó tại cùng tên miền mà Termix đang phục vụ. Cookie bỏ qua cổng, nên không thể phân biệt được hai cái. Hãy sử dụng ứng dụng máy tính để bàn Termix, hoặc mở Termix tại localhost.",
     "directSharesSessionCookie": "Việc mở điểm cuối này sẽ gửi phiên Termix của bạn đến nó, vì trình duyệt của bạn truy cập nó tại cùng trang web mà Termix đang phục vụ. Cookie bỏ qua cổng, nên một cổng khác không phải là một danh tính khác. Hãy sử dụng ứng dụng máy tính để bàn Termix, hoặc phục vụ giao diện web này từ một tên miền khác.",
     "reload": "Tải lại",
     "copyUrl": "Sao chép URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Thêm điểm cuối",
     "webUiAddress": "Địa chỉ",
     "webUiOpening": "Đang mở",
-    "webUiBindHostDesc": "Nơi backend gắn kết chuyển tiếp. Để trống cho 127.0.0.1, chỉ máy đang chạy Termix mới có thể truy cập được.",
-    "webUiBindHostExposed": "Địa chỉ này có thể truy cập được ngoài máy Termix, vì vậy bất kỳ ai có thể truy cập cổng đều có thể truy cập giao diện web này mà không cần đăng nhập.",
+    "webUiBindHostDesc": "Nơi backend gắn kết chuyển tiếp. Để trống: trình duyệt truy cập qua Termix, và bất kỳ địa chỉ nào khác chỉ được sử dụng khi quản trị viên cho phép.",
+    "webUiBindHostExposed": "Địa chỉ này có thể truy cập được từ bên ngoài máy Termix, vì vậy bất kỳ ai có thể truy cập cổng này đều sẽ thấy giao diện web này mà không cần đăng nhập. Nó bị bỏ qua trừ khi quản trị viên bật Cho phép đường hầm trên các địa chỉ khác.",
     "webUiLocalPort": "Cổng cục bộ",
     "webUiLocalPortAuto": "Tự động",
     "webUiLocalPortDesc": "Cổng mà chuyển tiếp lắng nghe. Để trống để hệ thống chọn, hoặc đặt một cổng khi cần biết trước, chẳng hạn như một container công bố nó.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Không thể mở cửa sổ cách ly",
     "savedHostRequired": "Điểm cuối này cần đường hầm SSH, điều này yêu cầu một máy chủ đã lưu",
     "desktopOnly": "Cửa sổ cách ly cần ứng dụng máy tính để bàn. Chọn Tab Termix trong cài đặt điểm cuối."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Cho phép đường hầm trên các địa chỉ khác",
+        "description": "Cho phép địa chỉ gắn kết của điểm cuối công bố đường hầm của nó trên mạng của máy chủ này, mà không có đăng nhập Termix ở phía trước. Tắt: trình duyệt truy cập đường hầm thông qua chính Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Điểm cuối Web",
+    "description": "Mở giao diện web của máy chủ bên trong Termix, trực tiếp hoặc qua đường hầm SSH."
   }
 }

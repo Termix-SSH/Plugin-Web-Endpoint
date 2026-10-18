@@ -167,7 +167,7 @@ describe("POST /open", () => {
     );
   });
 
-  it("passes the endpoint's own bind address and fixed port through", async () => {
+  it("binds loopback even when the endpoint asks for another address", async () => {
     await start({
       endpoints: [endpoint({ bindHost: "0.0.0.0", localPort: 38080 })],
     });
@@ -177,8 +177,21 @@ describe("POST /open", () => {
       body: JSON.stringify({ hostId: 7, endpointId: "e1" }),
     });
     const target = forward.mock.calls[0][1];
-    expect(target.bindHost).toBe("0.0.0.0");
+    expect(target.bindHost).toBe("127.0.0.1");
     expect(target.bindPort).toBe(38080);
+  });
+
+  it("passes another bind address through only when an admin allows it", async () => {
+    await start({
+      endpoints: [endpoint({ bindHost: "0.0.0.0", localPort: 38080 })],
+    });
+    await mock.ctx.settings.set("allowExposedBind", true);
+    await fetch(`${baseUrl}/open`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ hostId: 7, endpointId: "e1" }),
+    });
+    expect(forward.mock.calls[0][1].bindHost).toBe("0.0.0.0");
   });
 
   it("reports the service's reason as a 502 instead of a dead 200", async () => {
@@ -319,5 +332,99 @@ describe("route registration", () => {
       .filter((layer) => layer.route?.methods.post)
       .map((layer) => layer.route?.path);
     expect(paths).toEqual(expect.arrayContaining(["/open", "/open-window"]));
+  });
+});
+
+describe("browser proxy", () => {
+  let upstream: http.Server;
+  let seen: http.IncomingMessage | null = null;
+
+  async function startUpstream(
+    handler: (req: http.IncomingMessage, res: http.ServerResponse) => void,
+  ) {
+    upstream = http.createServer((req, res) => {
+      seen = req;
+      handler(req, res);
+    });
+    await new Promise<void>((resolve) => upstream.listen(0, resolve));
+    const { port } = upstream.address() as AddressInfo;
+    forward.mockResolvedValue({ bindHost: "127.0.0.1", bindPort: port });
+  }
+
+  afterEach(async () => {
+    seen = null;
+    await new Promise<void>((resolve) => upstream.close(() => resolve()));
+  });
+
+  async function mint(mountPath = "/plugin-api/web-endpoint") {
+    const res = await fetch(`${baseUrl}/proxy`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ hostId: 7, endpointId: "e1", mountPath }),
+    });
+    return { status: res.status, body: await res.json() };
+  }
+
+  /** The proxy path, as the test server mounts it at the root. */
+  const local = (path: string) =>
+    path.replace(/^\/plugin-api\/web-endpoint/, "");
+
+  it("serves the endpoint behind a token, sandboxed and without Termix cookies", async () => {
+    await startUpstream((_req, res) => {
+      res.setHeader("set-cookie", "sid=1; Path=/; Domain=evil.example");
+      res.setHeader("location", "/login");
+      res.end("hello");
+    });
+    await start();
+    const { body } = await mint();
+    expect(body.path).toMatch(/^\/plugin-api\/web-endpoint\/p\/[\w-]{43}\/$/);
+    expect(forward.mock.calls[0][1].bindHost).toBe("127.0.0.1");
+
+    const res = await fetch(`${baseUrl}${local(body.path)}app?x=1`, {
+      headers: { cookie: "jwt=secret; sid=1", authorization: "Bearer secret" },
+      redirect: "manual",
+    });
+    expect(await res.text()).toBe("hello");
+    expect(res.headers.get("content-security-policy")).toContain(
+      "sandbox allow-scripts",
+    );
+    expect(res.headers.get("set-cookie")).toBe(`sid=1; Path=${body.path}`);
+    expect(res.headers.get("location")).toBe(`${body.path}login`);
+    expect(seen?.url).toBe("/app?x=1");
+    expect(seen?.headers.cookie).toBe("sid=1");
+    expect(seen?.headers.authorization).toBeUndefined();
+  });
+
+  it("streams a request body through", async () => {
+    let received = "";
+    await startUpstream((req, res) => {
+      req.on("data", (chunk) => (received += chunk));
+      req.on("end", () => res.end("ok"));
+    });
+    await start();
+    const { body } = await mint();
+    await fetch(`${baseUrl}${local(body.path)}form`, {
+      method: "POST",
+      headers: { "content-type": "text/plain" },
+      body: "a=1",
+    });
+    expect(received).toBe("a=1");
+  });
+
+  it("refuses an unknown token", async () => {
+    await startUpstream((_req, res) => res.end("hello"));
+    await start();
+    const res = await fetch(`${baseUrl}/p/${"x".repeat(43)}/`);
+    expect(res.status).toBe(404);
+    expect(seen).toBeNull();
+  });
+
+  it("refuses a mount path outside the plugin", async () => {
+    await startUpstream((_req, res) => res.end("hello"));
+    await start();
+    expect((await mint("/evil")).status).toBe(400);
+    expect(
+      (await mint("https://evil.example/plugin-api/web-endpoint")).status,
+    ).toBe(400);
   });
 });

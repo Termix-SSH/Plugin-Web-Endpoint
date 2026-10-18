@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Cap amfitrió seleccionat",
     "notFound": "Aquest punt d'accés ja no existeix.",
-    "tunnelUnreachableFromBrowser": "Aquest punt d'accés fa un túnel a 127.0.0.1 a la màquina que executa Termix, a la qual el vostre navegador no pot arribar. Establiu l'Amfitrió d'enllaçament del punt d'accés a una adreça que aquesta màquina respongui, com ara 0.0.0.0, i assigneu-li un Port local fix.",
-    "tunnelSharesSessionCookie": "Obrir aquest túnel enviaria la vostra sessió de Termix al servei túnelat, perquè el vostre navegador hi arribaria al mateix nom d'amfitrió des d'on s'ofereix Termix. Les galetes ignoren el port, per la qual cosa no es poden distingir. Utilitzeu l'aplicació d'escriptori de Termix o obriu Termix a localhost.",
     "directSharesSessionCookie": "Obrir aquest punt d'accés enviaria la vostra sessió de Termix a aquest, perquè el vostre navegador hi arriba al mateix lloc des d'on s'ofereix Termix. Les galetes ignoren el port, per la qual cosa un port diferent no és una identitat diferent. Utilitzeu l'aplicació d'escriptori de Termix o oferiu aquesta interfície web des d'un nom d'amfitrió diferent.",
     "reload": "Recarrega",
     "copyUrl": "Copia l'URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Afegeix punt d'accés",
     "webUiAddress": "Adreça",
     "webUiOpening": "S'està obrint",
-    "webUiBindHostDesc": "On el backend enllaça el reenviament. Deixeu-ho en blanc per a 127.0.0.1, que només pot arribar la màquina que executa Termix.",
-    "webUiBindHostExposed": "Aquesta adreça és accessible més enllà de la màquina de Termix, per la qual qualsevol que pugui arribar al port obté aquesta interfície web sense iniciar sessió.",
+    "webUiBindHostDesc": "On s'uneix el backend al reenviament. Deixa-ho buit: els navegadors hi accedeixen a través de Termix, i qualsevol altra adreça només s'utilitza si un administrador ho permet.",
+    "webUiBindHostExposed": "Aquesta adreça és accessible més enllà de la màquina Termix, de manera que qualsevol persona que pugui accedir al port veurà aquesta interfície web sense necessitat d'iniciar sessió. S'ignora a menys que un administrador activi «Permet túnels en altres adreces».",
     "webUiLocalPort": "Port local",
     "webUiLocalPortAuto": "Automàtic",
     "webUiLocalPortDesc": "El port en què escolta el reenviament. Deixeu-ho en blanc perquè el sistema el triï, o estableix-ne un quan el port s'hagi de conèixer prèviament, com ara un contenidor que el publiqui.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "No s'ha pogut obrir la finestra aïllada",
     "savedHostRequired": "Aquest punt d'accés necessita un túnel SSH, que requereix un amfitrió desat",
     "desktopOnly": "Les finestres aïllades necessiten l'aplicació d'escriptori. Trieu Pestanya de Termix a la configuració del punt d'accés."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Permet túnels en altres adreces",
+        "description": "Permet que l'adreça d'enllaç d'un punt final publiqui el seu túnel a la xarxa d'aquest servidor, sense necessitat d'iniciar sessió a Termix. Deixa-ho desactivat: els navegadors accedeixen als túnels a través del mateix Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Punt final web",
+    "description": "Obre la interfície web d'un host dins de Termix, directament o a través d'un túnel SSH."
   }
 }

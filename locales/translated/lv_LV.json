@@ -2,8 +2,6 @@
   "webEndpoint": {
     "noHostSelected": "Nav izvēlēts mezgls",
     "notFound": "Šis galapunkts vairs neeksistē.",
-    "tunnelUnreachableFromBrowser": "Šis galapunkts tunelē uz 127.0.0.1 datorā, kur darbojas Termix, un jūsu pārlūks to nevar sasniegt. Iestatiet galapunkta „Bind Host” uz adresi, uz kuru šis dators atbild, piemēram, 0.0.0.0, un norādiet fiksētu vietējo portu.",
-    "tunnelSharesSessionCookie": "Atverot šo tuneli, jūsu Termix sesija tiktu nosūtīta tunelētajai pakalpojuma, jo jūsu pārlūks to sasniegtu tajā pašā resursdatora nosaukumā, no kura tiek apkalpots Termix. Sīkdatnes ignorē portu, tāpēc tos nevar atšķirt. Izmantojiet Termix darbvirsmas lietotni vai atveriet Termix vietnē localhost.",
     "directSharesSessionCookie": "Atverot šo galapunktu, jūsu Termix sesija tiktu nosūtīta uz to, jo jūsu pārlūks to sasniegtu tajā pašā vietnē, no kuras tiek apkalpots Termix. Sīkdatnes ignorē portu, tāpēc cits ports nav cita identitāte. Izmantojiet Termix darbvirsmas lietotni vai apkalpojiet šo tīmekļa lietotnes saskarni no cita resursdatora nosaukuma.",
     "reload": "Pārlādēt",
     "copyUrl": "Kopēt URL",
@@ -27,8 +25,8 @@
     "webUiAddEndpoint": "Pievienot galapunktu",
     "webUiAddress": "Adrese",
     "webUiOpening": "Atver",
-    "webUiBindHostDesc": "Kur backend piesaista pārsūtīšanu. Atstājiet tukšu, lai izmantotu 127.0.0.1, ko var sasniegt tikai dators, kur darbojas Termix.",
-    "webUiBindHostExposed": "Šī adrese ir sasniedzama ārpus Termix mašīnas, tāpēc jebkurš, kas var sasniegt portu, iegūs šo tīmekļa saskarni bez pieteikšanās.",
+    "webUiBindHostDesc": "Kur backend pieslēdz pārvirzījumu. Atstāj tukšu: pārlūkprogrammas to sasniedz caur Termix, un jebkura cita adrese tiek izmantota tikai tad, ja administrators to atļauj.",
+    "webUiBindHostExposed": "Šī adrese ir sasniedzama ārpus Termix mašīnas, tāpēc jebkurš, kas var sasniegt portu, iegūst šo tīmekļa lietotnes saskarni bez pieteikšanās. Tā tiek ignorēta, kamēr administrators neieslēdz opciju \"Atļaut tunelis uz citām adresēm\".",
     "webUiLocalPort": "Vietējais ports",
     "webUiLocalPortAuto": "Automātiski",
     "webUiLocalPortDesc": "Kuru portu pārsūtīšana klausās. Atstājiet tukšu, lai sistēma izvēlētos, vai iestatiet, ja portam ir jābūt zināms iepriekš, piemēram, konteineram, kas to publicē.",
@@ -58,5 +56,17 @@
     "openWindowFailed": "Neizdevās atvērt izolēto logu",
     "savedHostRequired": "Šim galapunktam ir nepieciešams SSH tunelis, kam nepieciešams saglabāts mezgls",
     "desktopOnly": "Izolētiem logiem ir nepieciešama darbvirsmas lietotne. Galapunkta iestatījumos izvēlieties Termix cilni."
+  },
+  "settings": {
+    "admin": {
+      "allowExposedBind": {
+        "label": "Atļaut tunelis uz citām adresēm",
+        "description": "Ļauj galapunkta pieslēgšanās adresei publicēt savu tuneli šī servera tīklā, bez Termix pieteikšanās ekrāna. Atstāj izslēgtu: pārlūkprogrammas sasniedz tunelis caur pašu Termix."
+      }
+    }
+  },
+  "plugin": {
+    "name": "Tīmekļa galapunkts",
+    "description": "Atveriet hosta tīmekļa lietotnes saskarni Termix iekšienē, tieši vai caur SSH tuneli."
   }
 }
