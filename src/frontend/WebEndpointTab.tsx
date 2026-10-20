@@ -17,16 +17,27 @@ import {
 } from "./web-endpoint-api";
 import { copyToClipboard } from "@termix-ssh/plugin-sdk/ui";
 import { isElectron } from "@termix-ssh/plugin-sdk/ui";
-import { Button, ConnectionScreen } from "@termix-ssh/plugin-sdk/ui";
+import {
+  Button,
+  ConnectionScreen,
+  NativeView,
+} from "@termix-ssh/plugin-sdk/ui";
 import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
+
+/** True in the desktop app, which can show a page in a native view. */
+function hasNativeView(): boolean {
+  return !!(window as unknown as { electronAPI?: { embeddedView?: unknown } })
+    .electronAPI?.embeddedView;
+}
 
 const REFUSAL_MESSAGES: Record<WebEndpointRefusalReason, string> = {
   "direct-shares-session-cookie": "webEndpoint.directSharesSessionCookie",
 };
 
 /**
- * Renders one web endpoint in an iframe.
+ * Renders one web endpoint in a native view in the desktop app, and in a
+ * sandboxed iframe in a browser.
  *
  * Takes the whole host plus the endpoint's ID, not the endpoint object,
  * so a tab whose endpoint was deleted while it was open (or that never matched
@@ -49,6 +60,7 @@ export function WebEndpointTab({
     (candidate) => candidate.id === endpointId,
   );
 
+  const native = hasNativeView();
   const [url, setUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   /**
@@ -84,7 +96,7 @@ export function WebEndpointTab({
         throw new Error(t(REFUSAL_MESSAGES[refusal]));
       }
 
-      if (!("credentialless" in HTMLIFrameElement.prototype)) {
+      if (!native && !("credentialless" in HTMLIFrameElement.prototype)) {
         throw new Error(t("webEndpoint.isolationUnavailable"));
       }
 
@@ -110,7 +122,7 @@ export function WebEndpointTab({
             tunnelHost: currentTunnelHost(isElectron()) ?? undefined,
           });
 
-      if (endpoint.access === "direct" && endpoint.ignoreCert) {
+      if (!native && endpoint.access === "direct" && endpoint.ignoreCert) {
         await allowInvalidCertificateForOrigin(new URL(resolved).origin);
       }
 
@@ -206,10 +218,22 @@ export function WebEndpointTab({
           </Button>
         )}
       </div>
-      <p className="px-2 py-1 text-xs text-muted-foreground">
-        {t("webEndpoint.isolationNotice")}
-      </p>
-      {url && (
+      {!native && (
+        <p className="px-2 py-1 text-xs text-muted-foreground">
+          {t("webEndpoint.isolationNotice")}
+        </p>
+      )}
+      {url && native && (
+        // The native view has its own session, so it needs neither the
+        // iframe sandbox nor a certificate allowance for the whole app.
+        <NativeView
+          key={`${generation}:${url}`}
+          url={url}
+          ignoreCert={endpoint.access === "direct" && !!endpoint.ignoreCert}
+          className="h-full w-full flex-1"
+        />
+      )}
+      {url && !native && (
         // Keyed on generation as well as url: a re-resolved tunnel usually
         // returns the SAME port, so url alone would not change and React would
         // never remount the frame.

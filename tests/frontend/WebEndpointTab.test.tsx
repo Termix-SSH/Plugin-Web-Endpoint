@@ -129,6 +129,57 @@ describe("WebEndpointTab", () => {
     expect(screen.queryByText("webEndpoint.openExternally")).toBeNull();
   });
 
+  describe("in the desktop app", () => {
+    const open = vi.fn(async () => ({}));
+    const embeddedView = {
+      open,
+      setBounds: vi.fn(async () => ({})),
+      setVisible: vi.fn(async () => ({})),
+      close: vi.fn(async () => ({})),
+    };
+
+    beforeEach(() => {
+      open.mockClear();
+      (window as unknown as { electronAPI: unknown }).electronAPI = {
+        embeddedView,
+      };
+    });
+
+    afterEach(() => {
+      delete (window as unknown as { electronAPI?: unknown }).electronAPI;
+    });
+
+    it("opens a native view instead of an iframe", async () => {
+      const { WebEndpointTab } =
+        await import("../../src/frontend/WebEndpointTab");
+      render(
+        <WebEndpointTab
+          host={host({}, [endpoint({ ignoreCert: true })])}
+          endpointId="e1"
+        />,
+      );
+      await waitFor(() => expect(open).toHaveBeenCalled());
+      expect(open).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: "https://192.168.1.10:8006/",
+          ignoreCert: true,
+        }),
+      );
+      expect(document.querySelector("iframe")).toBeNull();
+      expect(allowInvalidCertificateForOrigin).not.toHaveBeenCalled();
+    });
+
+    it("does not need iframe isolation support", async () => {
+      delete (HTMLIFrameElement.prototype as { credentialless?: boolean })
+        .credentialless;
+      const { WebEndpointTab } =
+        await import("../../src/frontend/WebEndpointTab");
+      render(<WebEndpointTab host={host({}, [endpoint()])} endpointId="e1" />);
+      await waitFor(() => expect(open).toHaveBeenCalled());
+      expect(screen.queryByText("webEndpoint.isolationUnavailable")).toBeNull();
+    });
+  });
+
   it("renders an iframe at the direct URL", async () => {
     const { WebEndpointTab } =
       await import("../../src/frontend/WebEndpointTab");

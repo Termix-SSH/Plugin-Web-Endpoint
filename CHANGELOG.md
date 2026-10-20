@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.3
+
+### Changed
+
+- In the desktop app, pages open in a native view instead of a sandboxed iframe, so sites that need storage, sign-in popups or their own cookies work
+
+### Fixed
+
+- The port field in the host editor can be cleared and retyped, so ports like 8006 can be set
+
 ## 1.0.2
 
 ### Changed

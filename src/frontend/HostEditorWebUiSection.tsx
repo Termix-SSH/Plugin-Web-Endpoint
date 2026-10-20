@@ -87,6 +87,46 @@ function newEndpoint(label: string): WebEndpoint {
 }
 
 /**
+ * Keeps what is typed while the field is edited. The stored port only takes a
+ * value the normalizer would keep, so a cleared or half typed field must not
+ * snap back to the old port on every keystroke.
+ */
+export function PortInput({
+  port,
+  onCommit,
+  ...props
+}: {
+  port: number;
+  onCommit: (port: number) => void;
+  "aria-label": string;
+  className?: string;
+}) {
+  const [draft, setDraft] = useState(String(port));
+
+  useEffect(() => {
+    setDraft((current) => (Number(current) === port ? current : String(port)));
+  }, [port]);
+
+  return (
+    <Input
+      {...props}
+      type="number"
+      min={MIN_WEB_ENDPOINT_PORT}
+      max={MAX_WEB_ENDPOINT_PORT}
+      value={draft}
+      onChange={(e) => {
+        setDraft(e.target.value);
+        const parsed = Number(e.target.value);
+        if (e.target.value !== "" && isWebEndpointPortValid(parsed)) {
+          onCommit(parsed);
+        }
+      }}
+      onBlur={() => setDraft(String(port))}
+    />
+  );
+}
+
+/**
  * The host editor's Web UI tab. Writes into the form's pluginSettings for
  * this plugin, which the editor saves through the plugin's host settings
  * route after the host itself, exactly as the tunnels plugin's own section
@@ -305,23 +345,10 @@ export function HostEditorWebUiSection({
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                        <Input
+                        <PortInput
                           aria-label={t("hosts.webUiPort")}
-                          type="number"
-                          min={MIN_WEB_ENDPOINT_PORT}
-                          max={MAX_WEB_ENDPOINT_PORT}
-                          value={endpoint.port}
-                          onChange={(e) => {
-                            // Number("") is 0, which the normalizer rejects,
-                            // so clearing the field would otherwise write an
-                            // endpoint that is silently dropped on save.
-                            // Commit only a value the normalizer would keep;
-                            // anything else leaves the last good port.
-                            const parsed = Number(e.target.value);
-                            if (isWebEndpointPortValid(parsed)) {
-                              update(index, { port: parsed });
-                            }
-                          }}
+                          port={endpoint.port}
+                          onCommit={(port) => update(index, { port })}
                           className="h-7 w-20 text-xs"
                         />
                         <Input
