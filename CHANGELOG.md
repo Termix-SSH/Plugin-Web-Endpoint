@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+- Web UI panel beside an SSH terminal: the host's web UI next to its shell, with a picker when it has several
+- Web UIs dashboard card: every web UI on your hosts, one click to open
+
+### Fixed
+
+- Needs Termix 26.10.3 or later, since the desktop web view it uses is not in older versions and the plugin failed to load there
+
 ## 1.0.3
 
 ### Changed

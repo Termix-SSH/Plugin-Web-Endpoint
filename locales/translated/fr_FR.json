@@ -63,10 +63,46 @@
         "label": "Autoriser les tunnels sur d’autres adresses",
         "description": "Permet à l'adresse de liaison d'un point de terminaison de publier son tunnel sur le réseau de ce serveur, sans passer par la connexion à Termix. Désactivé : les navigateurs accèdent aux tunnels via Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panneau à côté du terminal",
+        "description": "Afficher un panneau d'interface web à côté du terminal SSH de cet hôte."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Ouvrir le panneau d'interface web avec un terminal",
+        "description": "Afficher le panneau d'interface web lorsqu'un terminal s'ouvre sur un hôte qui en dispose."
+      },
+      "companionSide": {
+        "label": "Position du panneau d'interface web",
+        "description": "Emplacement du panneau par rapport au terminal.",
+        "right": "Droite",
+        "left": "Gauche",
+        "bottom": "Bas"
+      },
+      "companionSize": {
+        "label": "Taille du panneau d'interface web",
+        "description": "Largeur, ou hauteur en bas, en pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Bouton de bord du panneau Web UI",
+        "description": "Affiche un petit bouton sur le bord du terminal pour ouvrir le panneau."
+      }
     }
   },
   "plugin": {
     "name": "Point de terminaison Web",
     "description": "Ouvrez l'interface web d'un hôte dans Termix, directement ou via un tunnel SSH."
+  },
+  "companion": {
+    "toggle": "Panneau Web UI",
+    "openTab": "Ouvrir dans un onglet"
+  },
+  "card": {
+    "title": "Interfaces Web",
+    "empty": "Aucune interface Web pour le moment. Ajoutez-en une dans les paramètres Web UI d’un hôte.",
+    "open": "Ouvrir"
   }
 }

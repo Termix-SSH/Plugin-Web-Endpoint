@@ -63,10 +63,46 @@
         "label": "Laat toe tunnels op ander adresse",
         "description": "Laat 'n eindpunt se bindadres sy tunnel op hierdie bediener se netwerk publiseer, sonder 'n Termix-aanmelding daarvoor. Verwyder dit: browsers bereik tunnels deur Termix self."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Paneel langs die terminaal",
+        "description": "Bied 'n web-gebruikerskoppelvlak-paneel langs hierdie gasheer se SSH-terminaal."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Maak die web-gebruikerskoppelvlak-paneel oop met 'n terminaal",
+        "description": "Wys die web-gebruikerskoppelvlak-paneel wanneer 'n terminaal oopmaak op 'n gasheer wat dit het."
+      },
+      "companionSide": {
+        "label": "Web-gebruikerskoppelvlak-paneel se kant",
+        "description": "Waar die paneel langs die terminaal sit.",
+        "right": "Regs",
+        "left": "Links",
+        "bottom": "Onder"
+      },
+      "companionSize": {
+        "label": "Web-gebruikerskoppelvlak-paneel se grootte",
+        "description": "Breedte, of hoogte aan die onderkant, in pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Web-UI-paneel randknoppie",
+        "description": "Wys 'n klein knoppie op die terminaalrand om die paneel oop te maak."
+      }
     }
   },
   "plugin": {
     "name": "Web-eindpunt",
     "description": "Open 'n gasheer se web-gebruikerskoppelvlak binne Termix, direk of oor 'n SSH-tunnel."
+  },
+  "companion": {
+    "toggle": "Web-UI-paneel",
+    "openTab": "Maak in 'n tabblad oop"
+  },
+  "card": {
+    "title": "Web-UI's",
+    "empty": "Nog geen web-UI's nie. Voeg een by in 'n gasheer se Web-UI-instellings.",
+    "open": "Maak oop"
   }
 }

@@ -63,10 +63,46 @@
         "label": "Atļaut tunelis uz citām adresēm",
         "description": "Ļauj galapunkta pieslēgšanās adresei publicēt savu tuneli šī servera tīklā, bez Termix pieteikšanās ekrāna. Atstāj izslēgtu: pārlūkprogrammas sasniedz tunelis caur pašu Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panelis blakus terminālim",
+        "description": "Piedāvāt tīmekļa lietotnes saskarnes paneli blakus šī resursdatora SSH terminālim."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Atvērt tīmekļa lietotnes saskarnes paneli kopā ar termināli",
+        "description": "Rādīt tīmekļa lietotnes saskarnes paneli, kad tiek atvērts terminālis resursdatorā, kurš to atbalsta."
+      },
+      "companionSide": {
+        "label": "Tīmekļa lietotnes saskarnes panela puse",
+        "description": "Kur atrodas panelis blakus terminālim.",
+        "right": "Labajā pusē",
+        "left": "Kreisajā pusē",
+        "bottom": "Apakšā"
+      },
+      "companionSize": {
+        "label": "Tīmekļa lietotnes saskarnes panela izmērs",
+        "description": "Platums vai augstums (ja atrodas apakšā) pikseļos."
+      },
+      "companionEdgeButton": {
+        "label": "Tīmekļa lietotnes saskarnes panela malas poga",
+        "description": "Rādīt mazu pogu termināļa malā, lai atvērtu paneli."
+      }
     }
   },
   "plugin": {
     "name": "Tīmekļa galapunkts",
     "description": "Atveriet hosta tīmekļa lietotnes saskarni Termix iekšienē, tieši vai caur SSH tuneli."
+  },
+  "companion": {
+    "toggle": "Tīmekļa lietotnes saskarnes panelis",
+    "openTab": "Atvērt cilnē"
+  },
+  "card": {
+    "title": "Tīmekļa lietotnes saskarnes",
+    "empty": "Vēl nav tīmekļa lietotnes saskarnes. Pievienojiet vienu resursdatora tīmekļa lietotnes saskarnes iestatījumos.",
+    "open": "Atvērt"
   }
 }

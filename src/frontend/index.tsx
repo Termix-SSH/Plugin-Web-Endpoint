@@ -1,71 +1,20 @@
 import { Globe } from "lucide-react";
-import i18next from "i18next";
-import { toast } from "sonner";
 import type {
   HostEditorSectionProps,
-  PluginHostRecord,
-  ShellApi,
   TabProps,
   TermixApp,
 } from "@termix-ssh/plugin-sdk/frontend";
 import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
-import type { WebEndpoint } from "../shared/web-endpoint-config";
 import { WebEndpointTab } from "./WebEndpointTab";
 import { HostEditorWebUiSection } from "./HostEditorWebUiSection";
+import { setWebEndpointApi } from "./web-endpoint-api";
+import { TAB_TYPE, endpointsOf, openEndpoint } from "./endpoints";
 import {
-  openWebEndpointExternally,
-  setWebEndpointApi,
-} from "./web-endpoint-api";
-
-const TAB_TYPE = "web-endpoint";
-
-function webEndpointSettings(host: PluginHostRecord): {
-  enableWebUi: boolean;
-  webUiConfig: { endpoints: WebEndpoint[] };
-} {
-  const settings = (
-    host.pluginSettings as Record<string, Record<string, unknown>> | undefined
-  )?.["web-endpoint"];
-  return {
-    enableWebUi: settings?.enableWebUi === true,
-    webUiConfig: (settings?.webUiConfig as
-      { endpoints: WebEndpoint[] } | undefined) ?? {
-      endpoints: [],
-    },
-  };
-}
-
-function endpointsOf(host: PluginHostRecord): WebEndpoint[] {
-  const { enableWebUi, webUiConfig } = webEndpointSettings(host);
-  if (!enableWebUi) return [];
-  return webUiConfig.endpoints ?? [];
-}
-
-function openEndpoint(
-  host: PluginHostRecord,
-  endpoint: WebEndpoint,
-  shell: ShellApi,
-): void {
-  if (endpoint.render === "external") {
-    // No tab at all: the real browser opens it. On the desktop the plugin
-    // asks the backend to open it in an isolated window.
-    openWebEndpointExternally(
-      host as unknown as { id: string; ip: string },
-      endpoint,
-    ).catch((error: unknown) => {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : i18next.t("web-endpoint:hosts.webUiOpenFailed"),
-      );
-    });
-    return;
-  }
-  shell.openTab(host, TAB_TYPE, {
-    label: endpoint.label,
-    data: { endpointId: endpoint.id },
-  });
-}
+  WebEndpointCompanion,
+  WebEndpointsCard,
+  useWebCompanionDefaults,
+  webPanelEnabled,
+} from "./WebEndpointCompanion";
 
 function EndpointTab({ host, tab }: TabProps) {
   // Resolved against the host on every render, so an endpoint deleted while
@@ -128,4 +77,47 @@ export function activate(app: TermixApp): void {
     order: 40,
     component: WebUiSection,
   });
+
+  app.registerDashboardCard({
+    id: "web-endpoints",
+    titleKey: "card.title",
+    defaultPanel: "side",
+    defaultHeight: 200,
+    frame: "framed",
+    component: WebEndpointsCard,
+  });
+
+  // Cores before 26.10.3 have no panels beside tabs.
+  if (typeof app.registerCompanion === "function") {
+    app.registerCompanion("web", WebEndpointCompanion, {
+      icon: Globe,
+      titleKey: "hosts.tabWebUi",
+      order: 110,
+      tabTypes: ["terminal"],
+      when: (_tab, host) => webPanelEnabled(host),
+      useDefaults: useWebCompanionDefaults,
+    });
+    app.registerAction("web-endpoint.togglePanel", ((
+      _handle: unknown,
+      tab: unknown,
+    ) => app.toggleCompanion(tab as never, "web")) as never);
+    app.registerSlotContribution("tab.menu", {
+      actionId: "web-endpoint.togglePanel",
+      titleKey: "companion.toggle",
+      icon: Globe,
+      kind: "button",
+      order: 14,
+      when: (context) => {
+        const tab = context.tab as {
+          type?: string;
+          host?: unknown;
+          hostConfig?: unknown;
+        } | null;
+        return (
+          tab?.type === "terminal" &&
+          webPanelEnabled((tab.host ?? tab.hostConfig) as never)
+        );
+      },
+    });
+  }
 }

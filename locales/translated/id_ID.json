@@ -63,10 +63,46 @@
         "label": "Izinkan terowongan pada alamat lain",
         "description": "Memungkinkan alamat pengikatan titik akhir menerbitkan terowongannya di jaringan server ini, tanpa login Termix di depannya. Nonaktifkan: browser mengakses terowongan melalui Termix itu sendiri."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel di samping terminal",
+        "description": "Menampilkan panel antarmuka web di sebelah terminal SSH host ini."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Buka panel antarmuka web bersama terminal",
+        "description": "Tampilkan panel antarmuka web saat terminal terbuka pada host yang mendukungnya."
+      },
+      "companionSide": {
+        "label": "Posisi panel antarmuka web",
+        "description": "Di mana panel berada di sebelah terminal.",
+        "right": "Kanan",
+        "left": "Kiri",
+        "bottom": "Bawah"
+      },
+      "companionSize": {
+        "label": "Ukuran panel antarmuka web",
+        "description": "Lebar, atau tinggi jika di bawah, dalam piksel."
+      },
+      "companionEdgeButton": {
+        "label": "Tombol tepi panel antarmuka web",
+        "description": "Tampilkan tombol kecil di tepi terminal untuk membuka panel."
+      }
     }
   },
   "plugin": {
     "name": "Titik Akhir Web",
     "description": "Buka antarmuka web host di dalam Termix, secara langsung atau melalui terowongan SSH."
+  },
+  "companion": {
+    "toggle": "Panel antarmuka web",
+    "openTab": "Buka di tab"
+  },
+  "card": {
+    "title": "Antarmuka Web",
+    "empty": "Belum ada antarmuka web. Tambahkan satu di pengaturan Antarmuka Web host.",
+    "open": "Buka"
   }
 }

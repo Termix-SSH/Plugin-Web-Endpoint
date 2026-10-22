@@ -63,10 +63,46 @@
         "label": "Cho phép đường hầm trên các địa chỉ khác",
         "description": "Cho phép địa chỉ gắn kết của điểm cuối công bố đường hầm của nó trên mạng của máy chủ này, mà không có đăng nhập Termix ở phía trước. Tắt: trình duyệt truy cập đường hầm thông qua chính Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Bảng điều khiển bên cạnh terminal",
+        "description": "Hiển thị bảng điều khiển giao diện web bên cạnh terminal SSH của máy chủ này."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Mở bảng điều khiển giao diện web cùng với terminal",
+        "description": "Hiển thị bảng điều khiển giao diện web khi mở terminal trên máy chủ có hỗ trợ tính năng này."
+      },
+      "companionSide": {
+        "label": "Vị trí bảng điều khiển giao diện web",
+        "description": "Vị trí của bảng điều khiển so với terminal.",
+        "right": "Phải",
+        "left": "Trái",
+        "bottom": "Dưới"
+      },
+      "companionSize": {
+        "label": "Kích thước bảng điều khiển giao diện web",
+        "description": "Chiều rộng, hoặc chiều cao nếu ở dưới cùng, tính bằng pixel."
+      },
+      "companionEdgeButton": {
+        "label": "Nút cạnh bảng điều khiển giao diện web",
+        "description": "Hiển thị một nút nhỏ ở cạnh terminal để mở bảng điều khiển."
+      }
     }
   },
   "plugin": {
     "name": "Điểm cuối Web",
     "description": "Mở giao diện web của máy chủ bên trong Termix, trực tiếp hoặc qua đường hầm SSH."
+  },
+  "companion": {
+    "toggle": "Bảng điều khiển giao diện web",
+    "openTab": "Mở trong tab"
+  },
+  "card": {
+    "title": "Giao diện web",
+    "empty": "Chưa có giao diện web nào. Hãy thêm một giao diện trong cài đặt Giao diện web của máy chủ.",
+    "open": "Mở"
   }
 }

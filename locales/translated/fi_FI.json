@@ -63,10 +63,46 @@
         "label": "Salli tunnelit muilla osoitteilla",
         "description": "Mahdollistaa päätepisteen sitomisosoitteen julkaiseman tunnelin palvelimen verkossa ilman Termix-kirjautumista sen edessä. Jätä pois: selaimet saavat tunnelit Termixin kautta."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Paneeli terminaalin vieressä",
+        "description": "Tarjoa verkkokäyttöliittymäpaneeli tämän isäntäterminaalin vieressä."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Avaa verkkokäyttöliittymäpaneeli terminaalin kanssa",
+        "description": "Näytä verkkokäyttöliittymäpaneeli, kun terminaali avautuu isännällä, jossa se on käytössä."
+      },
+      "companionSide": {
+        "label": "Verkkokäyttöliittymäpaneelin sijainti",
+        "description": "Missä paneeli sijaitsee terminaalin vieressä.",
+        "right": "Oikealla",
+        "left": "Vasemmalla",
+        "bottom": "Alareunassa"
+      },
+      "companionSize": {
+        "label": "Verkkokäyttöliittymäpaneelin koko",
+        "description": "Leveys tai korkeus alareunassa pikseleinä."
+      },
+      "companionEdgeButton": {
+        "label": "Verkkokäyttöliittymäpaneelin reunapainike",
+        "description": "Näytä pieni painike terminaalireunassa paneelin avaamiseen."
+      }
     }
   },
   "plugin": {
     "name": "Web-päätepiste",
     "description": "Avaa isäntäkonetta vastaava web-käyttöliittymä Termixin sisällä suoraan tai SSH-tunnelin kautta."
+  },
+  "companion": {
+    "toggle": "Verkkokäyttöliittymäpaneeli",
+    "openTab": "Avaa välilehdellä"
+  },
+  "card": {
+    "title": "Verkkokäyttöliittymät",
+    "empty": "Ei vielä verkkokäyttöliittymiä. Lisää yksi isäntälaitteen verkkokäyttöliittymäasetuksista.",
+    "open": "Avaa"
   }
 }

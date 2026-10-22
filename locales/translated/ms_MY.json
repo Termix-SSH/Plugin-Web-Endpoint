@@ -63,10 +63,46 @@
         "label": "Izinkan terusan pada alamat lain",
         "description": "Membolehkan alamat pengikat hujung akhir menerbitkan terusan pada rangkaian pelayan ini, tanpa log masuk Termix di hadapannya. Biarkan tidak aktif: pelayar web mengakses terusan melalui Termix itu sendiri."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel di sebelah terminal",
+        "description": "Tawarkan panel UI web di sebelah terminal SSH hos ini."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Buka panel UI web dengan terminal",
+        "description": "Paparkan panel UI web apabila terminal dibuka pada hos yang menyokongnya."
+      },
+      "companionSide": {
+        "label": "Sisi panel UI web",
+        "description": "Di mana panel diletakkan di sebelah terminal.",
+        "right": "Kanan",
+        "left": "Kiri",
+        "bottom": "Bawah"
+      },
+      "companionSize": {
+        "label": "Saiz panel UI web",
+        "description": "Lebar, atau tinggi di bahagian bawah, dalam piksel."
+      },
+      "companionEdgeButton": {
+        "label": "Butang tepi panel UI web",
+        "description": "Paparkan butang kecil di tepi terminal untuk membuka panel."
+      }
     }
   },
   "plugin": {
     "name": "Hujung Akhir Web",
     "description": "Buka antara muka web hos di dalam Termix, secara langsung atau melalui terusan SSH."
+  },
+  "companion": {
+    "toggle": "Panel UI web",
+    "openTab": "Buka dalam tab"
+  },
+  "card": {
+    "title": "UI Web",
+    "empty": "Tiada UI web lagi. Tambahkan satu dalam tetapan UI Web hos.",
+    "open": "Buka"
   }
 }

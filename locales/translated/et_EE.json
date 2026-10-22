@@ -63,10 +63,46 @@
         "label": "Luba tunnelid teistel aadressidel",
         "description": "Võimaldab lõpp-punkti sidumisadressil avaldada oma tunneli selle serveri võrgus ilma Termixi sisselogimiseta. Jäta välja: brauserid jõuavad tunneliteni läbi Termixi enda."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Paneel terminali kõrval",
+        "description": "Paku veebi-liidese paneeli selle hosti SSH-terminali kõrval."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Ava veebi-liidese paneel koos terminaliga",
+        "description": "Kuva veebi-liidese paneel, kui terminal avatakse hostil, millel see on saadaval."
+      },
+      "companionSide": {
+        "label": "Veebi-liidese paneeli asukoht",
+        "description": "Kus paneel terminali kõrval asub.",
+        "right": "Parem",
+        "left": "Vasak",
+        "bottom": "Alumine"
+      },
+      "companionSize": {
+        "label": "Veebi-liidese paneeli suurus",
+        "description": "Laius või alumine kõrgus pikslites."
+      },
+      "companionEdgeButton": {
+        "label": "Veebi-liidese paneeli servanupp",
+        "description": "Kuva terminali serval väike nupp paneeli avamiseks."
+      }
     }
   },
   "plugin": {
     "name": "Veebi lõpp-punkt",
     "description": "Ava hosti veebi-liides Termixis otse või SSH-tunni kaudu."
+  },
+  "companion": {
+    "toggle": "Veebi-liidese paneel",
+    "openTab": "Ava uuel vahelehel"
+  },
+  "card": {
+    "title": "Veebi-liidesed",
+    "empty": "Veebi-liideseid pole veel. Lisa üks hosti veebi-liidese seadetest.",
+    "open": "Ava"
   }
 }

@@ -63,10 +63,46 @@
         "label": "Povolit tunely na jiných adresách",
         "description": "Umožňuje, aby se bindovací adresa koncového bodu zveřejnila v síti tohoto serveru bez nutnosti přihlášení do Termixu. Pokud je vypnuto: prohlížeče se k tunelům dostávají přímo přes Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel vedle terminálu",
+        "description": "Nabídnout panel webového rozhraní vedle SSH terminálu tohoto hostitele."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Otevřít panel webového rozhraní s terminálem",
+        "description": "Zobrazit panel webového rozhraní při otevření terminálu na hostiteli, který jej má."
+      },
+      "companionSide": {
+        "label": "Pozice panelu webového rozhraní",
+        "description": "Umístění panelu vedle terminálu.",
+        "right": "Vpravo",
+        "left": "Vlevo",
+        "bottom": "Dole"
+      },
+      "companionSize": {
+        "label": "Velikost panelu webového rozhraní",
+        "description": "Šířka, nebo výška dole, v pixelech."
+      },
+      "companionEdgeButton": {
+        "label": "Tlačítko na okraji panelu webového rozhraní",
+        "description": "Zobrazit malé tlačítko na okraji terminálu pro otevření panelu."
+      }
     }
   },
   "plugin": {
     "name": "Webový koncový bod",
     "description": "Otevřete webové rozhraní hostitele přímo v Termixu, přímo nebo přes SSH tunel."
+  },
+  "companion": {
+    "toggle": "Panel webového rozhraní",
+    "openTab": "Otevřít v záložce"
+  },
+  "card": {
+    "title": "Webová rozhraní",
+    "empty": "Zatím žádná webová rozhraní. Přidejte jedno v nastavení webového rozhraní hostitele.",
+    "open": "Otevřít"
   }
 }

@@ -63,10 +63,46 @@
         "label": "Diğer adreslerde tünellemeye izin ver",
         "description": "Bir uç noktanın bağlandığı adresin, Termix girişi olmadan bu sunucunun ağında tünelini yayınlamasına olanak tanır. Kapatın: tarayıcılar tünelere Termix üzerinden erişir."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Terminalin yanında panel",
+        "description": "Bu sunucunun SSH terminalinin yanında bir web arayüzü paneli sun."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Terminal ile web arayüzü panelini aç",
+        "description": "Terminal, web arayüzü paneline sahip bir sunucuda açıldığında paneli göster."
+      },
+      "companionSide": {
+        "label": "Web arayüzü paneli konumu",
+        "description": "Panelin terminalin yanında nerede yer alacağı.",
+        "right": "Sağ",
+        "left": "Sol",
+        "bottom": "Alt"
+      },
+      "companionSize": {
+        "label": "Web arayüzü paneli boyutu",
+        "description": "Genişlik veya altta yükseklik (piksel cinsinden)."
+      },
+      "companionEdgeButton": {
+        "label": "Web arayüzü paneli kenar düğmesi",
+        "description": "Paneli açmak için terminalin kenarında küçük bir düğme göster."
+      }
     }
   },
   "plugin": {
     "name": "Web Uç Noktası",
     "description": "Bir sunucunun web arayüzünü Termix içinde doğrudan veya bir SSH tüneli üzerinden açın."
+  },
+  "companion": {
+    "toggle": "Web arayüzü paneli",
+    "openTab": "Bir sekmede aç"
+  },
+  "card": {
+    "title": "Web Arayüzleri",
+    "empty": "Henüz web arayüzü yok. Bir sunucunun Web Arayüzü ayarlarından ekleyin.",
+    "open": "Aç"
   }
 }

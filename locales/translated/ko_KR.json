@@ -63,10 +63,46 @@
         "label": "다른 주소에서 터널 허용",
         "description": "엔드포인트의 바인드 주소를 이 서버의 네트워크에 터널을 게시하도록 허용합니다. Termix 로그인이 필요하지 않습니다. 비활성화하면 브라우저는 Termix를 통해 터널에 접근합니다."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "터미널 옆 패널",
+        "description": "이 호스트의 SSH 터미널 옆에 웹 UI 패널을 제공합니다."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "터미널과 함께 웹 UI 패널 열기",
+        "description": "웹 UI가 있는 호스트에서 터미널이 열릴 때 웹 UI 패널을 표시합니다."
+      },
+      "companionSide": {
+        "label": "웹 UI 패널 위치",
+        "description": "터미널 옆에 패널이 배치되는 위치입니다.",
+        "right": "오른쪽",
+        "left": "왼쪽",
+        "bottom": "아래쪽"
+      },
+      "companionSize": {
+        "label": "웹 UI 패널 크기",
+        "description": "픽셀 단위의 너비 또는 아래쪽 배치 시 높이입니다."
+      },
+      "companionEdgeButton": {
+        "label": "웹 UI 패널 가장자리 버튼",
+        "description": "패널을 열 수 있는 작은 버튼을 터미널 가장자리에 표시합니다."
+      }
     }
   },
   "plugin": {
     "name": "웹 엔드포인트",
     "description": "호스트의 웹 UI를 Termix에서 직접 또는 SSH 터널을 통해 엽니다."
+  },
+  "companion": {
+    "toggle": "웹 UI 패널",
+    "openTab": "탭에서 열기"
+  },
+  "card": {
+    "title": "웹 UI",
+    "empty": "아직 웹 UI가 없습니다. 호스트의 웹 UI 설정에서 추가하세요.",
+    "open": "열기"
   }
 }

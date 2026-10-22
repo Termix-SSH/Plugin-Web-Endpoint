@@ -1,7 +1,7 @@
 {
   "id": "web-endpoint",
   "name": "Web Endpoint",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel.",
   "author": {
     "name": "Termix"
@@ -15,10 +15,11 @@
   "features": [
     "Open a web UI in a Termix tab or its own desktop window",
     "Connect directly, or over an SSH tunnel through the host",
-    "Embedded pages never see your Termix login"
+    "Embedded pages never see your Termix login",
+    "A web UI panel beside the SSH terminal and a dashboard card to open any web UI"
   ],
   "engine": {
-    "termix": ">=26.10.0",
+    "termix": ">=26.10.3",
     "api": "^1.9"
   },
   "capabilities": [
@@ -57,6 +58,14 @@
             "labelKey": "hosts.webUiEndpointsSection",
             "requires": "enableWebUi",
             "defaultable": false
+          },
+          {
+            "key": "showPanel",
+            "type": "boolean",
+            "labelKey": "settings.host.showPanel.label",
+            "descriptionKey": "settings.host.showPanel.description",
+            "default": true,
+            "requires": "enableWebUi"
           }
         ]
       },
@@ -68,13 +77,66 @@
           "descriptionKey": "settings.admin.allowExposedBind.description",
           "default": false
         }
+      ],
+      "user": [
+        {
+          "key": "companionAutoOpen",
+          "type": "boolean",
+          "labelKey": "settings.user.companionAutoOpen.label",
+          "descriptionKey": "settings.user.companionAutoOpen.description",
+          "default": false
+        },
+        {
+          "key": "companionSide",
+          "type": "select",
+          "labelKey": "settings.user.companionSide.label",
+          "descriptionKey": "settings.user.companionSide.description",
+          "default": "right",
+          "options": [
+            {
+              "value": "right",
+              "labelKey": "settings.user.companionSide.right"
+            },
+            {
+              "value": "left",
+              "labelKey": "settings.user.companionSide.left"
+            },
+            {
+              "value": "bottom",
+              "labelKey": "settings.user.companionSide.bottom"
+            }
+          ]
+        },
+        {
+          "key": "companionSize",
+          "type": "number",
+          "labelKey": "settings.user.companionSize.label",
+          "descriptionKey": "settings.user.companionSize.description",
+          "min": 240,
+          "max": 900,
+          "default": 520
+        },
+        {
+          "key": "companionEdgeButton",
+          "type": "boolean",
+          "labelKey": "settings.user.companionEdgeButton.label",
+          "descriptionKey": "settings.user.companionEdgeButton.description",
+          "default": true
+        }
       ]
     },
     "hostCapability": {
       "key": "enableWebUi",
       "labelKey": "hosts.tabWebUi",
       "editorTab": "general"
-    }
+    },
+    "dashboardCards": [
+      {
+        "id": "web-endpoints",
+        "titleKey": "card.title",
+        "icon": "Globe"
+      }
+    ]
   },
   "locales": "locales",
   "platforms": ["linux", "win32", "darwin"]

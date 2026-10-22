@@ -63,10 +63,46 @@
         "label": "Omogoči tunele na drugih naslovih",
         "description": "Omogoči, da naslov vezave končne točke objavi svoj tunel na omrežju tega strežnika, brez prijave v Termix. Če je izklopljeno: brskalniki dostopajo do tunelov prek samega Termixa."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Plošča ob terminalu",
+        "description": "Omogoči spletno uporabniško vmesniško ploščo ob SSH terminalu tega gostitelja."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Odpri spletno uporabniško vmesniško ploščo s terminalom",
+        "description": "Prikaži spletno uporabniško vmesniško ploščo, ko se na gostitelju, ki jo podpira, odpre terminal."
+      },
+      "companionSide": {
+        "label": "Stran spletne uporabniške vmesniške plošče",
+        "description": "Kje se plošča nahaja ob terminalu.",
+        "right": "Desno",
+        "left": "Levo",
+        "bottom": "Spodaj"
+      },
+      "companionSize": {
+        "label": "Velikost spletne uporabniške vmesniške plošče",
+        "description": "Širina ali višina (če je spodaj) v slikovnih točkah."
+      },
+      "companionEdgeButton": {
+        "label": "Gumb na robu spletne uporabniške vmesniške plošče",
+        "description": "Prikaži majhen gumb na robu terminala za odpiranje plošče."
+      }
     }
   },
   "plugin": {
     "name": "Spletna končna točka",
     "description": "Odprite spletni vmesnik gostitelja znotraj Termixa, neposredno ali prek SSH tunela."
+  },
+  "companion": {
+    "toggle": "Spletna uporabniška vmesniška plošča",
+    "openTab": "Odpri v zavihku"
+  },
+  "card": {
+    "title": "Spletne uporabniške vmesnice",
+    "empty": "Še ni spletnih uporabniških vmesnic. Dodajte eno v nastavitvah spletne uporabniške vmesnice gostitelja.",
+    "open": "Odpri"
   }
 }

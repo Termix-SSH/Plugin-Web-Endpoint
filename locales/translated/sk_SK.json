@@ -63,10 +63,46 @@
         "label": "Povoliť tunely na iných adresách",
         "description": "Umožňuje, aby sa bindovacia adresa koncového bodu zverejnila v sieti tohto servera bez nutnosti prihlásenia do Termixu. Vypnuté: prehliadače sa k tunelom dostanú cez samotný Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel vedľa terminálu",
+        "description": "Umožniť webové rozhranie vedľa SSH terminálu tohto hostiteľa."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Otvoriť panel webového rozhrania s terminálom",
+        "description": "Zobraziť panel webového rozhrania pri otvorení terminálu na hostiteľovi, ktorý ho má."
+      },
+      "companionSide": {
+        "label": "Poloha panela webového rozhrania",
+        "description": "Kde sa panel nachádza vedľa terminálu.",
+        "right": "Vpravo",
+        "left": "Vľavo",
+        "bottom": "Dole"
+      },
+      "companionSize": {
+        "label": "Veľkosť panela webového rozhrania",
+        "description": "Šírka, alebo výška pri umiestnení dole, v pixeloch."
+      },
+      "companionEdgeButton": {
+        "label": "Tlačidlo na okraji panela webového rozhrania",
+        "description": "Zobraziť malé tlačidlo na okraji terminálu na otvorenie panela."
+      }
     }
   },
   "plugin": {
     "name": "Webový koncový bod",
     "description": "Otvorte webové rozhranie hostiteľa priamo v Termixe alebo cez SSH tunel."
+  },
+  "companion": {
+    "toggle": "Panel webového rozhrania",
+    "openTab": "Otvoriť v karte"
+  },
+  "card": {
+    "title": "Webové rozhrania",
+    "empty": "Zatiaľ žiadne webové rozhrania. Pridajte jedno v nastaveniach webového rozhrania hostiteľa.",
+    "open": "Otvoriť"
   }
 }

@@ -63,10 +63,46 @@
         "label": "Tunnels op andere adressen toestaan",
         "description": "Staat een eindpunt toe om zijn bindadres te publiceren op het netwerk van deze server, zonder Termix-inlog er voor. Zet uit: browsers bereiken tunnels via Termix zelf."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Paneel naast de terminal",
+        "description": "Een web-UI-paneel aanbieden naast de SSH-terminal van deze host."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Web-UI-paneel openen met een terminal",
+        "description": "Het web-UI-paneel tonen wanneer een terminal opent op een host die dit heeft."
+      },
+      "companionSide": {
+        "label": "Positie web-UI-paneel",
+        "description": "Waar het paneel naast de terminal staat.",
+        "right": "Rechts",
+        "left": "Links",
+        "bottom": "Onder"
+      },
+      "companionSize": {
+        "label": "Grootte web-UI-paneel",
+        "description": "Breedte, of hoogte onderaan, in pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Knop aan de rand van het webinterface-paneel",
+        "description": "Toon een kleine knop aan de rand van het terminalvenster om het paneel te openen."
+      }
     }
   },
   "plugin": {
     "name": "Web-eindpunt",
     "description": "Open de web-UI van een host binnen Termix, direct of via een SSH-tunnel."
+  },
+  "companion": {
+    "toggle": "Webinterface-paneel",
+    "openTab": "Openen in een tabblad"
+  },
+  "card": {
+    "title": "Webinterfaces",
+    "empty": "Nog geen webinterfaces. Voeg er een toe in de webinterface-instellingen van een host.",
+    "open": "Openen"
   }
 }

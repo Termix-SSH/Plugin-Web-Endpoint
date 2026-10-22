@@ -63,10 +63,46 @@
         "label": "Leisti tunelius kituose adresuose",
         "description": "Leidžia galinio taško prisijungimo adresui skelbti savo tunelį šio serverio tinkle, be Termix prisijungimo ekrano. Jei išjungta: naršyklės pasiekia tunelius per patį Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Skydelis šalia terminalo",
+        "description": "Rodyti „Web UI“ skydelį šalia šio serverio SSH terminalo."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Atidaryti „Web UI“ skydelį kartu su terminalu",
+        "description": "Rodyti „Web UI“ skydelį, kai atidaromas terminalas serveryje, kuriame jis yra."
+      },
+      "companionSide": {
+        "label": "„Web UI“ skydelio padėtis",
+        "description": "Kur skydelis yra šalia terminalo.",
+        "right": "Dešinėje",
+        "left": "Kairėje",
+        "bottom": "Apačioje"
+      },
+      "companionSize": {
+        "label": "„Web UI“ skydelio dydis",
+        "description": "Plotis arba aukštis (jei apačioje) pikseliais."
+      },
+      "companionEdgeButton": {
+        "label": "„Web UI“ skydelio krašto mygtukas",
+        "description": "Rodyti mažą mygtuką terminalo krašte, skirtą skydeliui atidaryti."
+      }
     }
   },
   "plugin": {
     "name": "Naršyklės galinis taškas",
     "description": "Atidarykite hosto naršyklės sąsają Termix viduje, tiesiogiai arba per SSH tunelį."
+  },
+  "companion": {
+    "toggle": "„Web UI“ skydelis",
+    "openTab": "Atidaryti skirtuke"
+  },
+  "card": {
+    "title": "„Web UI“ sąsajos",
+    "empty": "Dar nėra „Web UI“ sąsajų. Pridėkite vieną serverio „Web UI“ nustatymuose.",
+    "open": "Atidaryti"
   }
 }

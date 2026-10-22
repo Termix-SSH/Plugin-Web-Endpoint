@@ -63,10 +63,46 @@
         "label": "Zezwól na tunele na innych adresach",
         "description": "Pozwala adresowi wiązania punktu końcowego opublikować tunel w sieci tego serwera, bez konieczności logowania się do Termix. Wyłącz: przeglądarki łączą się z tunelami przez sam Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel obok terminala",
+        "description": "Zapewnij panel interfejsu webowego obok terminala SSH tego hosta."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Otwieraj panel interfejsu webowego razem z terminalem",
+        "description": "Wyświetlaj panel interfejsu webowego, gdy terminal otwiera się na hoście, który go obsługuje."
+      },
+      "companionSide": {
+        "label": "Położenie panelu interfejsu webowego",
+        "description": "Gdzie panel znajduje się względem terminala.",
+        "right": "Prawa strona",
+        "left": "Lewa strona",
+        "bottom": "Dół"
+      },
+      "companionSize": {
+        "label": "Rozmiar panelu interfejsu webowego",
+        "description": "Szerokość, lub wysokość przy umieszczeniu na dole, w pikselach."
+      },
+      "companionEdgeButton": {
+        "label": "Przycisk krawędziowy panelu interfejsu webowego",
+        "description": "Wyświetlaj mały przycisk na krawędzi terminala do otwierania panelu."
+      }
     }
   },
   "plugin": {
     "name": "Punkt końcowy webowy",
     "description": "Otwórz interfejs webowy hosta w Termix, bezpośrednio lub przez tunel SSH."
+  },
+  "companion": {
+    "toggle": "Panel interfejsu webowego",
+    "openTab": "Otwórz w karcie"
+  },
+  "card": {
+    "title": "Interfejsy webowe",
+    "empty": "Brak interfejsów webowych. Dodaj jeden w ustawieniach interfejsu webowego hosta.",
+    "open": "Otwórz"
   }
 }

@@ -63,10 +63,46 @@
         "label": "Permite tuneluri pe alte adrese",
         "description": "Permite unei adrese de legare a unui punct final să publice tunelul său pe rețeaua acestui server, fără autentificare Termix în fața sa. Dezactivează: browserele ajung la tuneluri prin Termix însuși."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panoul lângă terminal",
+        "description": "Afișează un panou de interfață web lângă terminalul SSH al acestui gazdă."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Deschide panoul de interfață web împreună cu un terminal",
+        "description": "Afișează panoul de interfață web când se deschide un terminal pe o gazdă care are unul configurat."
+      },
+      "companionSide": {
+        "label": "Poziția panoului de interfață web",
+        "description": "Unde se află panoul în raport cu terminalul.",
+        "right": "Dreapta",
+        "left": "Stânga",
+        "bottom": "Jos"
+      },
+      "companionSize": {
+        "label": "Dimensiunea panoului de interfață web",
+        "description": "Lățimea, sau înălțimea dacă este jos, în pixeli."
+      },
+      "companionEdgeButton": {
+        "label": "Butonul de margine pentru panoul de interfață web",
+        "description": "Afișează un buton mic pe marginea terminalului pentru a deschide panoul."
+      }
     }
   },
   "plugin": {
     "name": "Punct final web",
     "description": "Deschide interfața web a unui gazdă în Termix, direct sau printr-un tunel SSH."
+  },
+  "companion": {
+    "toggle": "Panoul de interfață web",
+    "openTab": "Deschide într-o filă"
+  },
+  "card": {
+    "title": "Interfețe web",
+    "empty": "Încă nu există interfețe web. Adaugă una în setările de interfață web ale unei gazde.",
+    "open": "Deschide"
   }
 }

@@ -63,10 +63,46 @@
         "label": "允许在其他地址上创建隧道",
         "description": "允许端点的绑定地址在此服务器的网络上发布其隧道，且无需经过 Termix 登录验证。若未启用：浏览器将通过 Termix 本身访问隧道。"
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "终端旁边的面板",
+        "description": "在此主机的 SSH 终端旁提供 Web UI 面板。"
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "随终端打开 Web UI 面板",
+        "description": "当在支持该功能的主机上打开终端时，显示 Web UI 面板。"
+      },
+      "companionSide": {
+        "label": "Web UI 面板位置",
+        "description": "面板相对于终端的位置。",
+        "right": "右侧",
+        "left": "左侧",
+        "bottom": "底部"
+      },
+      "companionSize": {
+        "label": "Web UI 面板大小",
+        "description": "宽度，或底部的高度，单位为像素。"
+      },
+      "companionEdgeButton": {
+        "label": "Web UI 面板边缘按钮",
+        "description": "在终端边缘显示一个小按钮，用于打开面板。"
+      }
     }
   },
   "plugin": {
     "name": "Web 端点",
     "description": "在 Termix 中直接或通过 SSH 隧道打开主机的 Web 界面。"
+  },
+  "companion": {
+    "toggle": "Web UI 面板",
+    "openTab": "在标签页中打开"
+  },
+  "card": {
+    "title": "Web UI",
+    "empty": "暂无 Web UI。请在主机的 Web UI 设置中添加一个。",
+    "open": "打开"
   }
 }

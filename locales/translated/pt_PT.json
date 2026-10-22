@@ -63,10 +63,46 @@
         "label": "Permitir túneis em outros endereços",
         "description": "Permite que o endereço de ligação de um ponto final publique o seu túnel na rede deste servidor, sem necessidade de login no Termix. Desative: os navegadores acedem aos túneis através do próprio Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Painel junto ao terminal",
+        "description": "Disponibilizar um painel de interface web junto ao terminal SSH deste host."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Abrir o painel de interface web com um terminal",
+        "description": "Mostrar o painel de interface web quando um terminal se abre num host que o tenha."
+      },
+      "companionSide": {
+        "label": "Lado do painel de interface web",
+        "description": "Onde o painel fica junto ao terminal.",
+        "right": "Direita",
+        "left": "Esquerda",
+        "bottom": "Inferior"
+      },
+      "companionSize": {
+        "label": "Tamanho do painel de interface web",
+        "description": "Largura, ou altura na parte inferior, em pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Botão lateral do painel de interface web",
+        "description": "Mostrar um pequeno botão na borda do terminal para abrir o painel."
+      }
     }
   },
   "plugin": {
     "name": "Ponto Final Web",
     "description": "Abra a interface web de um host dentro do Termix, diretamente ou através de um túnel SSH."
+  },
+  "companion": {
+    "toggle": "Painel de interface web",
+    "openTab": "Abrir numa aba"
+  },
+  "card": {
+    "title": "Interfaces Web",
+    "empty": "Ainda não há interfaces web. Adicione uma nas definições de Interface Web de um host.",
+    "open": "Abrir"
   }
 }

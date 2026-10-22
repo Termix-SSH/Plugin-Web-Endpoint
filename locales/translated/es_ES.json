@@ -63,10 +63,46 @@
         "label": "Permitir túneles en otras direcciones",
         "description": "Permite que la dirección de enlace de un extremo publique su túnel en la red de este servidor, sin inicio de sesión de Termix delante. Desactivado: los navegadores alcanzan los túneles a través de Termix mismo."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel junto al terminal",
+        "description": "Ofrece un panel de interfaz web junto al terminal SSH de este host."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Abrir el panel de interfaz web con un terminal",
+        "description": "Muestra el panel de interfaz web cuando se abre un terminal en un host que lo tenga."
+      },
+      "companionSide": {
+        "label": "Lado del panel de interfaz web",
+        "description": "Dónde se sitúa el panel junto al terminal.",
+        "right": "Derecha",
+        "left": "Izquierda",
+        "bottom": "Abajo"
+      },
+      "companionSize": {
+        "label": "Tamaño del panel de interfaz web",
+        "description": "Ancho, o altura si está abajo, en píxeles."
+      },
+      "companionEdgeButton": {
+        "label": "Botón lateral del panel de interfaz web",
+        "description": "Muestra un pequeño botón en el borde del terminal para abrir el panel."
+      }
     }
   },
   "plugin": {
     "name": "Extremo web",
     "description": "Abre la interfaz web de un host dentro de Termix, directamente o a través de un túnel SSH."
+  },
+  "companion": {
+    "toggle": "Panel de interfaz web",
+    "openTab": "Abrir en una pestaña"
+  },
+  "card": {
+    "title": "Interfaces web",
+    "empty": "Aún no hay interfaces web. Añade una en la configuración de interfaz web de un host.",
+    "open": "Abrir"
   }
 }

@@ -63,10 +63,46 @@
         "label": "他のアドレスでのトンネルを許可する",
         "description": "エンドポイントのバインドアドレスを、このサーバーのネットワーク上でターミナルを公開できるようにします。Termixのログイン画面は表示されません。オフにすると、ブラウザはTermix自体を介してトンネルにアクセスします。"
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "ターミナル横のパネル",
+        "description": "このホストの SSH ターミナルの横に Web UI パネルを表示します。"
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "ターミナルと共に Web UI パネルを開く",
+        "description": "Web UI が設定されたホストでターミナルを開いたとき、Web UI パネルを表示します。"
+      },
+      "companionSide": {
+        "label": "Web UI パネルの配置",
+        "description": "ターミナルの横にパネルを配置する位置です。",
+        "right": "右",
+        "left": "左",
+        "bottom": "下"
+      },
+      "companionSize": {
+        "label": "Web UI パネルのサイズ",
+        "description": "ピクセル単位の幅、または下部配置時の高さです。"
+      },
+      "companionEdgeButton": {
+        "label": "Web UI パネルのエッジボタン",
+        "description": "パネルを開くための小さなボタンをターミナルの端に表示します。"
+      }
     }
   },
   "plugin": {
     "name": "Web エンドポイント",
     "description": "Termix 内でホストの Web UI を直接、または SSH トンネル経由で開きます。"
+  },
+  "companion": {
+    "toggle": "Web UI パネル",
+    "openTab": "タブで開く"
+  },
+  "card": {
+    "title": "Web UI",
+    "empty": "Web UI がありません。ホストの Web UI 設定から追加してください。",
+    "open": "開く"
   }
 }

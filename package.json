@@ -1,7 +1,7 @@
 {
   "name": "@termix-plugin/web-endpoint",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "build": "termix-plugin build",

@@ -63,10 +63,46 @@
         "label": "Engedélyezze az alagutakat más címeken",
         "description": "Lehetővé teszi, hogy egy végpont kötési címe közzétesse az alagútját ezen a szerveren, Termix-bejelentkezés nélkül. Hagyja üresen: a böngészők a Termixen keresztül férnek hozzá az alagutakhoz."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel a terminál mellett",
+        "description": "Webes felület panel megjelenítése a gazdagép SSH terminálja mellett."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Webes felület panel megnyitása terminállal együtt",
+        "description": "A webes felület panel megjelenítése, amikor egy olyan gazdagépen nyílik terminál, amelyik támogatja."
+      },
+      "companionSide": {
+        "label": "Webes felület panel oldala",
+        "description": "Ahol a panel helyezkedik el a terminál mellett.",
+        "right": "Jobb",
+        "left": "Bal",
+        "bottom": "Alsó"
+      },
+      "companionSize": {
+        "label": "Webes felület panel mérete",
+        "description": "Szélesség, vagy az alsó elhelyezés esetén magasság, pixelben."
+      },
+      "companionEdgeButton": {
+        "label": "Webes felület panel szélgombja",
+        "description": "Egy kis gomb megjelenítése a terminál szélén a panel megnyitásához."
+      }
     }
   },
   "plugin": {
     "name": "Web végpont",
     "description": "Nyissa meg egy host webes felületét a Termixben, közvetlenül vagy SSH-alagúton keresztül."
+  },
+  "companion": {
+    "toggle": "Webes felület panel",
+    "openTab": "Megnyitás fülön"
+  },
+  "card": {
+    "title": "Webes felületek",
+    "empty": "Még nincsenek webes felületek. Adj hozzá egyet a gazdagép Webes felület beállításaiban.",
+    "open": "Megnyitás"
   }
 }

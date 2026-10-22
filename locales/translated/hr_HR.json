@@ -63,10 +63,46 @@
         "label": "Dopusti tunelove na drugim adresama",
         "description": "Omogućuje da adresa vezivanja krajnje točke objavi svoj tunel na mreži ovog poslužitelja, bez Termix prijave ispred nje. Ostavite isključeno: preglednici pristupaju tunelima putem samog Termixa."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel uz terminal",
+        "description": "Ponudi web sučelje pored SSH terminala ovog hosta."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Otvori web sučelje s terminalom",
+        "description": "Prikaži web sučelje kada se terminal otvori na hostu koji ga ima."
+      },
+      "companionSide": {
+        "label": "Strana web sučelja",
+        "description": "Gdje se panel nalazi pored terminala.",
+        "right": "Desno",
+        "left": "Lijevo",
+        "bottom": "Dolje"
+      },
+      "companionSize": {
+        "label": "Veličina web sučelja",
+        "description": "Širina, odnosno visina na dnu, u pikselima."
+      },
+      "companionEdgeButton": {
+        "label": "Gumb na rubu Web UI panela",
+        "description": "Prikaži mali gumb na rubu terminala za otvaranje panela."
+      }
     }
   },
   "plugin": {
     "name": "Web krajnja točka",
     "description": "Otvorite web sučelje poslužitelja unutar Termixa, izravno ili putem SSH tunela."
+  },
+  "companion": {
+    "toggle": "Web UI panel",
+    "openTab": "Otvori u kartici"
+  },
+  "card": {
+    "title": "Web sučelja",
+    "empty": "Još nema web sučelja. Dodajte jedno u postavkama Web UI-a hosta.",
+    "open": "Otvori"
   }
 }

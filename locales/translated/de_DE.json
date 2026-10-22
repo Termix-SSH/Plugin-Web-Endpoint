@@ -63,10 +63,46 @@
         "label": "Tunnel an anderen Adressen zulassen",
         "description": "Ermöglicht es der Bind-Adresse eines Endpunkts, seinen Tunnel im Netzwerk dieses Servers zu veröffentlichen, ohne dass eine Termix-Anmeldung davor steht. Deaktivieren: Browser erreichen Tunnel über Termix selbst."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel neben dem Terminal",
+        "description": "Ein Web-UI-Panel neben dem SSH-Terminal dieses Hosts anzeigen."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Web-UI-Panel mit Terminal öffnen",
+        "description": "Das Web-UI-Panel anzeigen, wenn ein Terminal auf einem Host geöffnet wird, der eines unterstützt."
+      },
+      "companionSide": {
+        "label": "Position des Web-UI-Panels",
+        "description": "Wo das Panel neben dem Terminal platziert wird.",
+        "right": "Rechts",
+        "left": "Links",
+        "bottom": "Unten"
+      },
+      "companionSize": {
+        "label": "Größe des Web-UI-Panels",
+        "description": "Breite oder Höhe unten, in Pixeln."
+      },
+      "companionEdgeButton": {
+        "label": "Kantenschaltfläche für das Web-UI-Panel",
+        "description": "Zeigt eine kleine Schaltfläche am Terminalrand an, um das Panel zu öffnen."
+      }
     }
   },
   "plugin": {
     "name": "Web-Endpunkt",
     "description": "Öffnen Sie die Web-UI eines Hosts direkt oder über einen SSH-Tunnel in Termix."
+  },
+  "companion": {
+    "toggle": "Web-UI-Panel",
+    "openTab": "In einem Tab öffnen"
+  },
+  "card": {
+    "title": "Web-UIs",
+    "empty": "Noch keine Web-UIs vorhanden. Fügen Sie eine in den Web-UI-Einstellungen eines Hosts hinzu.",
+    "open": "Öffnen"
   }
 }

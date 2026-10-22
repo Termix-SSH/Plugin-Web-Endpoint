@@ -63,10 +63,46 @@
         "label": "Tillat tunneler på andre adresser",
         "description": "Lar en endepunktsbindingsadresse publisere tunnelen på denne serverens nettverk, uten Termix-pålogging foran. Slå av: nettlesere når tunneler gjennom selve Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel ved siden av terminalen",
+        "description": "Vis et webgrensesnitt-panelfelt ved siden av SSH-terminalen for denne verten."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Åpne webgrensesnitt-panelet med en terminal",
+        "description": "Vis webgrensesnitt-panelet når en terminal åpnes på en vert som har det."
+      },
+      "companionSide": {
+        "label": "Plassering av webgrensesnitt-panelet",
+        "description": "Hvor panelet vises i forhold til terminalen.",
+        "right": "Høyre",
+        "left": "Venstre",
+        "bottom": "Bunn"
+      },
+      "companionSize": {
+        "label": "Størrelse på webgrensesnitt-panelet",
+        "description": "Bredde, eller høyde hvis det er på bunnen, i piksler."
+      },
+      "companionEdgeButton": {
+        "label": "Kantknapp for webgrensesnitt-panelet",
+        "description": "Vis en liten knapp på terminalkanten for å åpne panelet."
+      }
     }
   },
   "plugin": {
     "name": "Web-endepunkt",
     "description": "Åpne en verts webgrensesnitt inne i Termix, direkte eller over en SSH-tunnel."
+  },
+  "companion": {
+    "toggle": "Webgrensesnitt-panel",
+    "openTab": "Åpne i en fane"
+  },
+  "card": {
+    "title": "Webgrensesnitt",
+    "empty": "Ingen webgrensesnitt ennå. Legg til ett i vertsinnstillingene for webgrensesnitt.",
+    "open": "Åpne"
   }
 }

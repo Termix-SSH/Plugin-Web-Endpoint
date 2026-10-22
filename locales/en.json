@@ -63,10 +63,46 @@
         "label": "Allow tunnels on other addresses",
         "description": "Lets an endpoint's bind address publish its tunnel on this server's network, with no Termix login in front of it. Leave off: browsers reach tunnels through Termix itself."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel beside the terminal",
+        "description": "Offer a web UI panel next to this host's SSH terminal."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Open the web UI panel with a terminal",
+        "description": "Show the web UI panel when a terminal opens on a host that has it."
+      },
+      "companionSide": {
+        "label": "Web UI panel side",
+        "description": "Where the panel sits next to the terminal.",
+        "right": "Right",
+        "left": "Left",
+        "bottom": "Bottom"
+      },
+      "companionSize": {
+        "label": "Web UI panel size",
+        "description": "Width, or height at the bottom, in pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Web UI panel edge button",
+        "description": "Show a small button on the terminal edge to open the panel."
+      }
     }
   },
   "plugin": {
     "name": "Web Endpoint",
     "description": "Open a host's web UI inside Termix, directly or over an SSH tunnel."
+  },
+  "companion": {
+    "toggle": "Web UI panel",
+    "openTab": "Open in a tab"
+  },
+  "card": {
+    "title": "Web UIs",
+    "empty": "No web UIs yet. Add one in a host's Web UI settings.",
+    "open": "Open"
   }
 }

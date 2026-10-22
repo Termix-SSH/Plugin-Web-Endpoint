@@ -63,10 +63,46 @@
         "label": "Tillad tunneler på andre adresser",
         "description": "Lader en endepunkts bindingsadresse offentliggøre sin tunnel på denne servers netværk uden Termix-login foran. Udelad: browsere når tunneller gennem Termix selv."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel ved siden af terminalen",
+        "description": "Vis et webgrænseflade-panel ved siden af SSH-terminalen for denne vært."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Åbn webgrænseflade-panelet med en terminal",
+        "description": "Vis webgrænseflade-panelet, når en terminal åbnes på en vært, der har det."
+      },
+      "companionSide": {
+        "label": "Placering af webgrænseflade-panelet",
+        "description": "Hvor panelet vises i forhold til terminalen.",
+        "right": "Højre",
+        "left": "Venstre",
+        "bottom": "Nederst"
+      },
+      "companionSize": {
+        "label": "Størrelse på webgrænseflade-panelet",
+        "description": "Bredde, eller højde nederst, i pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Knap på kanten af Web UI-panelet",
+        "description": "Vis en lille knap på terminalens kant for at åbne panelet."
+      }
     }
   },
   "plugin": {
     "name": "Web-endepunkt",
     "description": "Åbn en værts webgrænseflade i Termix, direkte eller via en SSH-tunnel."
+  },
+  "companion": {
+    "toggle": "Web UI-panel",
+    "openTab": "Åbn i en fane"
+  },
+  "card": {
+    "title": "Web UI'er",
+    "empty": "Ingen Web UI'er endnu. Tilføj en i en værts Web UI-indstillinger.",
+    "open": "Åbn"
   }
 }

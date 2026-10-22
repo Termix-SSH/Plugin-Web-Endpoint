@@ -63,10 +63,46 @@
         "label": "Permitir túneis em outros endereços",
         "description": "Permite que o endereço de vinculação de um ponto de extremidade publique seu túnel na rede deste servidor, sem exigir login no Termix. Desative: os navegadores acessam os túneis por meio do próprio Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Painel ao lado do terminal",
+        "description": "Oferece um painel de interface web ao lado do terminal SSH deste host."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Abrir o painel de interface web com um terminal",
+        "description": "Exibe o painel de interface web quando um terminal é aberto em um host que o possui."
+      },
+      "companionSide": {
+        "label": "Lado do painel de interface web",
+        "description": "Onde o painel fica ao lado do terminal.",
+        "right": "Direita",
+        "left": "Esquerda",
+        "bottom": "Inferior"
+      },
+      "companionSize": {
+        "label": "Tamanho do painel de interface web",
+        "description": "Largura, ou altura na parte inferior, em pixels."
+      },
+      "companionEdgeButton": {
+        "label": "Botão de borda do painel de interface web",
+        "description": "Exibe um pequeno botão na borda do terminal para abrir o painel."
+      }
     }
   },
   "plugin": {
     "name": "Ponto de Extremidade Web",
     "description": "Abra a interface web de um host dentro do Termix, diretamente ou por meio de um túnel SSH."
+  },
+  "companion": {
+    "toggle": "Painel de interface web",
+    "openTab": "Abrir em uma aba"
+  },
+  "card": {
+    "title": "Interfaces Web",
+    "empty": "Nenhuma interface web ainda. Adicione uma nas configurações de Interface Web de um host.",
+    "open": "Abrir"
   }
 }

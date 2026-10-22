@@ -63,10 +63,46 @@
         "label": "Consenti tunnel su altri indirizzi",
         "description": "Permette all'indirizzo di associazione di un endpoint di pubblicare il suo tunnel sulla rete di questo server, senza login Termix davanti. Disattiva: i browser accedono ai tunnel tramite Termix stesso."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Pannello accanto al terminale",
+        "description": "Offri un pannello dell'interfaccia web accanto al terminale SSH di questo host."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Apri il pannello dell'interfaccia web con un terminale",
+        "description": "Mostra il pannello dell'interfaccia web quando si apre un terminale su un host che lo supporta."
+      },
+      "companionSide": {
+        "label": "Posizione del pannello dell'interfaccia web",
+        "description": "Dove si trova il pannello accanto al terminale.",
+        "right": "Destra",
+        "left": "Sinistra",
+        "bottom": "In basso"
+      },
+      "companionSize": {
+        "label": "Dimensione del pannello dell'interfaccia web",
+        "description": "Larghezza, o altezza se in basso, in pixel."
+      },
+      "companionEdgeButton": {
+        "label": "Pulsante laterale del pannello dell'interfaccia web",
+        "description": "Mostra un piccolo pulsante sul bordo del terminale per aprire il pannello."
+      }
     }
   },
   "plugin": {
     "name": "Endpoint Web",
     "description": "Apri l'interfaccia web di un host all'interno di Termix, direttamente o tramite un tunnel SSH."
+  },
+  "companion": {
+    "toggle": "Pannello dell'interfaccia web",
+    "openTab": "Apri in una scheda"
+  },
+  "card": {
+    "title": "Interfacce web",
+    "empty": "Nessuna interfaccia web ancora. Aggiungine una nelle impostazioni dell'interfaccia web di un host.",
+    "open": "Apri"
   }
 }

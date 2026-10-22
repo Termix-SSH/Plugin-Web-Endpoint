@@ -63,10 +63,46 @@
         "label": "Permet túnels en altres adreces",
         "description": "Permet que l'adreça d'enllaç d'un punt final publiqui el seu túnel a la xarxa d'aquest servidor, sense necessitat d'iniciar sessió a Termix. Deixa-ho desactivat: els navegadors accedeixen als túnels a través del mateix Termix."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panell al costat del terminal",
+        "description": "Mostra un panell d'interfície web al costat del terminal SSH d'aquest amfitrió."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Obre el panell d'interfície web amb un terminal",
+        "description": "Mostra el panell d'interfície web quan s'obre un terminal en un amfitrió que en tingui."
+      },
+      "companionSide": {
+        "label": "Posició del panell d'interfície web",
+        "description": "On es troba el panell al costat del terminal.",
+        "right": "Dreta",
+        "left": "Esquerra",
+        "bottom": "Inferior"
+      },
+      "companionSize": {
+        "label": "Mida del panell d'interfície web",
+        "description": "Amplada, o alçada a la part inferior, en píxels."
+      },
+      "companionEdgeButton": {
+        "label": "Botó del vora del panell de la interfície web",
+        "description": "Mostra un botó petit al vora del terminal per obrir el panell."
+      }
     }
   },
   "plugin": {
     "name": "Punt final web",
     "description": "Obre la interfície web d'un host dins de Termix, directament o a través d'un túnel SSH."
+  },
+  "companion": {
+    "toggle": "Panell de la interfície web",
+    "openTab": "Obrir en una pestanya"
+  },
+  "card": {
+    "title": "Interfícies web",
+    "empty": "Encara no hi ha interfícies web. Afegeix-ne una a la configuració de la interfície web d'un amfitrió.",
+    "open": "Obrir"
   }
 }

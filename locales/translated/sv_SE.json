@@ -63,10 +63,46 @@
         "label": "Tillåt tunnlar på andra adresser",
         "description": "Låter en ändpunkts bindningsadress publicera sin tunnel på serverns nätverk, utan Termix-inloggning framför. Inaktivera: webbläsare når tunnlar via Termix självt."
       }
+    },
+    "host": {
+      "showPanel": {
+        "label": "Panel bredvid terminalen",
+        "description": "Erbjud en webbgränssnittspanel bredvid SSH-terminalen för denna värd."
+      }
+    },
+    "user": {
+      "companionAutoOpen": {
+        "label": "Öppna webbgränssnittspanelen med en terminal",
+        "description": "Visa webbgränssnittspanelen när en terminal öppnas på en värd som har den."
+      },
+      "companionSide": {
+        "label": "Placering för webbgränssnittspanelen",
+        "description": "Var panelen placeras i förhållande till terminalen.",
+        "right": "Höger",
+        "left": "Vänster",
+        "bottom": "Nere"
+      },
+      "companionSize": {
+        "label": "Storlek på webbgränssnittspanelen",
+        "description": "Bredd, eller höjd om den placeras nere, i pixlar."
+      },
+      "companionEdgeButton": {
+        "label": "Knapp för webbgränssnittspanelen vid kanten",
+        "description": "Visa en liten knapp vid terminalens kant för att öppna panelen."
+      }
     }
   },
   "plugin": {
     "name": "Webbändpunkt",
     "description": "Öppna en värdens webbgränssnitt inuti Termix, direkt eller via en SSH-tunnel."
+  },
+  "companion": {
+    "toggle": "Webbgränssnittspanel",
+    "openTab": "Öppna i en flik"
+  },
+  "card": {
+    "title": "Webbgränssnitt",
+    "empty": "Inga webbgränssnitt ännu. Lägg till ett i en värds inställningar för webbgränssnitt.",
+    "open": "Öppna"
   }
 }
