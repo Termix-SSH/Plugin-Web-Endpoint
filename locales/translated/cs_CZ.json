@@ -38,6 +38,8 @@
     "webUiAccess": "Přístup",
     "webUiAccessDirect": "Přímý",
     "webUiAccessTunnel": "SSH tunel",
+    "webUiAccessTermix": "Přes Termix",
+    "webUiAccessTermixDesc": "Otevře se v nové záložce prohlížeče přes tento server, takže váš prohlížeč nemusí hostiteli přímo dosáhnout. Vyžaduje plugin Reverse Proxy s doménou webového koncového bodu. Desktopová aplikace místo toho používá SSH tunel.",
     "webUiAccessTunnelUnavailable": "SSH tunel vyžaduje povolené SSH na tomto hostovi a původ připojení z tohoto zařízení.",
     "webUiRender": "Otevřít v",
     "webUiRenderExternal": "Izolované okno desktopu",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Povolit Termix přímý přístup k hostitelům",
+        "description": "Možnost „Přes Termix“ používá SSH tunel, pokud hostitel má SSH. Zapněte toto pro hostitele bez SSH, jako jsou firewally a iLO, aby se tento server k nim připojil přímo. Kdo může hostitele upravovat, může jej pak směřovat na adresy, které tento server dosáhne."
+      },
       "allowExposedBind": {
         "label": "Povolit tunely na jiných adresách",
         "description": "Umožňuje, aby se bindovací adresa koncového bodu zveřejnila v síti tohoto serveru bez nutnosti přihlášení do Termixu. Pokud je vypnuto: prohlížeče se k tunelům dostávají přímo přes Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Upozornit, když je webové UI nedostupné",
+        "description": "Poslat upozornění, když webové UI na tomto hostiteli přestane odpovídat."
+      },
       "showPanel": {
         "label": "Panel vedle terminálu",
         "description": "Nabídnout panel webového rozhraní vedle SSH terminálu tohoto hostitele."
@@ -100,9 +110,27 @@
     "toggle": "Panel webového rozhraní",
     "openTab": "Otevřít v záložce"
   },
+  "tile": {
+    "title": "Webové UI",
+    "empty": "Na tomto hostiteli nejsou žádná webová UI."
+  },
   "card": {
     "title": "Webová rozhraní",
     "empty": "Zatím žádná webová rozhraní. Přidejte jedno v nastavení webového rozhraní hostitele.",
     "open": "Otevřít"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kontrolovat webové koncové body",
+      "description": "Kontrolovat, zda webové stránky na hostitelích, ke kterým máte přístup, odpovídají."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kontrolovat webové koncové body"
+    },
+    "up": {
+      "title": "Webové koncové body"
+    }
   }
 }

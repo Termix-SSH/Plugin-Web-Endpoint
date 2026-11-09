@@ -29,7 +29,7 @@ export function resolveWebEndpointUrl({
 }): string {
   const path = endpoint.path && endpoint.path.length > 0 ? endpoint.path : "/";
 
-  if (endpoint.access === "tunnel") {
+  if (endpoint.access !== "direct") {
     if (!localPort) {
       throw new Error("A tunnel endpoint needs a local port to resolve a URL");
     }

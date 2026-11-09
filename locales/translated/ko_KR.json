@@ -38,6 +38,8 @@
     "webUiAccess": "접근",
     "webUiAccessDirect": "직접",
     "webUiAccessTunnel": "SSH 터널",
+    "webUiAccessTermix": "Termix를 통해",
+    "webUiAccessTermixDesc": "이 서버를 경유하여 새 브라우저 탭에서 열립니다. 따라서 브라우저가 호스트에 직접 연결할 필요가 없습니다. 웹 엔드포인트 도메인이 있는 Reverse Proxy 플러그인이 필요합니다. 데스크톱 앱은 대신 SSH 터널을 사용합니다.",
     "webUiAccessTunnelUnavailable": "SSH 터널은 이 호스트에서 SSH가 활성화되어 있고 연결 원천이 이 기기여야 합니다.",
     "webUiRender": "여기서 열기",
     "webUiRenderExternal": "격리된 데스크톱 창",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Termix가 호스트에 직접 연결하도록 허용",
+        "description": "호스트에 SSH가 있는 경우 Termix를 통한 연결은 SSH 터널을 사용합니다. 방화벽이나 iLO와 같이 SSH가 없는 호스트의 경우 이 서버가 직접 연결할 수 있도록 이 옵션을 켜세요. 호스트를 편집할 수 있는 누구나 이 서버가 도달할 수 있는 주소로 호스트를 지시할 수 있게 됩니다."
+      },
       "allowExposedBind": {
         "label": "다른 주소에서 터널 허용",
         "description": "엔드포인트의 바인드 주소를 이 서버의 네트워크에 터널을 게시하도록 허용합니다. Termix 로그인이 필요하지 않습니다. 비활성화하면 브라우저는 Termix를 통해 터널에 접근합니다."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "웹 UI가 다운되었을 때 알림",
+        "description": "이 호스트의 웹 UI가 응답을 멈출 때 알림을 보냅니다."
+      },
       "showPanel": {
         "label": "터미널 옆 패널",
         "description": "이 호스트의 SSH 터미널 옆에 웹 UI 패널을 제공합니다."
@@ -100,9 +110,27 @@
     "toggle": "웹 UI 패널",
     "openTab": "탭에서 열기"
   },
+  "tile": {
+    "title": "웹 UI",
+    "empty": "이 호스트에 웹 UI가 없습니다."
+  },
   "card": {
     "title": "웹 UI",
     "empty": "아직 웹 UI가 없습니다. 호스트의 웹 UI 설정에서 추가하세요.",
     "open": "열기"
+  },
+  "permissions": {
+    "use": {
+      "title": "웹 엔드포인트 확인",
+      "description": "접근 가능한 호스트의 웹 페이지가 응답하는지 확인합니다."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "웹 엔드포인트 확인"
+    },
+    "up": {
+      "title": "웹 엔드포인트"
+    }
   }
 }

@@ -38,6 +38,8 @@
     "webUiAccess": "Akses",
     "webUiAccessDirect": "Langsung",
     "webUiAccessTunnel": "Terowong SSH",
+    "webUiAccessTermix": "Melalui Termix",
+    "webUiAccessTermixDesc": "Dibuka dalam tab pelayar baharu melalui pelayan ini, supaya pelayar anda tidak perlu menghubungi hos secara langsung. Memerlukan plugin Reverse Proxy dengan domain titik akhir web. Aplikasi desktop menggunakan terowong SSH sebagai gantinya.",
     "webUiAccessTunnelUnavailable": "Terowong SSH memerlukan SSH dihidupkan pada hos ini dan asal sambungan peranti ini.",
     "webUiRender": "Buka dalam",
     "webUiRenderExternal": "Tetingkap desktop terasing",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Benarkan Termix menghubungi hos secara langsung",
+        "description": "Melalui Termix menggunakan terowong SSH apabila hos mempunyai SSH. Hidupkan ini untuk hos tanpa SSH, seperti firewall dan iLO, supaya pelayan ini menghubungi mereka secara langsung. Sesiapa sahaja yang boleh mengedit hos kemudian boleh mengarahkannya ke alamat yang boleh dicapai oleh pelayan ini."
+      },
       "allowExposedBind": {
         "label": "Izinkan terusan pada alamat lain",
         "description": "Membolehkan alamat pengikat hujung akhir menerbitkan terusan pada rangkaian pelayan ini, tanpa log masuk Termix di hadapannya. Biarkan tidak aktif: pelayar web mengakses terusan melalui Termix itu sendiri."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Amaran apabila antara muka web tidak tersedia",
+        "description": "Hantar amaran apabila antara muka web pada hos ini berhenti memberi respons."
+      },
       "showPanel": {
         "label": "Panel di sebelah terminal",
         "description": "Tawarkan panel UI web di sebelah terminal SSH hos ini."
@@ -100,9 +110,27 @@
     "toggle": "Panel UI web",
     "openTab": "Buka dalam tab"
   },
+  "tile": {
+    "title": "Antara Muka Web",
+    "empty": "Tiada antara muka web pada hos ini."
+  },
   "card": {
     "title": "UI Web",
     "empty": "Tiada UI web lagi. Tambahkan satu dalam tetapan UI Web hos.",
     "open": "Buka"
+  },
+  "permissions": {
+    "use": {
+      "title": "Semak titik akhir web",
+      "description": "Semak bahawa halaman web pada hos yang boleh anda capai memberi respons."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Semak titik akhir web"
+    },
+    "up": {
+      "title": "Titik akhir web"
+    }
   }
 }

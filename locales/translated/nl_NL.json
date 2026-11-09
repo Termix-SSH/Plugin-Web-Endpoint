@@ -38,6 +38,8 @@
     "webUiAccess": "Toegang",
     "webUiAccessDirect": "Direct",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Via Termix",
+    "webUiAccessTermixDesc": "Opent in een nieuw browsertabblad via deze server, zodat uw browser de host niet direct hoeft te bereiken. Vereist de Reverse Proxy-plugin met een domeinnaam voor web-eindpunten. De desktop-app gebruikt in plaats daarvan een SSH-tunnel.",
     "webUiAccessTunnelUnavailable": "Een SSH-tunnel vereist dat SSH op deze host is ingeschakeld en dat de verbindingsbron dit apparaat is.",
     "webUiRender": "Openen in",
     "webUiRenderExternal": "Geïsoleerd desktopvenster",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Sta Termix toe om hosts direct te bereiken",
+        "description": "Via Termix gebruikt een SSH-tunnel wanneer een host SSH heeft. Schakel dit in voor hosts zonder SSH, zoals firewalls en iLO, zodat deze server zelf verbinding maakt met hen. Iedereen die een host kan bewerken, kan deze dan wijzen op adressen die deze server kan bereiken."
+      },
       "allowExposedBind": {
         "label": "Tunnels op andere adressen toestaan",
         "description": "Staat een eindpunt toe om zijn bindadres te publiceren op het netwerk van deze server, zonder Termix-inlog er voor. Zet uit: browsers bereiken tunnels via Termix zelf."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Waarschuwing wanneer een web-UI offline is",
+        "description": "Stuur een waarschuwing wanneer een web-UI op deze host stopt met reageren."
+      },
       "showPanel": {
         "label": "Paneel naast de terminal",
         "description": "Een web-UI-paneel aanbieden naast de SSH-terminal van deze host."
@@ -100,9 +110,27 @@
     "toggle": "Webinterface-paneel",
     "openTab": "Openen in een tabblad"
   },
+  "tile": {
+    "title": "Web-UI's",
+    "empty": "Geen web-UI's op deze host."
+  },
   "card": {
     "title": "Webinterfaces",
     "empty": "Nog geen webinterfaces. Voeg er een toe in de webinterface-instellingen van een host.",
     "open": "Openen"
+  },
+  "permissions": {
+    "use": {
+      "title": "Controleer web-eindpunten",
+      "description": "Controleer of webpagina's op hosts die u kunt bereiken, reageren."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Controleer web-eindpunten"
+    },
+    "up": {
+      "title": "Web-eindpunten"
+    }
   }
 }

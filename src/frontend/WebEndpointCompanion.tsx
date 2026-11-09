@@ -16,14 +16,18 @@ import {
   ListRowAction,
   PanelList,
   Select2,
+  ToolbarBand,
 } from "@termix-ssh/plugin-sdk/ui";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
-import { endpointsOf, openEndpoint } from "./endpoints";
+import { endpointsOf, openEndpoint, opensThroughTermix } from "./endpoints";
 import { WebEndpointTab } from "./WebEndpointTab";
 
 /** Endpoints that can show inside Termix, not only in a browser. */
 export function embeddedEndpointsOf(host: PluginHostRecord): WebEndpoint[] {
-  return endpointsOf(host).filter((endpoint) => endpoint.render !== "external");
+  return endpointsOf(host).filter(
+    (endpoint) =>
+      endpoint.render !== "external" && !opensThroughTermix(endpoint),
+  );
 }
 
 /** Whether the web panel beside this host's terminal is on. */
@@ -66,7 +70,7 @@ export function WebEndpointCompanion({ host }: CompanionProps) {
   }
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-center gap-1 border-b border-border p-1.5">
+      <ToolbarBand>
         {endpoints.length > 1 ? (
           <Select2
             value={endpoint.id}
@@ -93,7 +97,7 @@ export function WebEndpointCompanion({ host }: CompanionProps) {
         >
           <ExternalLink className="size-3.5" />
         </Button>
-      </div>
+      </ToolbarBand>
       <div className="relative min-h-0 flex-1">
         <WebEndpointTab
           key={endpoint.id}
@@ -102,6 +106,34 @@ export function WebEndpointCompanion({ host }: CompanionProps) {
         />
       </div>
     </div>
+  );
+}
+
+/** This host's web UIs as a tile on the host page. */
+export function WebEndpointHostTile({ hostId }: { hostId: number }) {
+  const { t } = useTranslation();
+  const tabs = useTabs();
+  const { hosts } = useHosts();
+  const host = hosts.find((entry) => Number(entry.id) === Number(hostId));
+  const endpoints = host ? endpointsOf(host) : [];
+  if (!host || endpoints.length === 0) {
+    return (
+      <p className="p-3 text-xs text-muted-foreground">{t("tile.empty")}</p>
+    );
+  }
+  return (
+    <PanelList>
+      {endpoints.map((endpoint, index) => (
+        <ListRow
+          key={endpoint.id}
+          stripe={index}
+          icon={<Globe className="size-3.5" />}
+          title={endpoint.label}
+          meta={`${endpoint.scheme}://${endpoint.port}`}
+          onClick={() => openEndpoint(host, endpoint, tabs)}
+        />
+      ))}
+    </PanelList>
   );
 }
 

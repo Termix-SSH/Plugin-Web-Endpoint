@@ -8,7 +8,7 @@
  * so this file has no runtime dependencies of its own.
  */
 
-type WebEndpointAccess = "direct" | "tunnel";
+type WebEndpointAccess = "direct" | "tunnel" | "termix";
 type WebEndpointRender = "external" | "embedded";
 
 /** One web UI a host serves, declared in this plugin's host settings. */
@@ -60,7 +60,7 @@ export const MAX_WEB_ENDPOINTS = 16;
 export const MAX_WEB_ENDPOINT_LABEL_LENGTH = 64;
 
 const SCHEMES = new Set(["http", "https"]);
-const ACCESS_VALUES = new Set(["direct", "tunnel"]);
+const ACCESS_VALUES = new Set(["direct", "tunnel", "termix"]);
 const RENDER_VALUES = new Set(["external", "embedded"]);
 
 const MIN_PORT = 1;

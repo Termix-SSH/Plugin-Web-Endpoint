@@ -38,6 +38,8 @@
     "webUiAccess": "Pristup",
     "webUiAccessDirect": "Izravno",
     "webUiAccessTunnel": "SSH tunel",
+    "webUiAccessTermix": "Kroz Termix",
+    "webUiAccessTermixDesc": "Otvara se u novoj kartici preglednika putem ovog poslužitelja, tako da vaš preglednik ne mora izravno pristupiti hostu. Zahtijeva dodatak Reverse Proxy s domenom web krajnje točke. Desktop aplikacija umjesto toga koristi SSH tunel.",
     "webUiAccessTunnelUnavailable": "SSH tunel zahtijeva omogućen SSH na ovom hostu i porijeklo veze s ovog uređaja.",
     "webUiRender": "Otvori u",
     "webUiRenderExternal": "Izolirani desktop prozor",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Dopusti Termixu izravan pristup hostovima",
+        "description": "Opcija „Kroz Termix“ koristi SSH tunel kada host ima SSH. Uključite ovo za hostove bez SSH-a, poput firewalla i iLO-a, kako bi se ovaj poslužitelj sam povezo s njima. Tko god može uređivati host može ga usmjeriti na adrese koje ovaj poslužitelj može doseći."
+      },
       "allowExposedBind": {
         "label": "Dopusti tunelove na drugim adresama",
         "description": "Omogućuje da adresa vezivanja krajnje točke objavi svoj tunel na mreži ovog poslužitelja, bez Termix prijave ispred nje. Ostavite isključeno: preglednici pristupaju tunelima putem samog Termixa."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Upozori kada je web sučelje nedostupno",
+        "description": "Pošalji upozorenje kada web sučelje na ovom hostu prestane odgovarati."
+      },
       "showPanel": {
         "label": "Panel uz terminal",
         "description": "Ponudi web sučelje pored SSH terminala ovog hosta."
@@ -100,9 +110,27 @@
     "toggle": "Web UI panel",
     "openTab": "Otvori u kartici"
   },
+  "tile": {
+    "title": "Web sučelja",
+    "empty": "Na ovom hostu nema web sučelja."
+  },
   "card": {
     "title": "Web sučelja",
     "empty": "Još nema web sučelja. Dodajte jedno u postavkama Web UI-a hosta.",
     "open": "Otvori"
+  },
+  "permissions": {
+    "use": {
+      "title": "Provjeri web krajnje točke",
+      "description": "Provjeri odgovaraju li web stranice na hostovima na koje možeš pristupiti."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Provjeri web krajnje točke"
+    },
+    "up": {
+      "title": "Web krajnje točke"
+    }
   }
 }

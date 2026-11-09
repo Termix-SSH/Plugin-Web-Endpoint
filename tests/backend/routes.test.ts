@@ -66,8 +66,11 @@ async function start(
       "network:serve",
       "ui:surface",
       "desktop:window",
+      "ssh:connect",
+      "credentials:use",
     ],
     hosts: options.noHost ? [] : [host(options.hostOverrides)],
+    sshHosts: options.noHost ? [] : [host(options.hostOverrides) as never],
   });
   const hostId = (options.hostOverrides?.id as number) ?? 7;
   if (options.enableWebUi !== false) {
@@ -426,5 +429,106 @@ describe("browser proxy", () => {
     expect(
       (await mint("https://evil.example/plugin-api/web-endpoint")).status,
     ).toBe(400);
+  });
+});
+
+describe("POST /open-termix", () => {
+  const proxy = {
+    available: vi.fn(async () => true),
+    open: vi.fn(async () => ({
+      url: "https://abc.apps.example.com/__rp/auth",
+    })),
+  };
+  const termix = (overrides: Record<string, unknown> = {}) =>
+    endpoint({ access: "termix", ...overrides });
+  const open = () =>
+    fetch(`${baseUrl}/open-termix`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ hostId: 7, endpointId: "e1" }),
+    });
+
+  beforeEach(() => {
+    proxy.available.mockClear();
+    proxy.available.mockResolvedValue(true);
+    proxy.open.mockClear();
+  });
+
+  it("opens a host with SSH through a tunnel", async () => {
+    await start({
+      endpoints: [termix({ scheme: "https", path: "/ui" })],
+      hostOverrides: { enableSsh: true },
+    });
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+
+    const res = await open();
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      url: "https://abc.apps.example.com/__rp/auth",
+    });
+    expect(forward).toHaveBeenCalled();
+    expect(proxy.open).toHaveBeenCalledWith({
+      hostId: 7,
+      path: "/ui",
+      target: {
+        host: "127.0.0.1",
+        port: 41234,
+        scheme: "https",
+        ignoreCert: true,
+      },
+    });
+  });
+
+  it("will not reach a host with no SSH until an admin allows it", async () => {
+    await start({
+      endpoints: [termix({ ignoreCert: true })],
+      hostOverrides: { enableSsh: false, connectionType: "rdp" },
+    });
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+
+    expect((await open()).status).toBe(403);
+    expect(proxy.open).not.toHaveBeenCalled();
+
+    await mock.ctx.settings.set("allowServerTargets", true);
+    expect((await open()).status).toBe(200);
+    expect(forward).not.toHaveBeenCalled();
+    expect(proxy.open).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: {
+          host: "10.0.0.5",
+          port: 8006,
+          scheme: "http",
+          ignoreCert: true,
+        },
+      }),
+    );
+  });
+
+  it("says what is missing without Reverse Proxy", async () => {
+    await start({ endpoints: [termix()] });
+    expect((await open()).status).toBe(503);
+    expect(forward).not.toHaveBeenCalled();
+  });
+
+  it("says what is missing without a web endpoint domain", async () => {
+    await start({ endpoints: [termix()] });
+    proxy.available.mockResolvedValue(false);
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+    expect((await open()).status).toBe(503);
+    expect(forward).not.toHaveBeenCalled();
+  });
+
+  it("refuses an endpoint on another access mode", async () => {
+    await start();
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+    expect((await open()).status).toBe(400);
+  });
+
+  it("refuses a host the user cannot resolve", async () => {
+    await start({ noHost: true });
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+    expect((await open()).status).toBe(403);
+    expect(proxy.open).not.toHaveBeenCalled();
   });
 });

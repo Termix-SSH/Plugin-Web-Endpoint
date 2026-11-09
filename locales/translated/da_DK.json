@@ -38,6 +38,8 @@
     "webUiAccess": "Adgang",
     "webUiAccessDirect": "Direkte",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Gennem Termix",
+    "webUiAccessTermixDesc": "Åbner i en ny browsertab gennem denne server, så din browser ikke behøver at kunne nå værten. Kræver Reverse Proxy-pluginet med et web-endepunktsdomæne. Desktop-appen bruger i stedet en SSH-tunnel.",
     "webUiAccessTunnelUnavailable": "En SSH-tunnel kræver, at SSH er aktiveret på denne vært, og at forbindelsens oprindelse er denne enhed.",
     "webUiRender": "Åbn i",
     "webUiRenderExternal": "Isoleret skrivebordsvindue",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Lad Termix nå værter direkte",
+        "description": "Gennem Termix bruger en SSH-tunnel, når en vært har SSH. Slå dette til for værter uden SSH, som f.eks. brandmure og iLO, så denne server forbinder til dem selv. Enhver, der kan redigere en vært, kan derefter pege den på adresser, denne server kan nå."
+      },
       "allowExposedBind": {
         "label": "Tillad tunneler på andre adresser",
         "description": "Lader en endepunkts bindingsadresse offentliggøre sin tunnel på denne servers netværk uden Termix-login foran. Udelad: browsere når tunneller gennem Termix selv."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Advar, når en web-UI er nede",
+        "description": "Send en advarsel, når en web-UI på denne vært holder op med at svare."
+      },
       "showPanel": {
         "label": "Panel ved siden af terminalen",
         "description": "Vis et webgrænseflade-panel ved siden af SSH-terminalen for denne vært."
@@ -100,9 +110,27 @@
     "toggle": "Web UI-panel",
     "openTab": "Åbn i en fane"
   },
+  "tile": {
+    "title": "Web-UI'er",
+    "empty": "Ingen web-UI'er på denne vært."
+  },
   "card": {
     "title": "Web UI'er",
     "empty": "Ingen Web UI'er endnu. Tilføj en i en værts Web UI-indstillinger.",
     "open": "Åbn"
+  },
+  "permissions": {
+    "use": {
+      "title": "Tjek web-endepunkter",
+      "description": "Tjek, at websider på værter, du kan nå, svarer."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Tjek web-endepunkter"
+    },
+    "up": {
+      "title": "Web-endepunkter"
+    }
   }
 }

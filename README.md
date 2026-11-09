@@ -29,6 +29,7 @@ Read the [docs](https://docs.termix.site/plugins/web-endpoint) to set it up and 
 - Open a web UI in a Termix tab or its own desktop window
 - Connect directly, or over an SSH tunnel through the host
 - Embedded pages never see your Termix login
+- Check that a host's web endpoints answer, as a status tile on the host page
 
 <br />
 

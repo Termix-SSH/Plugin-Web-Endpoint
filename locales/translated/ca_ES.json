@@ -38,6 +38,8 @@
     "webUiAccess": "Accés",
     "webUiAccessDirect": "Directe",
     "webUiAccessTunnel": "Túnel SSH",
+    "webUiAccessTermix": "A través de Termix",
+    "webUiAccessTermixDesc": "S'obre en una nova pestanya del navegador a través d'aquest servidor, de manera que el navegador no necessita accedir directament a l'amfitrió. Requereix el complement Reverse Proxy amb un domini de punt final web. L'aplicació d'escriptori utilitza un túnel SSH en el seu lloc.",
     "webUiAccessTunnelUnavailable": "Un túnel SSH necessita SSH activat en aquest amfitrió i un origen de connexió d'aquest dispositiu.",
     "webUiRender": "Obre a",
     "webUiRenderExternal": "Finestra d'escriptori aïllada",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Permetre que Termix accedeixi directament als amfitrions",
+        "description": "L'opció «A través de Termix» utilitza un túnel SSH quan l'amfitrió té SSH. Activeu aquesta opció per a amfitrions sense SSH, com ara tallafocs o iLO, perquè aquest servidor s'hi connecti directament. Qualsevol usuari que pugui editar un amfitrió podrà dirigir-lo a adreces que aquest servidor pugui arribar a accedir."
+      },
       "allowExposedBind": {
         "label": "Permet túnels en altres adreces",
         "description": "Permet que l'adreça d'enllaç d'un punt final publiqui el seu túnel a la xarxa d'aquest servidor, sense necessitat d'iniciar sessió a Termix. Deixa-ho desactivat: els navegadors accedeixen als túnels a través del mateix Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alertar quan una interfície web estigui inactiva",
+        "description": "Enviar una alerta quan una interfície web d'aquest amfitrió deixi de respondre."
+      },
       "showPanel": {
         "label": "Panell al costat del terminal",
         "description": "Mostra un panell d'interfície web al costat del terminal SSH d'aquest amfitrió."
@@ -100,9 +110,27 @@
     "toggle": "Panell de la interfície web",
     "openTab": "Obrir en una pestanya"
   },
+  "tile": {
+    "title": "Interfícies web",
+    "empty": "No hi ha interfícies web en aquest amfitrió."
+  },
   "card": {
     "title": "Interfícies web",
     "empty": "Encara no hi ha interfícies web. Afegeix-ne una a la configuració de la interfície web d'un amfitrió.",
     "open": "Obrir"
+  },
+  "permissions": {
+    "use": {
+      "title": "Comprovar punts finals web",
+      "description": "Comprovar que les pàgines web dels amfitrions als quals podeu accedir responguin."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Comprovar punts finals web"
+    },
+    "up": {
+      "title": "Punts finals web"
+    }
   }
 }

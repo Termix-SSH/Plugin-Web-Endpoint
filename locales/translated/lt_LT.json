@@ -38,6 +38,8 @@
     "webUiAccess": "Prieiga",
     "webUiAccessDirect": "Tiesioginė",
     "webUiAccessTunnel": "SSH tunelis",
+    "webUiAccessTermix": "Per Termix",
+    "webUiAccessTermixDesc": "Atidaroma naujame naršyklės skirtuke per šį serverį, todėl jūsų naršyklei nereikia tiesiogiai siekti šio hosto. Reikalingas „Reverse Proxy“ priedas su „web endpoint“ domenu. Darbalaukio programėlė vietoj to naudoja SSH tunelį.",
     "webUiAccessTunnelUnavailable": "SSH tuneliui reikia, kad šiame hoste būtų įjungtas SSH ir ryšio kilmė būtų šio įrenginio.",
     "webUiRender": "Atidaryti",
     "webUiRenderExternal": "Izoliuotas darbalaukio langas",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Leisti Termix tiesiogiai siekti hostus",
+        "description": "„Per Termix“ naudoja SSH tunelį, kai hostas turi SSH. Įjunkite tai hostams be SSH, pvz., ugnies sienoms ir iLO, kad šis serveris pats prisijungtų prie jų. Tuomet bet kas, kas gali redaguoti hostą, gali nukreipti jį į adresus, kuriuos šis serveris gali pasiekti."
+      },
       "allowExposedBind": {
         "label": "Leisti tunelius kituose adresuose",
         "description": "Leidžia galinio taško prisijungimo adresui skelbti savo tunelį šio serverio tinkle, be Termix prisijungimo ekrano. Jei išjungta: naršyklės pasiekia tunelius per patį Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Įspėti, kai „web UI“ neveikia",
+        "description": "Siųsti įspėjimą, kai šio hosto „web UI“ nustoja atsakinėti."
+      },
       "showPanel": {
         "label": "Skydelis šalia terminalo",
         "description": "Rodyti „Web UI“ skydelį šalia šio serverio SSH terminalo."
@@ -100,9 +110,27 @@
     "toggle": "„Web UI“ skydelis",
     "openTab": "Atidaryti skirtuke"
   },
+  "tile": {
+    "title": "„Web UI“",
+    "empty": "Šiame hoste nėra „web UI“."
+  },
   "card": {
     "title": "„Web UI“ sąsajos",
     "empty": "Dar nėra „Web UI“ sąsajų. Pridėkite vieną serverio „Web UI“ nustatymuose.",
     "open": "Atidaryti"
+  },
+  "permissions": {
+    "use": {
+      "title": "Tikrinti „web endpoint“",
+      "description": "Tikrinti, ar svetainės hostuose, kuriuos galite pasiekti, atsako."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Tikrinti „web endpoint“"
+    },
+    "up": {
+      "title": "„Web endpoint“"
+    }
   }
 }

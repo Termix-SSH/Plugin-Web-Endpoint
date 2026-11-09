@@ -38,6 +38,8 @@
     "webUiAccess": "Tilgang",
     "webUiAccessDirect": "Direkte",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Via Termix",
+    "webUiAccessTermixDesc": "Åpnes i en ny nettleserfan gjennom denne serveren, slik at nettleseren din ikke trenger å nå verten. Krever Reverse Proxy-pluginet med et domene for web-endepunkt. Skrivebordsappen bruker en SSH-tunnel i stedet.",
     "webUiAccessTunnelUnavailable": "En SSH-tunnel krever at SSH er aktivert på denne verten og en tilkoblingsopphav fra denne enheten.",
     "webUiRender": "Åpne i",
     "webUiRenderExternal": "Isolert skrivebordsvindu",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "La Termix nå vertene direkte",
+        "description": "Via Termix bruker en SSH-tunnel når en vert har SSH. Slå dette på for vertene uten SSH, som brannmurer og iLO, slik at denne serveren kobler seg til dem selv. Alle som kan redigere en vert, kan da peke den mot adresser denne serveren kan nå."
+      },
       "allowExposedBind": {
         "label": "Tillat tunneler på andre adresser",
         "description": "Lar en endepunktsbindingsadresse publisere tunnelen på denne serverens nettverk, uten Termix-pålogging foran. Slå av: nettlesere når tunneler gjennom selve Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Varsle når en web-UI er nede",
+        "description": "Send et varsel når en web-UI på denne verten slutter å svare."
+      },
       "showPanel": {
         "label": "Panel ved siden av terminalen",
         "description": "Vis et webgrensesnitt-panelfelt ved siden av SSH-terminalen for denne verten."
@@ -100,9 +110,27 @@
     "toggle": "Webgrensesnitt-panel",
     "openTab": "Åpne i en fane"
   },
+  "tile": {
+    "title": "Web-UI-er",
+    "empty": "Ingen web-UI-er på denne verten."
+  },
   "card": {
     "title": "Webgrensesnitt",
     "empty": "Ingen webgrensesnitt ennå. Legg til ett i vertsinnstillingene for webgrensesnitt.",
     "open": "Åpne"
+  },
+  "permissions": {
+    "use": {
+      "title": "Sjekk web-endepunkter",
+      "description": "Sjekk at websider på vertene du kan nå, svarer."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Sjekk web-endepunkter"
+    },
+    "up": {
+      "title": "Web-endepunkter"
+    }
   }
 }

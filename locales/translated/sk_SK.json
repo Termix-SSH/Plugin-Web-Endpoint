@@ -38,6 +38,8 @@
     "webUiAccess": "Prístup",
     "webUiAccessDirect": "Priamy",
     "webUiAccessTunnel": "SSH tunel",
+    "webUiAccessTermix": "cez Termix",
+    "webUiAccessTermixDesc": "Otvorí sa v novej karte prehliadača cez tento server, takže váš prehliadač nemusí mať priamy prístup k hostiteľovi. Vyžaduje plugin Reverse Proxy s doménou webového koncového bodu. Desktopová aplikácia namiesto toho používa SSH tunel.",
     "webUiAccessTunnelUnavailable": "SSH tunel vyžaduje povolené SSH na tomto hostiteľovi a pôvod pripojenia z tohto zariadenia.",
     "webUiRender": "Otvoriť v",
     "webUiRenderExternal": "Izolované desktopové okno",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Povoliť Termixu priamy prístup k hostiteľom",
+        "description": "Možnosť „cez Termix“ používa SSH tunel, ak hostiteľ má SSH. Zapnite túto možnosť pre hostiteľov bez SSH, ako sú firewally a iLO, aby sa k nim tento server pripájal priamo. Každý, kto môže upravovať hostiteľa, ho potom môže nasmerovať na adresy, ktoré tento server dosiahne."
+      },
       "allowExposedBind": {
         "label": "Povoliť tunely na iných adresách",
         "description": "Umožňuje, aby sa bindovacia adresa koncového bodu zverejnila v sieti tohto servera bez nutnosti prihlásenia do Termixu. Vypnuté: prehliadače sa k tunelom dostanú cez samotný Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Upozorniť, keď je webové UI nedostupné",
+        "description": "Poslať upozornenie, keď webové UI na tomto hostiteľovi prestane odpovedať."
+      },
       "showPanel": {
         "label": "Panel vedľa terminálu",
         "description": "Umožniť webové rozhranie vedľa SSH terminálu tohto hostiteľa."
@@ -100,9 +110,27 @@
     "toggle": "Panel webového rozhrania",
     "openTab": "Otvoriť v karte"
   },
+  "tile": {
+    "title": "Webové UI",
+    "empty": "Na tomto hostiteľovi nie sú žiadne webové UI."
+  },
   "card": {
     "title": "Webové rozhrania",
     "empty": "Zatiaľ žiadne webové rozhrania. Pridajte jedno v nastaveniach webového rozhrania hostiteľa.",
     "open": "Otvoriť"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kontrola webových koncových bodov",
+      "description": "Kontrola, či webové stránky na hostiteľoch, ku ktorým máte prístup, odpovedajú."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kontrola webových koncových bodov"
+    },
+    "up": {
+      "title": "Webové koncové body"
+    }
   }
 }

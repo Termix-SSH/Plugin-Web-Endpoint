@@ -38,6 +38,8 @@
     "webUiAccess": "Åtkomst",
     "webUiAccessDirect": "Direkt",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Via Termix",
+    "webUiAccessTermixDesc": "Öppnas i en ny webbläsarflik via denna server, så din webbläsare behöver inte nå värdmaskinen direkt. Kräver pluginet Reverse Proxy med en domän för webbadressen. Desktop-appen använder istället en SSH-tunnel.",
     "webUiAccessTunnelUnavailable": "En SSH-tunnel kräver att SSH är aktiverat på den här värdens och att anslutningsursprunget är den här enheten.",
     "webUiRender": "Öppna i",
     "webUiRenderExternal": "Isolerat skrivbordsfönster",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Låt Termix nå värdmaskiner direkt",
+        "description": "Via Termix använder en SSH-tunnel när en värdmaskin har SSH. Aktivera detta för värdmaskiner utan SSH, som brandväggar och iLO, så att denna server ansluter till dem direkt. Alla som kan redigera en värdmaskin kan då peka den mot adresser som denna server kan nå."
+      },
       "allowExposedBind": {
         "label": "Tillåt tunnlar på andra adresser",
         "description": "Låter en ändpunkts bindningsadress publicera sin tunnel på serverns nätverk, utan Termix-inloggning framför. Inaktivera: webbläsare når tunnlar via Termix självt."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Varna när en webbgränssnitt är nere",
+        "description": "Skicka en varning när ett webbgränssnitt på denna värdmaskin slutar svara."
+      },
       "showPanel": {
         "label": "Panel bredvid terminalen",
         "description": "Erbjud en webbgränssnittspanel bredvid SSH-terminalen för denna värd."
@@ -100,9 +110,27 @@
     "toggle": "Webbgränssnittspanel",
     "openTab": "Öppna i en flik"
   },
+  "tile": {
+    "title": "Webbgränssnitt",
+    "empty": "Inga webbgränssnitt på denna värdmaskin."
+  },
   "card": {
     "title": "Webbgränssnitt",
     "empty": "Inga webbgränssnitt ännu. Lägg till ett i en värds inställningar för webbgränssnitt.",
     "open": "Öppna"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kontrollera webbadresser",
+      "description": "Kontrollera att webbsidor på värdmaskiner du kan nå svarar."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kontrollera webbadresser"
+    },
+    "up": {
+      "title": "Webbadresser"
+    }
   }
 }

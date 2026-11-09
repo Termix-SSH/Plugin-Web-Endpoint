@@ -236,7 +236,7 @@ export function HostEditorWebUiSection({
               onChange={(v: boolean) => setSettings({ enableWebUi: v })}
             />
           </SettingRow>
-          <div className="text-xs text-muted-foreground p-3 bg-muted/30 border border-border space-y-1">
+          <div className="space-y-1 border-b border-border p-3 text-xs text-muted-foreground">
             <p>{t("hosts.webUiRequirementsText")}</p>
           </div>
         </div>
@@ -276,7 +276,7 @@ export function HostEditorWebUiSection({
                 return (
                   <div
                     key={endpoint.id}
-                    className="flex flex-col gap-3 p-3 border border-border bg-muted/20 relative group"
+                    className="flex flex-col gap-3 p-3 border border-border relative group"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-bold text-muted-foreground">
@@ -375,9 +375,9 @@ export function HostEditorWebUiSection({
                               // Meaningless for a tunnel, whose host component
                               // is loopback and already exempt.
                               ignoreCert:
-                                value === "direct"
-                                  ? endpoint.ignoreCert
-                                  : false,
+                                value === "tunnel"
+                                  ? false
+                                  : endpoint.ignoreCert,
                             })
                           }
                         >
@@ -391,6 +391,9 @@ export function HostEditorWebUiSection({
                           <SelectContent>
                             <SelectItem value="direct" className="text-xs">
                               {t("hosts.webUiAccessDirect")}
+                            </SelectItem>
+                            <SelectItem value="termix" className="text-xs">
+                              {t("hosts.webUiAccessTermix")}
                             </SelectItem>
                             <SelectItem
                               value="tunnel"
@@ -512,7 +515,13 @@ export function HostEditorWebUiSection({
                       </p>
                     )}
 
-                    {endpoint.access === "direct" && (
+                    {endpoint.access === "termix" && (
+                      <p className="text-[11px] opacity-70">
+                        {t("hosts.webUiAccessTermixDesc")}
+                      </p>
+                    )}
+
+                    {endpoint.access !== "tunnel" && (
                       <div className="flex flex-col gap-1">
                         <label className="flex items-center gap-2 text-xs">
                           <Checkbox

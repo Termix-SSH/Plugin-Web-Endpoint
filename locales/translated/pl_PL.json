@@ -38,6 +38,8 @@
     "webUiAccess": "Dostęp",
     "webUiAccessDirect": "Bezpośredni",
     "webUiAccessTunnel": "Tunel SSH",
+    "webUiAccessTermix": "Przez Termix",
+    "webUiAccessTermixDesc": "Otwiera się w nowej karcie przeglądarki przez ten serwer, więc Twoja przeglądarka nie musi mieć bezpośredniego dostępu do hosta. Wymaga wtyczki Reverse Proxy z domeną punktu końcowego WWW. Aplikacja desktopowa używa zamiast tego tunelu SSH.",
     "webUiAccessTunnelUnavailable": "Tunel SSH wymaga włączonego SSH na tym hoście i źródła połączenia z tego urządzenia.",
     "webUiRender": "Otwórz w",
     "webUiRenderExternal": "Izolowane okno pulpitu",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Zezwól Termixowi na bezpośrednie łączenie się z hostami",
+        "description": "Opcja „Przez Termix” używa tunelu SSH, gdy host ma SSH. Włącz to dla hostów bez SSH, takich jak firewalle czy iLO, aby ten serwer łączył się z nimi bezpośrednio. Każdy, kto może edytować hosta, może wtedy wskazać adresy, do których ten serwer ma dostęp."
+      },
       "allowExposedBind": {
         "label": "Zezwól na tunele na innych adresach",
         "description": "Pozwala adresowi wiązania punktu końcowego opublikować tunel w sieci tego serwera, bez konieczności logowania się do Termix. Wyłącz: przeglądarki łączą się z tunelami przez sam Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Powiadamiaj, gdy interfejs WWW jest niedostępny",
+        "description": "Wyślij powiadomienie, gdy interfejs WWW na tym hoście przestanie odpowiadać."
+      },
       "showPanel": {
         "label": "Panel obok terminala",
         "description": "Zapewnij panel interfejsu webowego obok terminala SSH tego hosta."
@@ -100,9 +110,27 @@
     "toggle": "Panel interfejsu webowego",
     "openTab": "Otwórz w karcie"
   },
+  "tile": {
+    "title": "Interfejsy WWW",
+    "empty": "Brak interfejsów WWW na tym hoście."
+  },
   "card": {
     "title": "Interfejsy webowe",
     "empty": "Brak interfejsów webowych. Dodaj jeden w ustawieniach interfejsu webowego hosta.",
     "open": "Otwórz"
+  },
+  "permissions": {
+    "use": {
+      "title": "Sprawdzanie punktów końcowych WWW",
+      "description": "Sprawdzanie, czy strony WWW na hostach, do których masz dostęp, odpowiadają."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Sprawdzanie punktów końcowych WWW"
+    },
+    "up": {
+      "title": "Punkty końcowe WWW"
+    }
   }
 }

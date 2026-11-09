@@ -38,6 +38,8 @@
     "webUiAccess": "Juurdepääs",
     "webUiAccessDirect": "Otsene",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Kaudu Termixist",
+    "webUiAccessTermixDesc": "Avaldub uues brauseri vahekaardis selle serveri kaudu, nii et teie brauser ei pea hosti otseselt jõudma. Nõuab Reverse Proxy pistikprogrammi koos veebi lõpppunkti domeeniga. Lauarakendus kasutab selle asemel SSH-tunnelit.",
     "webUiAccessTunnelUnavailable": "SSH-tunnel vajab sellel hostil lubatud SSH-d ja ühenduse alguspunktiks peab olema see seade.",
     "webUiRender": "Ava",
     "webUiRenderExternal": "Eraldatud lauaaken",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Luba Termixil hostidele otse ligi pääseda",
+        "description": "Kaudu Termixist kasutab SSH-tunnelit, kui hostil on SSH. Lülitage see sisse hostide jaoks, millel SSH puudub (näiteks tulemüürid ja iLO), et see server ühenduks nendega ise. Igaüks, kes saab hosti muuta, saab seejärel suunata selle aadressidele, millele see server pääseb."
+      },
       "allowExposedBind": {
         "label": "Luba tunnelid teistel aadressidel",
         "description": "Võimaldab lõpp-punkti sidumisadressil avaldada oma tunneli selle serveri võrgus ilma Termixi sisselogimiseta. Jäta välja: brauserid jõuavad tunneliteni läbi Termixi enda."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Teavita, kui veebi-liides on väljas",
+        "description": "Saada teavitus, kui selle hosti veebi-liides lakkab vastamast."
+      },
       "showPanel": {
         "label": "Paneel terminali kõrval",
         "description": "Paku veebi-liidese paneeli selle hosti SSH-terminali kõrval."
@@ -100,9 +110,27 @@
     "toggle": "Veebi-liidese paneel",
     "openTab": "Ava uuel vahelehel"
   },
+  "tile": {
+    "title": "Veebi-liidesed",
+    "empty": "Sellel hostil pole veebi-liideseid."
+  },
   "card": {
     "title": "Veebi-liidesed",
     "empty": "Veebi-liideseid pole veel. Lisa üks hosti veebi-liidese seadetest.",
     "open": "Ava"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kontrolli veebi lõpppunkte",
+      "description": "Kontrolli, kas hostide veebilehed, millele sa pääsed, vastavad."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kontrolli veebi lõpppunkte"
+    },
+    "up": {
+      "title": "Veebi lõpppunktid"
+    }
   }
 }

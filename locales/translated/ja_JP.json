@@ -38,6 +38,8 @@
     "webUiAccess": "アクセス",
     "webUiAccessDirect": "ダイレクト",
     "webUiAccessTunnel": "SSH トンネル",
+    "webUiAccessTermix": "Termix を通じて",
+    "webUiAccessTermixDesc": "このサーバーを介して新しいブラウザタブで開きます。ブラウザがホストに直接アクセスする必要はありません。Reverse Proxy プラグインと Web エンドポイントのドメインが必要です。デスクトップアプリでは代わりに SSH トンネルを使用します。",
     "webUiAccessTunnelUnavailable": "SSH トンネルには、このホストで SSH が有効で、接続のオリジンがこのデバイスである必要があります。",
     "webUiRender": "開く場所",
     "webUiRenderExternal": "分離されたデスクトップウィンドウ",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Termix がホストに直接アクセスできるようにする",
+        "description": "「Termix を通じて」は、ホストに SSH がある場合に SSH トンネルを使用します。ファイアウォールや iLO のように SSH がないホストに対して、このサーバーが直接接続できるようにするには、このオプションを有効にしてください。このオプションを有効にすると、ホストを編集できるすべてのユーザーが、このサーバーが到達可能なアドレスを指定できるようになります。"
+      },
       "allowExposedBind": {
         "label": "他のアドレスでのトンネルを許可する",
         "description": "エンドポイントのバインドアドレスを、このサーバーのネットワーク上でターミナルを公開できるようにします。Termixのログイン画面は表示されません。オフにすると、ブラウザはTermix自体を介してトンネルにアクセスします。"
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Web UI がダウンしたときにアラートを送信する",
+        "description": "このホスト上の Web UI が応答しなくなったときにアラートを送信します。"
+      },
       "showPanel": {
         "label": "ターミナル横のパネル",
         "description": "このホストの SSH ターミナルの横に Web UI パネルを表示します。"
@@ -100,9 +110,27 @@
     "toggle": "Web UI パネル",
     "openTab": "タブで開く"
   },
+  "tile": {
+    "title": "Web UI",
+    "empty": "このホストには Web UI がありません。"
+  },
   "card": {
     "title": "Web UI",
     "empty": "Web UI がありません。ホストの Web UI 設定から追加してください。",
     "open": "開く"
+  },
+  "permissions": {
+    "use": {
+      "title": "Web エンドポイントの確認",
+      "description": "アクセス可能なホスト上の Web ページが応答していることを確認します。"
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Web エンドポイントの確認"
+    },
+    "up": {
+      "title": "Web エンドポイント"
+    }
   }
 }

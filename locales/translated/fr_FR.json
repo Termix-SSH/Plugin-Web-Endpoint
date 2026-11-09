@@ -38,6 +38,8 @@
     "webUiAccess": "Accès",
     "webUiAccessDirect": "Direct",
     "webUiAccessTunnel": "Tunnel SSH",
+    "webUiAccessTermix": "Via Termix",
+    "webUiAccessTermixDesc": "S'ouvre dans un nouvel onglet du navigateur via ce serveur, ainsi votre navigateur n'a pas besoin d'accéder directement à l'hôte. Nécessite le plugin Reverse Proxy avec un domaine de point de terminaison web. L'application de bureau utilise un tunnel SSH à la place.",
     "webUiAccessTunnelUnavailable": "Un tunnel SSH nécessite que SSH soit activé sur cet hôte et une origine de connexion de cet appareil.",
     "webUiRender": "Ouvrir dans",
     "webUiRenderExternal": "Fenêtre de bureau isolée",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Autoriser Termix à accéder directement aux hôtes",
+        "description": "L'option « Via Termix » utilise un tunnel SSH lorsqu'un hôte dispose de SSH. Activez cette option pour les hôtes sans SSH, comme les pare-feu et les iLO, afin que ce serveur se connecte à eux directement. Toute personne pouvant modifier un hôte pourra alors le pointer vers des adresses accessibles par ce serveur."
+      },
       "allowExposedBind": {
         "label": "Autoriser les tunnels sur d’autres adresses",
         "description": "Permet à l'adresse de liaison d'un point de terminaison de publier son tunnel sur le réseau de ce serveur, sans passer par la connexion à Termix. Désactivé : les navigateurs accèdent aux tunnels via Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alerter lorsqu'une interface web est hors ligne",
+        "description": "Envoyer une alerte lorsqu'une interface web sur cet hôte cesse de répondre."
+      },
       "showPanel": {
         "label": "Panneau à côté du terminal",
         "description": "Afficher un panneau d'interface web à côté du terminal SSH de cet hôte."
@@ -100,9 +110,27 @@
     "toggle": "Panneau Web UI",
     "openTab": "Ouvrir dans un onglet"
   },
+  "tile": {
+    "title": "Interfaces web",
+    "empty": "Aucune interface web sur cet hôte."
+  },
   "card": {
     "title": "Interfaces Web",
     "empty": "Aucune interface Web pour le moment. Ajoutez-en une dans les paramètres Web UI d’un hôte.",
     "open": "Ouvrir"
+  },
+  "permissions": {
+    "use": {
+      "title": "Vérifier les points de terminaison web",
+      "description": "Vérifier que les pages web sur les hôtes auxquels vous avez accès répondent."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Vérifier les points de terminaison web"
+    },
+    "up": {
+      "title": "Points de terminaison web"
+    }
   }
 }

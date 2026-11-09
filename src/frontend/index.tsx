@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { Globe } from "lucide-react";
 import type {
   HostEditorSectionProps,
@@ -11,6 +12,7 @@ import { setWebEndpointApi } from "./web-endpoint-api";
 import { TAB_TYPE, endpointsOf, openEndpoint } from "./endpoints";
 import {
   WebEndpointCompanion,
+  WebEndpointHostTile,
   WebEndpointsCard,
   useWebCompanionDefaults,
   webPanelEnabled,
@@ -85,6 +87,18 @@ export function activate(app: TermixApp): void {
     defaultHeight: 200,
     frame: "framed",
     component: WebEndpointsCard,
+  });
+
+  app.registerSlotContribution("host-page.tiles", {
+    actionId: "web-endpoint.hostTile",
+    titleKey: "tile.title",
+    icon: Globe,
+    kind: "component",
+    component: WebEndpointHostTile as unknown as ComponentType<
+      Record<string, unknown>
+    >,
+    when: (context?: { host?: Host }) =>
+      !context?.host || endpointsOf(context.host).length > 0,
   });
 
   // Cores before 26.10.3 have no panels beside tabs.

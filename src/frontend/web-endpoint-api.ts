@@ -40,6 +40,26 @@ export class WebEndpointTunnelError extends Error {
   }
 }
 
+/** The one time address that opens an endpoint through this server. */
+export async function openWebEndpointThroughTermix(
+  hostId: number,
+  endpointId: string,
+): Promise<string> {
+  if (!pluginApi) throw new Error(message("errors.notActive"));
+  try {
+    const response = await pluginApi.post("/open-termix", {
+      hostId,
+      endpointId,
+    });
+    return (response.data as { url: string }).url;
+  } catch (error) {
+    const reason = (error as { response?: { data?: { error?: unknown } } })
+      ?.response?.data?.error;
+    if (typeof reason === "string" && reason) throw new Error(reason);
+    throw error;
+  }
+}
+
 /**
  * Opens (or reuses) the SSH forward for a tunnel-access web endpoint and
  * returns the port it is listening on. The port is NOT stable across opens:

@@ -38,6 +38,8 @@
     "webUiAccess": "Piekļuve",
     "webUiAccessDirect": "Tieša",
     "webUiAccessTunnel": "SSH tunelis",
+    "webUiAccessTermix": "caur Termix",
+    "webUiAccessTermixDesc": "Atveras jaunā pārlūkprogrammas cilnē caur šo serveri, tāpēc jūsu pārlūkprogrammai nav nepieciešams tieši sazināties ar mezglu. Nepieciešama Reverse Proxy spraudnis ar tīmekļa gala punkta domēnu. Darbvirsmas lietotne izmanto SSH tuneli.",
     "webUiAccessTunnelUnavailable": "SSH tunelim ir nepieciešams, lai šajā mezglā būtu iespējots SSH un savienojuma izcelsme būtu šī ierīce.",
     "webUiRender": "Atvērt",
     "webUiRenderExternal": "Izolēts darbvirsmas logs",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Ļaut Termix tieši sazināties ar mezgliem",
+        "description": "Izvēlne \"caur Termix\" izmanto SSH tuneli, ja mezglam ir SSH. Ieslēdziet šo opciju mezgliem bez SSH, piemēram, ugunsmūriem un iLO, lai šis servers pats sazinātos ar tiem. Jebkurš, kurš var rediģēt mezglu, tad var norādīt uz adresēm, kas ir sasniedzamas no šī servera."
+      },
       "allowExposedBind": {
         "label": "Atļaut tunelis uz citām adresēm",
         "description": "Ļauj galapunkta pieslēgšanās adresei publicēt savu tuneli šī servera tīklā, bez Termix pieteikšanās ekrāna. Atstāj izslēgtu: pārlūkprogrammas sasniedz tunelis caur pašu Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Brīdinājums, ja tīmekļa lietotne nedarbojas",
+        "description": "Nosūtīt brīdinājumu, ja šī mezgla tīmekļa lietotne vairs neatbild."
+      },
       "showPanel": {
         "label": "Panelis blakus terminālim",
         "description": "Piedāvāt tīmekļa lietotnes saskarnes paneli blakus šī resursdatora SSH terminālim."
@@ -100,9 +110,27 @@
     "toggle": "Tīmekļa lietotnes saskarnes panelis",
     "openTab": "Atvērt cilnē"
   },
+  "tile": {
+    "title": "Tīmekļa lietotnes",
+    "empty": "Šim mezglam nav tīmekļa lietotņu."
+  },
   "card": {
     "title": "Tīmekļa lietotnes saskarnes",
     "empty": "Vēl nav tīmekļa lietotnes saskarnes. Pievienojiet vienu resursdatora tīmekļa lietotnes saskarnes iestatījumos.",
     "open": "Atvērt"
+  },
+  "permissions": {
+    "use": {
+      "title": "Pārbaudīt tīmekļa gala punktus",
+      "description": "Pārbaudīt, vai tīmekļa lapas mezglos, kurus varat sasniegt, atbild."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Pārbaudīt tīmekļa gala punktus"
+    },
+    "up": {
+      "title": "Tīmekļa gala punkti"
+    }
   }
 }

@@ -38,6 +38,8 @@
     "webUiAccess": "Zugriff",
     "webUiAccessDirect": "Direkt",
     "webUiAccessTunnel": "SSH-Tunnel",
+    "webUiAccessTermix": "Über Termix",
+    "webUiAccessTermixDesc": "Wird in einem neuen Browser-Tab über diesen Server geöffnet, sodass Ihr Browser den Host nicht direkt erreichen muss. Erfordert das Reverse-Proxy-Plugin mit einer Web-Endpoint-Domain. Die Desktop-App verwendet stattdessen einen SSH-Tunnel.",
     "webUiAccessTunnelUnavailable": "Ein SSH-Tunnel erfordert, dass SSH auf diesem Host aktiviert ist und der Verbindungsursprung dieses Geräts ist.",
     "webUiRender": "Öffnen in",
     "webUiRenderExternal": "Isoliertes Desktop-Fenster",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Termix den direkten Zugriff auf Hosts erlauben",
+        "description": "Die Option „Über Termix“ verwendet einen SSH-Tunnel, wenn der Host SSH unterstützt. Aktivieren Sie diese Einstellung für Hosts ohne SSH (z. B. Firewalls oder iLO), damit dieser Server selbst eine Verbindung zu ihnen herstellt. Jeder, der einen Host bearbeiten kann, kann ihn dann auf Adressen verweisen, die dieser Server erreichen kann."
+      },
       "allowExposedBind": {
         "label": "Tunnel an anderen Adressen zulassen",
         "description": "Ermöglicht es der Bind-Adresse eines Endpunkts, seinen Tunnel im Netzwerk dieses Servers zu veröffentlichen, ohne dass eine Termix-Anmeldung davor steht. Deaktivieren: Browser erreichen Tunnel über Termix selbst."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Benachrichtigung, wenn eine Web-UI nicht erreichbar ist",
+        "description": "Sendet eine Benachrichtigung, wenn eine Web-UI auf diesem Host nicht mehr antwortet."
+      },
       "showPanel": {
         "label": "Panel neben dem Terminal",
         "description": "Ein Web-UI-Panel neben dem SSH-Terminal dieses Hosts anzeigen."
@@ -100,9 +110,27 @@
     "toggle": "Web-UI-Panel",
     "openTab": "In einem Tab öffnen"
   },
+  "tile": {
+    "title": "Web-UIs",
+    "empty": "Keine Web-UIs auf diesem Host."
+  },
   "card": {
     "title": "Web-UIs",
     "empty": "Noch keine Web-UIs vorhanden. Fügen Sie eine in den Web-UI-Einstellungen eines Hosts hinzu.",
     "open": "Öffnen"
+  },
+  "permissions": {
+    "use": {
+      "title": "Web-Endpunkte prüfen",
+      "description": "Prüft, ob Webseiten auf Hosts, die Sie erreichen können, antworten."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Web-Endpunkte prüfen"
+    },
+    "up": {
+      "title": "Web-Endpunkte"
+    }
   }
 }

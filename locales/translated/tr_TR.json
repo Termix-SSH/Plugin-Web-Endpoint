@@ -38,6 +38,8 @@
     "webUiAccess": "Erişim",
     "webUiAccessDirect": "Doğrudan",
     "webUiAccessTunnel": "SSH tüneli",
+    "webUiAccessTermix": "Termix üzerinden",
+    "webUiAccessTermixDesc": "Bu sunucu üzerinden yeni bir tarayıcı sekmesinde açılır, böylece tarayıcınızın ana makineye doğrudan erişmesine gerek kalmaz. Web uç noktası alan adına sahip Ters Proxy eklentisi gerektirir. Masaüstü uygulaması bunun yerine bir SSH tüneli kullanır.",
     "webUiAccessTunnelUnavailable": "Bir SSH tüneli, bu ana bilgisayarda SSH'nin etkinleştirilmesini ve bağlantı kaynağının bu cihaz olmasını gerektirir.",
     "webUiRender": "Şurada aç",
     "webUiRenderExternal": "İzole masaüstü penceresi",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Termix'in ana makineleri doğrudan erişebilmesine izin ver",
+        "description": "Termix üzerinden, ana makinede SSH varsa bir SSH tüneli kullanır. SSH'siz ana makineler (yangın duvarları ve iLO gibi) için bunu açın, böylece bu sunucu onlara doğrudan bağlanır. Bir ana makineyi düzenleyebilen herkes, bu sunucunun erişebileceği adreslere yönlendirebilir."
+      },
       "allowExposedBind": {
         "label": "Diğer adreslerde tünellemeye izin ver",
         "description": "Bir uç noktanın bağlandığı adresin, Termix girişi olmadan bu sunucunun ağında tünelini yayınlamasına olanak tanır. Kapatın: tarayıcılar tünelere Termix üzerinden erişir."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Web arayüzü erişilemez olduğunda uyar",
+        "description": "Bu ana makinedeki bir web arayüzü yanıt vermeyi bıraktığında bir uyarı gönder."
+      },
       "showPanel": {
         "label": "Terminalin yanında panel",
         "description": "Bu sunucunun SSH terminalinin yanında bir web arayüzü paneli sun."
@@ -100,9 +110,27 @@
     "toggle": "Web arayüzü paneli",
     "openTab": "Bir sekmede aç"
   },
+  "tile": {
+    "title": "Web Arayüzleri",
+    "empty": "Bu ana makinede web arayüzü yok."
+  },
   "card": {
     "title": "Web Arayüzleri",
     "empty": "Henüz web arayüzü yok. Bir sunucunun Web Arayüzü ayarlarından ekleyin.",
     "open": "Aç"
+  },
+  "permissions": {
+    "use": {
+      "title": "Web uç noktalarını kontrol et",
+      "description": "Erişebildiğiniz ana makinelerdeki web sayfalarının yanıt verdiğini kontrol edin."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Web uç noktalarını kontrol et"
+    },
+    "up": {
+      "title": "Web uç noktaları"
+    }
   }
 }

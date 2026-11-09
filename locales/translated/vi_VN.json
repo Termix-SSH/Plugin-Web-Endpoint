@@ -38,6 +38,8 @@
     "webUiAccess": "Truy cập",
     "webUiAccessDirect": "Trực tiếp",
     "webUiAccessTunnel": "Đường hầm SSH",
+    "webUiAccessTermix": "Thông qua Termix",
+    "webUiAccessTermixDesc": "Mở trong một tab trình duyệt mới thông qua máy chủ này, vì vậy trình duyệt của bạn không cần phải kết nối trực tiếp đến host. Cần có plugin Reverse Proxy với một tên miền điểm cuối web. Ứng dụng máy tính để bàn sử dụng đường hầm SSH thay thế.",
     "webUiAccessTunnelUnavailable": "Đường hầm SSH cần SSH được bật trên máy chủ này và nguồn kết nối từ thiết bị này.",
     "webUiRender": "Mở trong",
     "webUiRenderExternal": "Cửa sổ máy tính để bàn cách ly",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Cho phép Termix kết nối trực tiếp đến các host",
+        "description": "Tùy chọn \"Thông qua Termix\" sử dụng đường hầm SSH khi host có SSH. Bật tùy chọn này cho các host không có SSH, như tường lửa và iLO, để máy chủ này tự kết nối đến chúng. Bất kỳ ai có thể chỉnh sửa host đều có thể trỏ nó đến các địa chỉ mà máy chủ này có thể truy cập."
+      },
       "allowExposedBind": {
         "label": "Cho phép đường hầm trên các địa chỉ khác",
         "description": "Cho phép địa chỉ gắn kết của điểm cuối công bố đường hầm của nó trên mạng của máy chủ này, mà không có đăng nhập Termix ở phía trước. Tắt: trình duyệt truy cập đường hầm thông qua chính Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Cảnh báo khi giao diện web bị lỗi",
+        "description": "Gửi cảnh báo khi giao diện web trên host này ngừng phản hồi."
+      },
       "showPanel": {
         "label": "Bảng điều khiển bên cạnh terminal",
         "description": "Hiển thị bảng điều khiển giao diện web bên cạnh terminal SSH của máy chủ này."
@@ -100,9 +110,27 @@
     "toggle": "Bảng điều khiển giao diện web",
     "openTab": "Mở trong tab"
   },
+  "tile": {
+    "title": "Giao diện web",
+    "empty": "Không có giao diện web nào trên host này."
+  },
   "card": {
     "title": "Giao diện web",
     "empty": "Chưa có giao diện web nào. Hãy thêm một giao diện trong cài đặt Giao diện web của máy chủ.",
     "open": "Mở"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kiểm tra điểm cuối web",
+      "description": "Kiểm tra xem các trang web trên các host bạn có thể truy cập có phản hồi hay không."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kiểm tra điểm cuối web"
+    },
+    "up": {
+      "title": "Điểm cuối web"
+    }
   }
 }

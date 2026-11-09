@@ -38,6 +38,8 @@
     "webUiAccess": "Toegang",
     "webUiAccessDirect": "Direk",
     "webUiAccessTunnel": "SSH-tunnel",
+    "webUiAccessTermix": "Deur Termix",
+    "webUiAccessTermixDesc": "Maak oop in 'n nuwe blaaier-oortjie deur hierdie bediener, sodat jou blaaier nie die gasheer hoef te bereik nie. Vereis die Reverse Proxy-plug-in met 'n web-eindpunt-domein. Die lessenaar-toepassing gebruik in plaas daarvan 'n SSH-tunnel.",
     "webUiAccessTunnelUnavailable": "'n SSH-tunnel vereis SSH geaktiveer op hierdie gasheer en 'n verbinding-oorsprong van hierdie toestel.",
     "webUiRender": "Oopmaak in",
     "webUiRenderExternal": "Geïsoleerde burovenster",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Laat Termix gasheer direk bereik",
+        "description": "Deur Termix gebruik 'n SSH-tunnel wanneer 'n gasheer SSH het. Skakel dit aan vir gasheer sonder SSH, soos brandmuurs en iLO, sodat hierdie bediener self met hulle verbind. Enigeen wat 'n gasheer kan redigeer, kan dit dan na adresse wys wat hierdie bediener kan bereik."
+      },
       "allowExposedBind": {
         "label": "Laat toe tunnels op ander adresse",
         "description": "Laat 'n eindpunt se bindadres sy tunnel op hierdie bediener se netwerk publiseer, sonder 'n Termix-aanmelding daarvoor. Verwyder dit: browsers bereik tunnels deur Termix self."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Waarskuwing wanneer 'n web-gebruikerskoppelvlak af is",
+        "description": "Stuur 'n waarskuwing wanneer 'n web-gebruikerskoppelvlak op hierdie gasheer ophou antwoord."
+      },
       "showPanel": {
         "label": "Paneel langs die terminaal",
         "description": "Bied 'n web-gebruikerskoppelvlak-paneel langs hierdie gasheer se SSH-terminaal."
@@ -100,9 +110,27 @@
     "toggle": "Web-UI-paneel",
     "openTab": "Maak in 'n tabblad oop"
   },
+  "tile": {
+    "title": "Web-gebruikerskoppelvlakke",
+    "empty": "Geen web-gebruikerskoppelvlakke op hierdie gasheer nie."
+  },
   "card": {
     "title": "Web-UI's",
     "empty": "Nog geen web-UI's nie. Voeg een by in 'n gasheer se Web-UI-instellings.",
     "open": "Maak oop"
+  },
+  "permissions": {
+    "use": {
+      "title": "Kontroleer web-eindpunte",
+      "description": "Kontroleer dat webbladsye op gasheer wat jy kan bereik, antwoord."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Kontroleer web-eindpunte"
+    },
+    "up": {
+      "title": "Web-eindpunte"
+    }
   }
 }

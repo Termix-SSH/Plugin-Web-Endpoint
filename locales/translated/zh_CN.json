@@ -38,6 +38,8 @@
     "webUiAccess": "访问方式",
     "webUiAccessDirect": "直接",
     "webUiAccessTunnel": "SSH 隧道",
+    "webUiAccessTermix": "通过 Termix",
+    "webUiAccessTermixDesc": "通过此服务器在新浏览器标签页中打开，因此您的浏览器无需直接访问主机。需要安装带有 Web 端点域名的反向代理插件。桌面版应用则使用 SSH 隧道。",
     "webUiAccessTunnelUnavailable": "SSH 隧道需要在此主机上启用 SSH，且连接来源为此设备。",
     "webUiRender": "打开方式",
     "webUiRenderExternal": "隔离桌面窗口",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "允许 Termix 直接连接主机",
+        "description": "当主机支持 SSH 时，“通过 Termix”会使用 SSH 隧道。请为此服务器无法通过 SSH 连接的主机（如防火墙和 iLO）启用此选项，以便由该服务器直接连接它们。启用后，任何有权编辑主机的用户都可以将其指向该服务器可访问的地址。"
+      },
       "allowExposedBind": {
         "label": "允许在其他地址上创建隧道",
         "description": "允许端点的绑定地址在此服务器的网络上发布其隧道，且无需经过 Termix 登录验证。若未启用：浏览器将通过 Termix 本身访问隧道。"
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Web UI 离线时发送警报",
+        "description": "当此主机上的 Web UI 停止响应时发送警报。"
+      },
       "showPanel": {
         "label": "终端旁边的面板",
         "description": "在此主机的 SSH 终端旁提供 Web UI 面板。"
@@ -100,9 +110,27 @@
     "toggle": "Web UI 面板",
     "openTab": "在标签页中打开"
   },
+  "tile": {
+    "title": "Web UI",
+    "empty": "此主机上没有 Web UI。"
+  },
   "card": {
     "title": "Web UI",
     "empty": "暂无 Web UI。请在主机的 Web UI 设置中添加一个。",
     "open": "打开"
+  },
+  "permissions": {
+    "use": {
+      "title": "检查 Web 端点",
+      "description": "检查您能访问的主机上的网页是否正常响应。"
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "检查 Web 端点"
+    },
+    "up": {
+      "title": "Web 端点"
+    }
   }
 }

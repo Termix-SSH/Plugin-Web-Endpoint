@@ -38,6 +38,8 @@
     "webUiAccess": "Akses",
     "webUiAccessDirect": "Langsung",
     "webUiAccessTunnel": "Terowongan SSH",
+    "webUiAccessTermix": "Melalui Termix",
+    "webUiAccessTermixDesc": "Membuka di tab browser baru melalui server ini, sehingga browser Anda tidak perlu menghubungi host secara langsung. Memerlukan plugin Reverse Proxy dengan domain titik akhir web. Aplikasi desktop menggunakan terowongan SSH sebagai gantinya.",
     "webUiAccessTunnelUnavailable": "Terowongan SSH memerlukan SSH diaktifkan pada host ini dan asal koneksi dari perangkat ini.",
     "webUiRender": "Buka di",
     "webUiRenderExternal": "Jendela desktop terisolasi",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Izinkan Termix menghubungi host secara langsung",
+        "description": "Melalui Termix menggunakan terowongan SSH ketika host memiliki SSH. Aktifkan ini untuk host tanpa SSH, seperti firewall dan iLO, agar server ini menghubunginya secara langsung. Siapa pun yang dapat mengedit host kemudian dapat mengarahkannya ke alamat yang dapat dijangkau oleh server ini."
+      },
       "allowExposedBind": {
         "label": "Izinkan terowongan pada alamat lain",
         "description": "Memungkinkan alamat pengikatan titik akhir menerbitkan terowongannya di jaringan server ini, tanpa login Termix di depannya. Nonaktifkan: browser mengakses terowongan melalui Termix itu sendiri."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Peringatan ketika antarmuka web tidak tersedia",
+        "description": "Kirim peringatan ketika antarmuka web pada host ini berhenti merespons."
+      },
       "showPanel": {
         "label": "Panel di samping terminal",
         "description": "Menampilkan panel antarmuka web di sebelah terminal SSH host ini."
@@ -100,9 +110,27 @@
     "toggle": "Panel antarmuka web",
     "openTab": "Buka di tab"
   },
+  "tile": {
+    "title": "Antarmuka Web",
+    "empty": "Tidak ada antarmuka web pada host ini."
+  },
   "card": {
     "title": "Antarmuka Web",
     "empty": "Belum ada antarmuka web. Tambahkan satu di pengaturan Antarmuka Web host.",
     "open": "Buka"
+  },
+  "permissions": {
+    "use": {
+      "title": "Periksa titik akhir web",
+      "description": "Periksa bahwa halaman web pada host yang dapat Anda jangkau merespons."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Periksa titik akhir web"
+    },
+    "up": {
+      "title": "Titik akhir web"
+    }
   }
 }

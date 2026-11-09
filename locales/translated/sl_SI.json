@@ -38,6 +38,8 @@
     "webUiAccess": "Dostop",
     "webUiAccessDirect": "Neposreden",
     "webUiAccessTunnel": "SSH tunel",
+    "webUiAccessTermix": "Preko Termixa",
+    "webUiAccessTermixDesc": "Odpre se v novem zavihku brskalnika prek tega strežnika, zato vaš brskalnik ne potrebuje neposrednega dostopa do gostitelja. Zahteva vtičnik Reverse Proxy s področjem končne točke spletnega vmesnika. Namizna aplikacija namesto tega uporablja SSH preusmeritev.",
     "webUiAccessTunnelUnavailable": "SSH tunel zahteva omogočen SSH na tem gostitelju in izvor povezave tega naprave.",
     "webUiRender": "Odpri v",
     "webUiRenderExternal": "Izolirano namizno okno",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Dovoli Termixu neposreden dostop do gostiteljev",
+        "description": "Možnost »Preko Termixa« uporablja SSH preusmeritev, ko gostitelj podpira SSH. To možnost vklopite za gostitelje brez SSH, kot so požarni zidovi in iLO, da se bo ta strežnik do njih povezal neposredno. Vsakdo, ki lahko ureja gostitelja, ga lahko nato usmeri na naslove, ki jih ta strežnik doseže."
+      },
       "allowExposedBind": {
         "label": "Omogoči tunele na drugih naslovih",
         "description": "Omogoči, da naslov vezave končne točke objavi svoj tunel na omrežju tega strežnika, brez prijave v Termix. Če je izklopljeno: brskalniki dostopajo do tunelov prek samega Termixa."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Opozori, ko spletni vmesnik ni na voljo",
+        "description": "Pošlje opozorilo, ko spletni vmesnik na tem gostitelju preneha odgovarjati."
+      },
       "showPanel": {
         "label": "Plošča ob terminalu",
         "description": "Omogoči spletno uporabniško vmesniško ploščo ob SSH terminalu tega gostitelja."
@@ -100,9 +110,27 @@
     "toggle": "Spletna uporabniška vmesniška plošča",
     "openTab": "Odpri v zavihku"
   },
+  "tile": {
+    "title": "Spletni vmesniki",
+    "empty": "Na tem gostitelju ni spletnih vmesnikov."
+  },
   "card": {
     "title": "Spletne uporabniške vmesnice",
     "empty": "Še ni spletnih uporabniških vmesnic. Dodajte eno v nastavitvah spletne uporabniške vmesnice gostitelja.",
     "open": "Odpri"
+  },
+  "permissions": {
+    "use": {
+      "title": "Preveri spletne končne točke",
+      "description": "Preveri, ali spletne strani na gostiteljih, ki jih lahko dosežete, odgovarjajo."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Preveri spletne končne točke"
+    },
+    "up": {
+      "title": "Spletne končne točke"
+    }
   }
 }

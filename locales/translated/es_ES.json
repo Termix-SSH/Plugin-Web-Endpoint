@@ -38,6 +38,8 @@
     "webUiAccess": "Acceso",
     "webUiAccessDirect": "Directo",
     "webUiAccessTunnel": "Túnel SSH",
+    "webUiAccessTermix": "A través de Termix",
+    "webUiAccessTermixDesc": "Se abre en una nueva pestaña del navegador a través de este servidor, por lo que tu navegador no necesita acceder directamente al host. Requiere el complemento Reverse Proxy con un dominio de punto final web. La aplicación de escritorio utiliza un túnel SSH en su lugar.",
     "webUiAccessTunnelUnavailable": "Un túnel SSH necesita SSH activado en este host y un origen de conexión de este dispositivo.",
     "webUiRender": "Abrir en",
     "webUiRenderExternal": "Ventana de escritorio aislada",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Permitir que Termix acceda directamente a los hosts",
+        "description": "La opción «A través de Termix» utiliza un túnel SSH cuando el host tiene SSH. Activa esta opción para hosts sin SSH, como firewalls e iLO, para que este servidor se conecte a ellos directamente. Cualquier persona que pueda editar un host podrá apuntarlo a direcciones a las que este servidor pueda acceder."
+      },
       "allowExposedBind": {
         "label": "Permitir túneles en otras direcciones",
         "description": "Permite que la dirección de enlace de un extremo publique su túnel en la red de este servidor, sin inicio de sesión de Termix delante. Desactivado: los navegadores alcanzan los túneles a través de Termix mismo."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alertar cuando una interfaz web esté inactiva",
+        "description": "Enviar una alerta cuando una interfaz web en este host deje de responder."
+      },
       "showPanel": {
         "label": "Panel junto al terminal",
         "description": "Ofrece un panel de interfaz web junto al terminal SSH de este host."
@@ -100,9 +110,27 @@
     "toggle": "Panel de interfaz web",
     "openTab": "Abrir en una pestaña"
   },
+  "tile": {
+    "title": "Interfaces web",
+    "empty": "No hay interfaces web en este host."
+  },
   "card": {
     "title": "Interfaces web",
     "empty": "Aún no hay interfaces web. Añade una en la configuración de interfaz web de un host.",
     "open": "Abrir"
+  },
+  "permissions": {
+    "use": {
+      "title": "Comprobar puntos finales web",
+      "description": "Comprobar que las páginas web en los hosts a los que puedes acceder responden."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Comprobar puntos finales web"
+    },
+    "up": {
+      "title": "Puntos finales web"
+    }
   }
 }

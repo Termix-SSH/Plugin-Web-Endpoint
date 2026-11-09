@@ -38,6 +38,8 @@
     "webUiAccess": "Access",
     "webUiAccessDirect": "Direct",
     "webUiAccessTunnel": "SSH tunnel",
+    "webUiAccessTermix": "Through Termix",
+    "webUiAccessTermixDesc": "Opens in a new browser tab through this server, so your browser does not need to reach the host. Needs the Reverse Proxy plugin with a web endpoint domain. The desktop app uses an SSH tunnel instead.",
     "webUiAccessTunnelUnavailable": "An SSH tunnel needs SSH enabled on this host and a connection origin of this device.",
     "webUiRender": "Open in",
     "webUiRenderExternal": "Isolated desktop window",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Let Termix reach hosts directly",
+        "description": "Through Termix uses an SSH tunnel when a host has SSH. Turn this on for hosts without SSH, like firewalls and iLO, so this server connects to them itself. Anyone who can edit a host can then point it at addresses this server can reach."
+      },
       "allowExposedBind": {
         "label": "Allow tunnels on other addresses",
         "description": "Lets an endpoint's bind address publish its tunnel on this server's network, with no Termix login in front of it. Leave off: browsers reach tunnels through Termix itself."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alert when a web UI is down",
+        "description": "Send an alert when a web UI on this host stops answering."
+      },
       "showPanel": {
         "label": "Panel beside the terminal",
         "description": "Offer a web UI panel next to this host's SSH terminal."
@@ -100,9 +110,27 @@
     "toggle": "Web UI panel",
     "openTab": "Open in a tab"
   },
+  "tile": {
+    "title": "Web UIs",
+    "empty": "No web UIs on this host."
+  },
   "card": {
     "title": "Web UIs",
     "empty": "No web UIs yet. Add one in a host's Web UI settings.",
     "open": "Open"
+  },
+  "permissions": {
+    "use": {
+      "title": "Check web endpoints",
+      "description": "Check that web pages on hosts you can reach answer."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Check web endpoints"
+    },
+    "up": {
+      "title": "Web endpoints"
+    }
   }
 }

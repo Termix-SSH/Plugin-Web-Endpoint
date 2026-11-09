@@ -1,5 +1,8 @@
 import express, { type Request, type Response, type Router } from "express";
-import type { PluginContext } from "@termix-ssh/plugin-sdk/backend";
+import type {
+  PluginContext,
+  PluginSshHost,
+} from "@termix-ssh/plugin-sdk/backend";
 import {
   parseWebUiConfig,
   type WebEndpoint,
@@ -35,6 +38,21 @@ interface TunnelsAccess {
  */
 function webEndpointTunnelName(hostId: number, endpointId: string): string {
   return `web:${hostId}:${endpointId}`;
+}
+
+/** What Reverse Proxy offers for opening a page through Termix. */
+interface ReverseProxyEndpoints {
+  available: () => Promise<boolean>;
+  open: (input: {
+    hostId: number;
+    target: {
+      host: string;
+      port: number;
+      scheme: "http" | "https";
+      ignoreCert?: boolean;
+    };
+    path?: string;
+  }) => Promise<{ url: string }>;
 }
 
 async function loadEndpoint(
@@ -144,7 +162,7 @@ function endpointUrl(
   localPort?: number,
 ): string {
   const path = endpoint.path && endpoint.path.length > 0 ? endpoint.path : "/";
-  if (endpoint.access === "tunnel") {
+  if (endpoint.access !== "direct") {
     // Electron's isolated window always dials the backend's own loopback,
     // exactly like the renderer's own currentTunnelHost(true) does.
     return `${endpoint.scheme}://127.0.0.1:${localPort}${path}`;
@@ -208,7 +226,7 @@ export function createWebEndpointRoutes(
         .status(resolved.error.status)
         .json({ error: resolved.error.message });
     }
-    if (resolved.endpoint.access !== "tunnel") {
+    if (resolved.endpoint.access === "direct") {
       return res
         .status(400)
         .json({ error: "This endpoint does not use a tunnel" });
@@ -284,7 +302,7 @@ export function createWebEndpointRoutes(
 
     try {
       let localPort: number | undefined;
-      if (endpoint.access === "tunnel") {
+      if (endpoint.access !== "direct") {
         const handle = await openTunnel(ctx, hostId, endpointId, endpoint);
         localPort = handle.bindPort;
       }
@@ -305,6 +323,114 @@ export function createWebEndpointRoutes(
           endpoint.access === "direct" && endpoint.ignoreCert === true,
       });
       return res.status(200).json(result);
+    } catch (error) {
+      const status = (error as { status?: number }).status ?? 502;
+      const message = error instanceof Error ? error.message : String(error);
+      return res.status(status).json({ error: message });
+    }
+  });
+
+  /**
+   * @openapi
+   * /plugin-api/web-endpoint/open-termix:
+   *   post:
+   *     summary: Open an endpoint through Termix
+   *     description: Gives a one time address on the Reverse Proxy web endpoint domain that serves this endpoint through the server. Hosts with SSH go through a tunnel. Others need the admin setting that lets Termix reach hosts directly.
+   *     tags: [Web Endpoint]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required: [hostId, endpointId]
+   *             properties:
+   *               hostId: { type: integer }
+   *               endpointId: { type: string }
+   *     responses:
+   *       200: { description: "{ url }" }
+   *       400: { description: Invalid request, or the endpoint is not set to open through Termix. }
+   *       401: { description: Not signed in. }
+   *       403: { description: The host can only be reached directly and that is turned off. }
+   *       503: { description: The Reverse Proxy plugin is off or has no web endpoint domain. }
+   */
+  router.post("/open-termix", json, async (req, res) => {
+    const userId = ctx.currentActor();
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+    const { hostId, endpointId } = req.body ?? {};
+    if (
+      !Number.isInteger(hostId) ||
+      hostId < 1 ||
+      typeof endpointId !== "string"
+    ) {
+      return res.status(400).json({ error: "Invalid web endpoint request" });
+    }
+    const resolved = await loadEndpoint(ctx, hostId, endpointId);
+    if ("error" in resolved) {
+      return res
+        .status(resolved.error.status)
+        .json({ error: resolved.error.message });
+    }
+    const { endpoint } = resolved;
+    if (endpoint.access !== "termix") {
+      return res
+        .status(400)
+        .json({ error: "This endpoint does not open through Termix" });
+    }
+    let proxy: ReverseProxyEndpoints | undefined;
+    try {
+      proxy = ctx.services.get<ReverseProxyEndpoints>(
+        "reverse-proxy.endpoints",
+        { userId },
+      );
+    } catch {
+      proxy = undefined;
+    }
+    if (typeof proxy?.open !== "function" || !(await proxy.available())) {
+      return res.status(503).json({
+        error:
+          "Through Termix needs the Reverse Proxy plugin with a web endpoint domain",
+      });
+    }
+    try {
+      const host = (await ctx.ssh.resolveHost(hostId)) as
+        | (PluginSshHost & { enableSsh?: boolean; connectionType?: string })
+        | null;
+      if (!host) {
+        return res
+          .status(403)
+          .json({ error: "Host not found or access denied" });
+      }
+      const direct =
+        host.enableSsh !== true && (host.connectionType ?? "ssh") !== "ssh";
+      if (
+        direct &&
+        (await ctx.settings.get<boolean>("allowServerTargets")) !== true
+      ) {
+        return res.status(403).json({
+          error:
+            "This host has no SSH, and an admin has not let Termix reach hosts directly",
+        });
+      }
+      const target = direct
+        ? {
+            host: host.ip,
+            port: endpoint.port,
+            scheme: endpoint.scheme,
+            ignoreCert: endpoint.ignoreCert === true,
+          }
+        : {
+            host: "127.0.0.1",
+            port: (await openTunnel(ctx, hostId, endpointId, endpoint))
+              .bindPort,
+            scheme: endpoint.scheme,
+            ignoreCert: true,
+          };
+      return res.json(
+        await proxy.open({ hostId, target, path: endpoint.path }),
+      );
     } catch (error) {
       const status = (error as { status?: number }).status ?? 502;
       const message = error instanceof Error ? error.message : String(error);

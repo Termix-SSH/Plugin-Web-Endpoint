@@ -38,6 +38,8 @@
     "webUiAccess": "Acesso",
     "webUiAccessDirect": "Direto",
     "webUiAccessTunnel": "Túnel SSH",
+    "webUiAccessTermix": "Através do Termix",
+    "webUiAccessTermixDesc": "Abre em uma nova aba do navegador através deste servidor, para que seu navegador não precise acessar o host diretamente. Requer o plugin Reverse Proxy com um domínio de endpoint web. O aplicativo desktop usa um túnel SSH em vez disso.",
     "webUiAccessTunnelUnavailable": "Um túnel SSH precisa do SSH ativado neste host e de uma origem de conexão deste dispositivo.",
     "webUiRender": "Abrir em",
     "webUiRenderExternal": "Janela desktop isolada",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Permitir que o Termix acesse hosts diretamente",
+        "description": "A opção 'Através do Termix' usa um túnel SSH quando o host possui SSH. Ative esta opção para hosts sem SSH, como firewalls e iLO, para que este servidor se conecte a eles diretamente. Qualquer pessoa que possa editar um host poderá então apontá-lo para endereços que este servidor pode alcançar."
+      },
       "allowExposedBind": {
         "label": "Permitir túneis em outros endereços",
         "description": "Permite que o endereço de vinculação de um ponto de extremidade publique seu túnel na rede deste servidor, sem exigir login no Termix. Desative: os navegadores acessam os túneis por meio do próprio Termix."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alertar quando uma interface web estiver indisponível",
+        "description": "Enviar um alerta quando uma interface web neste host deixar de responder."
+      },
       "showPanel": {
         "label": "Painel ao lado do terminal",
         "description": "Oferece um painel de interface web ao lado do terminal SSH deste host."
@@ -100,9 +110,27 @@
     "toggle": "Painel de interface web",
     "openTab": "Abrir em uma aba"
   },
+  "tile": {
+    "title": "Interfaces Web",
+    "empty": "Nenhuma interface web neste host."
+  },
   "card": {
     "title": "Interfaces Web",
     "empty": "Nenhuma interface web ainda. Adicione uma nas configurações de Interface Web de um host.",
     "open": "Abrir"
+  },
+  "permissions": {
+    "use": {
+      "title": "Verificar endpoints web",
+      "description": "Verificar se as páginas web nos hosts que você pode acessar estão respondendo."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Verificar endpoints web"
+    },
+    "up": {
+      "title": "Endpoints web"
+    }
   }
 }

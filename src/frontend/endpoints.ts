@@ -5,7 +5,11 @@ import type {
   ShellApi,
 } from "@termix-ssh/plugin-sdk/frontend";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
-import { openWebEndpointExternally } from "./web-endpoint-api";
+import { isElectron } from "@termix-ssh/plugin-sdk/ui";
+import {
+  openWebEndpointExternally,
+  openWebEndpointThroughTermix,
+} from "./web-endpoint-api";
 
 export const TAB_TYPE = "web-endpoint";
 
@@ -31,11 +35,35 @@ export function endpointsOf(host: PluginHostRecord): WebEndpoint[] {
   return webUiConfig.endpoints ?? [];
 }
 
+/** Through Termix opens its own page in a browser, never in a frame. */
+export function opensThroughTermix(endpoint: WebEndpoint): boolean {
+  return endpoint.access === "termix" && !isElectron();
+}
+
 export function openEndpoint(
   host: PluginHostRecord,
   endpoint: WebEndpoint,
   shell: Pick<ShellApi, "openTab">,
 ): void {
+  if (opensThroughTermix(endpoint)) {
+    // Opened now, while the click still counts, or it is blocked as a popup.
+    const page = window.open("about:blank", "_blank");
+    openWebEndpointThroughTermix(Number(host.id), endpoint.id)
+      .then((url) => {
+        if (!page) return;
+        page.opener = null;
+        page.location.replace(url);
+      })
+      .catch((error: unknown) => {
+        page?.close();
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : i18next.t("web-endpoint:hosts.webUiOpenFailed"),
+        );
+      });
+    return;
+  }
   if (endpoint.render === "external") {
     // No tab at all: the real browser opens it. On the desktop the plugin
     // asks the backend to open it in an isolated window.

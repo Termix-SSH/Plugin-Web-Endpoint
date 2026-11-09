@@ -38,6 +38,8 @@
     "webUiAccess": "Hozzáférés",
     "webUiAccessDirect": "Közvetlen",
     "webUiAccessTunnel": "SSH-alagút",
+    "webUiAccessTermix": "Termixen keresztül",
+    "webUiAccessTermixDesc": "Egy új böngészőfülben nyílik meg ezen a szerveren keresztül, így a böngésződnek nem kell közvetlenül elérnie a célszámítógépet. Ehhez a Reverse Proxy bővítményre van szükség egy webes végpont tartománynévvel. Az asztali alkalmazás ehelyett SSH-alagutat használ.",
     "webUiAccessTunnelUnavailable": "Az SSH-alagúthoz engedélyezett SSH szükséges ezen a hoston, és a kapcsolati eredetnek ennek az eszköznek kell lennie.",
     "webUiRender": "Megnyitás itt:",
     "webUiRenderExternal": "Elkülönített asztali ablak",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Termix közvetlen hozzáférése a célszámítógépekhez",
+        "description": "A „Termixen keresztül” opció SSH-alagutat használ, ha a célszámítógép támogatja az SSH-t. Kapcsold be ezt az opciót az SSH nélküli célszámítógépekhez, például tűzfalakhoz és iLO felületekhez, hogy ez a szerver közvetlenül csatlakozzon hozzájuk. Ha be van kapcsolva, bárki, aki szerkeszthet egy célszámítógépet, olyan címekre irányíthatja, amelyeket ez a szerver elér."
+      },
       "allowExposedBind": {
         "label": "Engedélyezze az alagutakat más címeken",
         "description": "Lehetővé teszi, hogy egy végpont kötési címe közzétesse az alagútját ezen a szerveren, Termix-bejelentkezés nélkül. Hagyja üresen: a böngészők a Termixen keresztül férnek hozzá az alagutakhoz."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Értesítés, ha egy webes felület elérhetetlen",
+        "description": "Értesítés küldése, ha ezen a célszámítógépen található webes felület nem válaszol."
+      },
       "showPanel": {
         "label": "Panel a terminál mellett",
         "description": "Webes felület panel megjelenítése a gazdagép SSH terminálja mellett."
@@ -100,9 +110,27 @@
     "toggle": "Webes felület panel",
     "openTab": "Megnyitás fülön"
   },
+  "tile": {
+    "title": "Webes felületek",
+    "empty": "Nincsenek webes felületek ezen a célszámítógépen."
+  },
   "card": {
     "title": "Webes felületek",
     "empty": "Még nincsenek webes felületek. Adj hozzá egyet a gazdagép Webes felület beállításaiban.",
     "open": "Megnyitás"
+  },
+  "permissions": {
+    "use": {
+      "title": "Webes végpontok ellenőrzése",
+      "description": "Ellenőrzi, hogy a elérhető célszámítógépeken található weboldalak válaszolnak-e."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Webes végpontok ellenőrzése"
+    },
+    "up": {
+      "title": "Webes végpontok"
+    }
   }
 }

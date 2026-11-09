@@ -38,6 +38,8 @@
     "webUiAccess": "Pääsy",
     "webUiAccessDirect": "Suora",
     "webUiAccessTunnel": "SSH-tunneli",
+    "webUiAccessTermix": "Termixin kautta",
+    "webUiAccessTermixDesc": "Avaa uuteen selaimen välilehteen tämän palvelimen kautta, joten selaimen ei tarvitse yhdistää suoraan isäntään. Vaatii Reverse Proxy -liitännäisen ja verkkopäätepisteen domainin. Työpöytäsovellus käyttää SSH-tunnelia.",
     "webUiAccessTunnelUnavailable": "SSH-tunneli vaatii SSH:n käytössä olevan tässä isännässä ja yhteyden alkuperän tästä laitteesta.",
     "webUiRender": "Avaa",
     "webUiRenderExternal": "Eristetty työpöytäikkuna",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Salli Termixin yhdistää isäntiin suoraan",
+        "description": "Termixin kautta -vaihtoehto käyttää SSH-tunnelia, jos isännällä on SSH. Ota tämä käyttöön isännille, joissa ei ole SSH:ta (kuten palomuurit ja iLO), jotta tämä palvelin voi yhdistää niihin suoraan. Kuka tahansa, jolla on oikeus muokata isäntää, voi ohjata sen osoitteisiin, joihin tämä palvelin pääsee."
+      },
       "allowExposedBind": {
         "label": "Salli tunnelit muilla osoitteilla",
         "description": "Mahdollistaa päätepisteen sitomisosoitteen julkaiseman tunnelin palvelimen verkossa ilman Termix-kirjautumista sen edessä. Jätä pois: selaimet saavat tunnelit Termixin kautta."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Ilmoita, kun verkkokäyttöliittymä on poissa käytöstä",
+        "description": "Lähetä ilmoitus, kun tämän isännän verkkokäyttöliittymä lakkaa vastaamasta."
+      },
       "showPanel": {
         "label": "Paneeli terminaalin vieressä",
         "description": "Tarjoa verkkokäyttöliittymäpaneeli tämän isäntäterminaalin vieressä."
@@ -100,9 +110,27 @@
     "toggle": "Verkkokäyttöliittymäpaneeli",
     "openTab": "Avaa välilehdellä"
   },
+  "tile": {
+    "title": "Verkkokäyttöliittymät",
+    "empty": "Tällä isännällä ei ole verkkokäyttöliittymiä."
+  },
   "card": {
     "title": "Verkkokäyttöliittymät",
     "empty": "Ei vielä verkkokäyttöliittymiä. Lisää yksi isäntälaitteen verkkokäyttöliittymäasetuksista.",
     "open": "Avaa"
+  },
+  "permissions": {
+    "use": {
+      "title": "Tarkista verkkopäätepisteet",
+      "description": "Tarkista, että isäntien verkkosivut vastaavat."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Tarkista verkkopäätepisteet"
+    },
+    "up": {
+      "title": "Verkkopäätepisteet"
+    }
   }
 }

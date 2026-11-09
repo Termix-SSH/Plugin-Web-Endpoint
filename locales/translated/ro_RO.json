@@ -38,6 +38,8 @@
     "webUiAccess": "Acces",
     "webUiAccessDirect": "Direct",
     "webUiAccessTunnel": "Tunel SSH",
+    "webUiAccessTermix": "Prin Termix",
+    "webUiAccessTermixDesc": "Se deschide într-o filă nouă a browserului prin intermediul acestui server, astfel încât browserul dvs. nu trebuie să acceseze direct gazda. Necesită pluginul Reverse Proxy cu un domeniu pentru punctul final web. Aplicația desktop folosește în schimb un tunel SSH.",
     "webUiAccessTunnelUnavailable": "Un tunel SSH necesită SSH activat pe această gazdă și o origine de conexiune de pe acest dispozitiv.",
     "webUiRender": "Deschide în",
     "webUiRenderExternal": "Fereastră desktop izolată",
@@ -59,12 +61,20 @@
   },
   "settings": {
     "admin": {
+      "allowServerTargets": {
+        "label": "Permite Termix să acceseze direct gazdele",
+        "description": "Opțiunea „Prin Termix” folosește un tunel SSH atunci când o gazdă are SSH activat. Activați această opțiune pentru gazdele fără SSH, cum ar fi firewall-urile și iLO, astfel încât acest server să se conecteze la ele direct. Orice utilizator care poate edita o gazdă poate apoi să o direcționeze către adresele pe care acest server le poate atinge."
+      },
       "allowExposedBind": {
         "label": "Permite tuneluri pe alte adrese",
         "description": "Permite unei adrese de legare a unui punct final să publice tunelul său pe rețeaua acestui server, fără autentificare Termix în fața sa. Dezactivează: browserele ajung la tuneluri prin Termix însuși."
       }
     },
     "host": {
+      "alertDown": {
+        "label": "Alertă când o interfață web este indisponibilă",
+        "description": "Trimite o alertă când o interfață web de pe această gazdă încetează să mai răspundă."
+      },
       "showPanel": {
         "label": "Panoul lângă terminal",
         "description": "Afișează un panou de interfață web lângă terminalul SSH al acestui gazdă."
@@ -100,9 +110,27 @@
     "toggle": "Panoul de interfață web",
     "openTab": "Deschide într-o filă"
   },
+  "tile": {
+    "title": "Interfețe web",
+    "empty": "Nu există interfețe web pe această gazdă."
+  },
   "card": {
     "title": "Interfețe web",
     "empty": "Încă nu există interfețe web. Adaugă una în setările de interfață web ale unei gazde.",
     "open": "Deschide"
+  },
+  "permissions": {
+    "use": {
+      "title": "Verifică punctele finale web",
+      "description": "Verifică dacă paginile web de pe gazdele pe care le poți atinge răspund."
+    }
+  },
+  "operations": {
+    "check": {
+      "title": "Verifică punctele finale web"
+    },
+    "up": {
+      "title": "Puncte finale web"
+    }
   }
 }

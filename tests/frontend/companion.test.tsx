@@ -85,4 +85,15 @@ describe("web UI panel and card", () => {
       expect.objectContaining({ method: "openTab" }),
     );
   });
+
+  it("lists the host's web UIs in the host page tile", async () => {
+    rendered = await renderWithApp(plugin, {
+      manifest,
+      locales,
+      hosts: [host as never],
+    });
+    expect(rendered.registered.slot("host-page.tiles")).toHaveLength(1);
+    rendered.renderSlot("host-page.tiles", { hostId: 3, isVisible: true });
+    expect(await screen.findByText("Admin UI")).toBeTruthy();
+  });
 });
