@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Termix-SSH/Termix/main/scripts/authz/authz.schema.json",
+  "seed": [],
+  "routes": {
+    "POST /plugin-api/web-endpoint/open": {
+      "access": "user"
+    },
+    "POST /plugin-api/web-endpoint/open-termix": {
+      "access": "user"
+    },
+    "POST /plugin-api/web-endpoint/open-window": {
+      "access": "user"
+    },
+    "POST /plugin-api/web-endpoint/proxy": {
+      "access": "user"
+    }
+  }
+}
