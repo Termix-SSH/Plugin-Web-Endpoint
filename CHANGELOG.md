@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+### Fixed
+
+- A very long mount path no longer keeps the server busy for a long time
+
 ## 1.2.0
 
 ### Added

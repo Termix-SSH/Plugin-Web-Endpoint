@@ -16,6 +16,7 @@ import http, {
 import https from "node:https";
 import { randomBytes } from "node:crypto";
 import type { Request, Response } from "express";
+import { trimEnd } from "./trim.js";
 
 /** Matches the tunnel's own idle timeout. */
 export const PROXY_IDLE_MS = 10 * 60 * 1000;
@@ -102,7 +103,7 @@ export type ProxySessions = ReturnType<typeof createProxySessions>;
  */
 export function normalizeMountPath(raw: unknown): string | null {
   if (typeof raw !== "string") return null;
-  const value = raw.replace(/\/+$/, "");
+  const value = trimEnd(raw);
   if (!/^(\/[A-Za-z0-9._~-]+)*\/plugin-api\/web-endpoint$/.test(value)) {
     return null;
   }
