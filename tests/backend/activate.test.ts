@@ -19,6 +19,7 @@ afterEach(async () => {
 
 function activateWith(capabilities: string[]) {
   mock = createMockCtx({
+    sandbox: true,
     pluginId: manifest.id,
     manifest,
     capabilities,
@@ -36,13 +37,15 @@ describe("web-endpoint activate", () => {
   it("registers a hostImportNormalizer and revokes it on deactivate", async () => {
     await activateWith(manifest.capabilities);
     expect(
-      typeof mock?.ctx.registry.consume("web-endpoint.hostImportNormalizer"),
+      typeof (await mock?.ctx.registry.consume(
+        "web-endpoint.hostImportNormalizer",
+      )),
     ).toBe("function");
 
     for (const dispose of [...(mock?.disposals ?? [])].reverse())
       await dispose();
     expect(
-      mock?.ctx.registry.consume("web-endpoint.hostImportNormalizer"),
+      await mock?.ctx.registry.consume("web-endpoint.hostImportNormalizer"),
     ).toBeUndefined();
   });
 

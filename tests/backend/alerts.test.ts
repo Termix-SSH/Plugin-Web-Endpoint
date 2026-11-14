@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import express from "express";
 import { createMockCtx } from "@termix-ssh/plugin-sdk/testing";
 import type { PluginManifest } from "@termix-ssh/plugin-sdk/manifest";
 import manifestJson from "../../manifest.json";
@@ -9,11 +10,12 @@ const manifest = manifestJson as unknown as PluginManifest;
 describe("web UI down alerts", () => {
   it("alerts once when a web UI stops answering", async () => {
     const mock = createMockCtx({
+      sandbox: true,
       pluginId: manifest.id,
       manifest,
       capabilities: manifest.capabilities,
       actor: "user-1",
-      router: () => ({ use: () => undefined }) as never,
+      router: () => express.Router(),
       hosts: [
         {
           id: 3,

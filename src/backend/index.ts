@@ -18,7 +18,8 @@ export async function activate(ctx: PluginContext) {
   const router = ctx.http.router<Router>(routerOptions);
   const sessions = createProxySessions();
   ctx.disposables.add(() => sessions.clear());
-  router.use(createWebEndpointRoutes(ctx, sessions));
+  // Routes go straight on ctx's router: a plugin process serves no sub-routers.
+  createWebEndpointRoutes(ctx, sessions, router);
   registerOperations(ctx);
   startHostAlerts({
     ctx,

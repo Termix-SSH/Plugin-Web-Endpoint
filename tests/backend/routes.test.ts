@@ -58,6 +58,7 @@ async function start(
   } = {},
 ) {
   mock = createMockCtx({
+    sandbox: true,
     manifest,
     pluginId: "web-endpoint",
     actor: "u1",

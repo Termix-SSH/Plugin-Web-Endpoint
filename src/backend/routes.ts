@@ -105,7 +105,9 @@ async function openTunnel(
   const userId = ctx.currentActor();
   let tunnels: TunnelsAccess | undefined;
   try {
-    tunnels = ctx.services.get<TunnelsAccess>("tunnels.access", { userId });
+    tunnels = await ctx.services.get<TunnelsAccess>("tunnels.access", {
+      userId,
+    });
   } catch {
     tunnels = undefined;
   }
@@ -173,8 +175,8 @@ function endpointUrl(
 export function createWebEndpointRoutes(
   ctx: PluginContext,
   sessions: ProxySessions = createProxySessions(),
+  router: Router = express.Router(),
 ): Router {
-  const router = express.Router();
   // The router takes raw bodies so the proxy can stream them; these routes
   // parse their own small JSON bodies.
   const json = express.json({ limit: "64kb" });
@@ -381,7 +383,7 @@ export function createWebEndpointRoutes(
     }
     let proxy: ReverseProxyEndpoints | undefined;
     try {
-      proxy = ctx.services.get<ReverseProxyEndpoints>(
+      proxy = await ctx.services.get<ReverseProxyEndpoints>(
         "reverse-proxy.endpoints",
         { userId },
       );
