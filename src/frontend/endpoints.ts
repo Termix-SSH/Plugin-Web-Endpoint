@@ -5,8 +5,8 @@ import type {
   ShellApi,
 } from "@termix-ssh/plugin-sdk/frontend";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
-import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import {
+  onDesktop,
   openWebEndpointExternally,
   openWebEndpointThroughTermix,
 } from "./web-endpoint-api";
@@ -37,7 +37,7 @@ export function endpointsOf(host: PluginHostRecord): WebEndpoint[] {
 
 /** Through Termix opens its own page in a browser, never in a frame. */
 export function opensThroughTermix(endpoint: WebEndpoint): boolean {
-  return endpoint.access === "termix" && !isElectron();
+  return endpoint.access === "termix" && !onDesktop();
 }
 
 export function openEndpoint(

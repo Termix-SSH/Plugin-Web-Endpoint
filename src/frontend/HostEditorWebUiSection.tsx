@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Globe } from "lucide-react";
+import { onDesktop } from "./web-endpoint-api";
 import {
   useTranslation,
   type HostEditorSectionProps,
@@ -18,7 +19,6 @@ import {
   SettingRow,
 } from "@termix-ssh/plugin-sdk/ui";
 import { resolveConnectionOrigin } from "@termix-ssh/plugin-sdk/ui";
-import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import {
   MAX_WEB_ENDPOINTS,
   MAX_WEB_ENDPOINT_LABEL_LENGTH,
@@ -134,7 +134,7 @@ export function PortInput({
  *
  * Owns the async connection-origin resolution for the tunnel gate itself
  * (tunnelAvailable = enableSsh && originIsLocal), deliberately NOT gated on
- * isElectron(): the forward binds wherever the backend runs, exactly as the
+ * onDesktop(): the forward binds wherever the backend runs, exactly as the
  * tunnels plugin does, and a web deployment reaches it at the host serving
  * Termix provided the endpoint opted out of a loopback bind.
  *
@@ -422,7 +422,7 @@ export function HostEditorWebUiSection({
                             <SelectItem
                               value="external"
                               className="text-xs"
-                              disabled={!isElectron()}
+                              disabled={!onDesktop()}
                             >
                               {t("hosts.webUiRenderExternal")}
                             </SelectItem>
@@ -491,7 +491,7 @@ export function HostEditorWebUiSection({
                           // service this session.
                           const refusal = webEndpointRefusalReason(
                             endpoint,
-                            isElectron(),
+                            onDesktop(),
                             undefined,
                           );
                           if (!refusal) return null;

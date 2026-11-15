@@ -5,6 +5,7 @@ import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
 let pluginApi: PluginApiClient | null = null;
+let desktop: { readonly available: boolean } | null = null;
 
 /** This plugin's string, or the key itself when i18next is not set up. */
 function message(key: string): string {
@@ -21,6 +22,57 @@ function genericFailure(error: unknown, key: string): never {
 /** Set from activate with app.api, cleared on deactivate. */
 export function setWebEndpointApi(api: PluginApiClient | null): void {
   pluginApi = api;
+}
+
+/** Set from activate with app.desktop, which also works in a frame. */
+export function setWebEndpointDesktop(
+  next: { readonly available: boolean } | null,
+): void {
+  desktop = next;
+}
+
+/** True in the desktop app. */
+export function onDesktop(): boolean {
+  return desktop ? desktop.available : isElectron();
+}
+
+/** A page the backend picked for a tab, and the address to show. */
+export interface WebEndpointView {
+  grant: string;
+  url: string;
+}
+
+/**
+ * Asks the backend to pick the page for a tab. It hands back a grant the
+ * app draws the page from; the tab can't change the address.
+ */
+export async function openWebEndpointView(
+  hostId: number,
+  endpointId: string,
+): Promise<WebEndpointView> {
+  if (!pluginApi) throw new Error(message("errors.notActive"));
+  try {
+    const { data } = await pluginApi.post<Partial<WebEndpointView>>("/view", {
+      hostId,
+      endpointId,
+    });
+    if (typeof data?.grant !== "string" || typeof data.url !== "string") {
+      throw new Error(message("errors.openTunnelFailed"));
+    }
+    return { grant: data.grant, url: data.url };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const data = error.response?.data as
+        { error?: unknown; code?: unknown } | undefined;
+      if (data?.code === "direct-shares-session-cookie") {
+        throw new Error(message("webEndpoint.directSharesSessionCookie"));
+      }
+      if (typeof data?.error === "string" && data.error) {
+        throw new WebEndpointTunnelError(data.error, error.response?.status);
+      }
+    }
+    return genericFailure(error, "errors.openTunnelFailed");
+  }
 }
 
 /**
@@ -61,121 +113,6 @@ export async function openWebEndpointThroughTermix(
 }
 
 /**
- * Opens (or reuses) the SSH forward for a tunnel-access web endpoint and
- * returns the port it is listening on. The port is NOT stable across opens:
- * the backend closes an idle tunnel and re-binds a fresh kernel-assigned port,
- * so callers must re-resolve rather than cache it.
- */
-export async function openWebEndpointTunnel(
-  hostId: number,
-  endpointId: string,
-): Promise<number> {
-  try {
-    if (!pluginApi) throw new Error(message("errors.notActive"));
-    // Relative to the plugin mount, /plugin-api/web-endpoint.
-    const response = await pluginApi.post("/open", {
-      hostId,
-      endpointId,
-    });
-    const port = (response?.data as { port?: number } | undefined)?.port;
-    if (!port) {
-      throw new Error(message("errors.noPort"));
-    }
-    return port;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      // Typed unknown, not string: the guard below is only meaningful if the
-      // type does not already promise what it checks.
-      const data = error.response?.data as
-        { error?: unknown; message?: unknown } | undefined;
-      const backendMessage = data?.error ?? data?.message;
-      // A body shaped { error: <object> } would otherwise render as
-      // "[object Object]". Every response on this route sends a string today,
-      // but a proxy or a future handler need not.
-      if (typeof backendMessage === "string" && backendMessage) {
-        throw new WebEndpointTunnelError(
-          backendMessage,
-          error.response?.status,
-        );
-      }
-    }
-    return genericFailure(error, "errors.openTunnelFailed");
-  }
-}
-
-/** Where the browser reaches this plugin's routes, as an absolute URL. */
-export function pluginMountUrl(): URL {
-  if (!pluginApi) throw new Error(message("errors.notActive"));
-  // The client is core's shared axios instance with this plugin's prefix, so
-  // its baseURL is the deployment's: "" behind nginx, the dev proxy path, or
-  // a configured API host.
-  const base =
-    (pluginApi as { defaults?: { baseURL?: string } }).defaults?.baseURL ?? "";
-  const resolved = new URL(base || "/", window.location.href);
-  resolved.pathname = `${resolved.pathname.replace(/\/+$/, "")}/plugin-api/web-endpoint`;
-  resolved.search = "";
-  resolved.hash = "";
-  return resolved;
-}
-
-/**
- * Opens a tunnel endpoint for this browser: the backend keeps the tunnel on
- * 127.0.0.1 and serves it through a tokened path of its own, so nothing is
- * ever published on another address. Returns the URL to frame.
- */
-export async function openWebEndpointProxy(
-  hostId: number,
-  endpointId: string,
-): Promise<string> {
-  if (!pluginApi) throw new Error(message("errors.notActive"));
-  const mount = pluginMountUrl();
-  try {
-    const response = await pluginApi.post("/proxy", {
-      hostId,
-      endpointId,
-      mountPath: mount.pathname,
-    });
-    const path = (response?.data as { path?: string } | undefined)?.path;
-    if (!path) throw new Error(message("errors.openTunnelFailed"));
-    return new URL(path, mount.origin).toString();
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const data = error.response?.data as
-        { error?: unknown; message?: unknown } | undefined;
-      const backendMessage = data?.error ?? data?.message;
-      if (typeof backendMessage === "string" && backendMessage) {
-        throw new WebEndpointTunnelError(
-          backendMessage,
-          error.response?.status,
-        );
-      }
-    }
-    return genericFailure(error, "errors.openTunnelFailed");
-  }
-}
-
-/**
- * Registers one exact origin as allowed to present an invalid TLS certificate.
- * Only meaningful on the desktop, and only for direct endpoints, a tunnel
- * endpoint's host component is loopback, which the main process already
- * exempts.
- */
-export async function allowInvalidCertificateForOrigin(
-  origin: string,
-): Promise<void> {
-  if (!isElectron()) return;
-  try {
-    await window.electronAPI?.invoke?.(
-      "allow-invalid-certificate-for-origin",
-      origin,
-    );
-  } catch {
-    // The user's build may predate the handler; the load then simply fails the
-    // certificate check as it would have before.
-  }
-}
-
-/**
  * A web endpoint tunnel opens through the backend's numeric host id.
  * Quick-connect hosts (ids like "quick-connect-<n>") have no row on the
  * server, so there is nothing to open a tunnel through, unlike a direct
@@ -202,7 +139,7 @@ export async function openWebEndpointExternally(
   host: { id: string; ip: string },
   endpoint: WebEndpoint,
 ): Promise<void> {
-  if (!isElectron()) {
+  if (!onDesktop()) {
     throw new Error(message("errors.desktopOnly"));
   }
   if (!pluginApi) throw new Error(message("errors.notActive"));

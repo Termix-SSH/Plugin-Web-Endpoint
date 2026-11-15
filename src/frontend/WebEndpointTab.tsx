@@ -1,22 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+} from "react";
 import { useTranslation } from "@termix-ssh/plugin-sdk/frontend";
 import { RotateCw } from "lucide-react";
 import { toast } from "sonner";
 import {
-  currentTunnelHost,
-  resolveWebEndpointUrl,
-  webEndpointRefusalReason,
-  type WebEndpointRefusalReason,
-} from "./web-endpoint-url";
-import {
-  allowInvalidCertificateForOrigin,
+  onDesktop,
   openWebEndpointExternally,
-  openWebEndpointProxy,
-  openWebEndpointTunnel,
+  openWebEndpointView,
   requireNumericHostId,
+  type WebEndpointView,
 } from "./web-endpoint-api";
 import { copyToClipboard, ToolbarBand } from "@termix-ssh/plugin-sdk/ui";
-import { isElectron } from "@termix-ssh/plugin-sdk/ui";
 import {
   Button,
   ConnectionScreen,
@@ -26,19 +25,16 @@ import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 import { opensThroughTermix } from "./endpoints";
 import type { WebEndpoint } from "../shared/web-endpoint-config";
 
-/** True in the desktop app, which can show a page in a native view. */
-function hasNativeView(): boolean {
-  return !!(window as unknown as { electronAPI?: { embeddedView?: unknown } })
-    .electronAPI?.embeddedView;
-}
-
-const REFUSAL_MESSAGES: Record<WebEndpointRefusalReason, string> = {
-  "direct-shares-session-cookie": "webEndpoint.directSharesSessionCookie",
-};
+// Termix 26.11.2 draws a granted page itself (plugin API 2.8).
+const GrantedView = NativeView as unknown as ComponentType<{
+  grant: string;
+  className?: string;
+}>;
 
 /**
- * Renders one web endpoint in a native view in the desktop app, and in a
- * sandboxed iframe in a browser.
+ * Renders one web endpoint. The backend picks the page and hands back a
+ * grant; the app draws it in a native view on the desktop and in a
+ * credentialless sandboxed iframe in a browser.
  *
  * Takes the whole host plus the endpoint's ID, not the endpoint object,
  * so a tab whose endpoint was deleted while it was open (or that never matched
@@ -61,18 +57,8 @@ export function WebEndpointTab({
     (candidate) => candidate.id === endpointId,
   );
 
-  const native = hasNativeView();
-  const [url, setUrl] = useState<string | null>(null);
+  const [view, setView] = useState<WebEndpointView | null>(null);
   const [error, setError] = useState<string | null>(null);
-  /**
-   * Bumped on every resolution that lands, and folded into the iframe's key
-   * alongside the URL. A direct endpoint's URL never changes, and a live
-   * tunnel returns the SAME port on every open, so the URL alone is not
-   * enough to key on: React bails out of a same-value setState, the key would
-   * not change, and Reload would silently do nothing in the two most common
-   * cases.
-   */
-  const [generation, setGeneration] = useState(0);
   /**
    * Guards two in-flight resolutions completing out of order, a
    * double-clicked Reload, or a manual reload racing the mount effect. Only
@@ -85,55 +71,18 @@ export function WebEndpointTab({
     const mine = ++resolveGenerationRef.current;
     setError(null);
     try {
-      // Checked BEFORE the open call, not after. A tunnel must not be opened
-      // from a browser when a loopback bind on a remote backend would leave
-      // nothing to connect to, or when the tunnel URL would land on the page's
-      // own host string. A DIRECT endpoint on the same host that serves Termix
-      // leaks the session cookie exactly the same way, cookies ignore the
-      // port, so it is refused here too, before any navigation, rather than
-      // framing the URL and leaking on the first request.
-      const refusal = webEndpointRefusalReason(endpoint, isElectron(), host.ip);
-      if (refusal) {
-        throw new Error(t(REFUSAL_MESSAGES[refusal]));
-      }
-
-      if (!native && !("credentialless" in HTMLIFrameElement.prototype)) {
-        throw new Error(t("webEndpoint.isolationUnavailable"));
-      }
-
-      // Always re-resolved rather than reloading the frame: the backend closes
-      // an idle tunnel after ten minutes and re-binds a fresh kernel-assigned
-      // port, so a cached port may be gone. A browser goes through the
-      // backend's proxy; the desktop app dials its own local backend.
       if (opensThroughTermix(endpoint)) {
         throw new Error(t("hosts.webUiAccessTermixDesc"));
       }
-      const tunneled = endpoint.access !== "direct";
-      const viaProxy = tunneled && !isElectron();
-      const localPort =
-        tunneled && !viaProxy
-          ? await openWebEndpointTunnel(
-              requireNumericHostId(host.id),
-              endpoint.id,
-            )
-          : undefined;
-
-      const resolved = viaProxy
-        ? await openWebEndpointProxy(requireNumericHostId(host.id), endpoint.id)
-        : resolveWebEndpointUrl({
-            hostAddress: host.ip,
-            endpoint,
-            localPort,
-            tunnelHost: currentTunnelHost(isElectron()) ?? undefined,
-          });
-
-      if (!native && endpoint.access === "direct" && endpoint.ignoreCert) {
-        await allowInvalidCertificateForOrigin(new URL(resolved).origin);
-      }
-
+      // Always a fresh grant: the backend closes an idle tunnel after ten
+      // minutes and may bind a new port, and each grant is new, so Reload
+      // always reloads.
+      const next = await openWebEndpointView(
+        requireNumericHostId(host.id),
+        endpoint.id,
+      );
       if (mine !== resolveGenerationRef.current) return;
-      setUrl(resolved);
-      setGeneration((g) => g + 1);
+      setView(next);
     } catch (caught) {
       if (mine !== resolveGenerationRef.current) return;
       setError(caught instanceof Error ? caught.message : String(caught));
@@ -141,11 +90,9 @@ export function WebEndpointTab({
     // Depends on the endpoint's FIELDS, not the object: host.webUiConfig is
     // re-derived on every render of the host list, so a dependency on
     // `endpoint` itself would reopen the tunnel on every parent render.
-    // bindHost and localPort are included because the refusal guard reads them.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     host.id,
-    host.ip,
     endpoint?.id,
     endpoint?.access,
     endpoint?.scheme,
@@ -194,14 +141,16 @@ export function WebEndpointTab({
         >
           <RotateCw />
         </Button>
-        <span className="truncate text-muted-foreground">{url ?? ""}</span>
+        <span className="truncate text-muted-foreground">
+          {view?.url ?? ""}
+        </span>
         <Button
           variant="ghost"
           size="xs"
           className="ml-auto"
           onClick={() => {
-            if (!url) return;
-            void copyToClipboard(url).then((ok) => {
+            if (!view) return;
+            void copyToClipboard(view.url).then((ok) => {
               if (ok) toast.success(t("webEndpoint.urlCopied"));
               else toast.error(t("webEndpoint.copyFailed"));
             });
@@ -209,7 +158,7 @@ export function WebEndpointTab({
         >
           {t("webEndpoint.copyUrl")}
         </Button>
-        {isElectron() && (
+        {onDesktop() && (
           <Button
             variant="ghost"
             size="xs"
@@ -223,39 +172,16 @@ export function WebEndpointTab({
           </Button>
         )}
       </ToolbarBand>
-      {!native && (
+      {!onDesktop() && (
         <p className="px-2 py-1 text-xs text-muted-foreground">
           {t("webEndpoint.isolationNotice")}
         </p>
       )}
-      {url && native && (
-        // The native view has its own session, so it needs neither the
-        // iframe sandbox nor a certificate allowance for the whole app.
-        <NativeView
-          key={`${generation}:${url}`}
-          url={url}
-          ignoreCert={endpoint.access === "direct" && !!endpoint.ignoreCert}
+      {view && (
+        <GrantedView
+          key={view.grant}
+          grant={view.grant}
           className="h-full w-full flex-1"
-        />
-      )}
-      {url && !native && (
-        // Keyed on generation as well as url: a re-resolved tunnel usually
-        // returns the SAME port, so url alone would not change and React would
-        // never remount the frame.
-        <iframe
-          key={`${generation}:${url}`}
-          title={endpoint.label}
-          ref={(frame) => {
-            if (!frame) return;
-            // Set isolation before the first navigation, including redirects.
-            (
-              frame as HTMLIFrameElement & { credentialless: boolean }
-            ).credentialless = true;
-            frame.src = url;
-          }}
-          sandbox="allow-scripts allow-forms"
-          referrerPolicy="no-referrer"
-          className="h-full w-full flex-1 border-0"
         />
       )}
     </div>
