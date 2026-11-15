@@ -89,9 +89,9 @@ async function start(
   if (options.tunnelsAvailable !== false) {
     mock.ctx.services.provide("tunnels.access", { forward });
   }
-  if (options.grantView !== false) {
-    (mock.ctx.desktop as { grantView?: unknown }).grantView = grantView;
-  }
+  // The mock has grantView from SDK 2.8; drop it to stand in for an older Termix.
+  (mock.ctx.desktop as { grantView?: unknown }).grantView =
+    options.grantView === false ? undefined : grantView;
 
   const app = express();
   app.use(express.json());
