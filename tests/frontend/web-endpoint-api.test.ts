@@ -38,75 +38,6 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("openWebEndpointTunnel", () => {
-  it("posts to the plugin's own /open route", async () => {
-    // app.api is already rooted at /plugin-api/web-endpoint, so the path is
-    // relative to that and must not repeat the prefix.
-    const { openWebEndpointTunnel } =
-      await import("../../src/frontend/web-endpoint-api");
-    await openWebEndpointTunnel(7, "e1");
-
-    expect(pluginPost).toHaveBeenCalledWith("/open", {
-      hostId: 7,
-      endpointId: "e1",
-    });
-  });
-
-  it("returns the port", async () => {
-    const { openWebEndpointTunnel } =
-      await import("../../src/frontend/web-endpoint-api");
-    await expect(openWebEndpointTunnel(7, "e1")).resolves.toBe(41234);
-  });
-
-  it("preserves the backend's reason instead of the generic message", async () => {
-    // 502 is this route's likeliest real failure and carries the actionable
-    // cause. Collapsing it into "Server error occurred" defeats the
-    // per-failure-mode messaging entirely.
-    const axiosError = Object.assign(new Error("Request failed"), {
-      isAxiosError: true,
-      response: {
-        status: 502,
-        data: { error: "Timed out reaching the endpoint port" },
-      },
-    });
-    pluginPost.mockRejectedValue(axiosError);
-    const { openWebEndpointTunnel, WebEndpointTunnelError } =
-      await import("../../src/frontend/web-endpoint-api");
-
-    await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(
-      /Timed out reaching the endpoint port/,
-    );
-    await expect(openWebEndpointTunnel(7, "e1")).rejects.toBeInstanceOf(
-      WebEndpointTunnelError,
-    );
-  });
-
-  it("falls back to the shared handler when the body carries no string reason", async () => {
-    // A body shaped { error: <object> } would otherwise render as
-    // "[object Object]" to the user.
-    pluginPost.mockRejectedValue(
-      Object.assign(new Error("boom"), {
-        isAxiosError: true,
-        response: { status: 500, data: { error: { nested: true } } },
-      }),
-    );
-    const { openWebEndpointTunnel } =
-      await import("../../src/frontend/web-endpoint-api");
-    await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(
-      /errors\.openTunnelFailed/,
-    );
-  });
-
-  it("treats a missing port as a failure rather than returning undefined", async () => {
-    pluginPost.mockResolvedValue({ data: {} });
-    const { openWebEndpointTunnel } =
-      await import("../../src/frontend/web-endpoint-api");
-    await expect(openWebEndpointTunnel(7, "e1")).rejects.toThrow(
-      /errors\.noPort/,
-    );
-  });
-});
-
 describe("requireNumericHostId", () => {
   it("accepts a saved host id and rejects a quick-connect one", async () => {
     const { requireNumericHostId } =
@@ -161,5 +92,61 @@ describe("openWebEndpointExternally", () => {
     await expect(
       openWebEndpointExternally(host, endpoint()),
     ).rejects.toBeInstanceOf(WebEndpointTunnelError);
+  });
+});
+
+describe("openWebEndpointView", () => {
+  it("posts the host and endpoint to /view and returns the grant", async () => {
+    pluginPost.mockResolvedValue({
+      data: { grant: "a".repeat(48), url: "https://10.0.0.5:8006/" },
+    });
+    const { openWebEndpointView } =
+      await import("../../src/frontend/web-endpoint-api");
+    await expect(openWebEndpointView(7, "e1")).resolves.toEqual({
+      grant: "a".repeat(48),
+      url: "https://10.0.0.5:8006/",
+    });
+    expect(pluginPost).toHaveBeenCalledWith("/view", {
+      hostId: 7,
+      endpointId: "e1",
+    });
+  });
+
+  it("explains a refusal for Termix's own site in plain words", async () => {
+    pluginPost.mockRejectedValue(
+      Object.assign(new Error("409"), {
+        isAxiosError: true,
+        response: {
+          status: 409,
+          data: { code: "direct-shares-session-cookie", error: "x" },
+        },
+      }),
+    );
+    const { openWebEndpointView } =
+      await import("../../src/frontend/web-endpoint-api");
+    await expect(openWebEndpointView(7, "e1")).rejects.toThrow(
+      /directSharesSessionCookie/,
+    );
+  });
+
+  it("treats an answer with no grant as a failure", async () => {
+    pluginPost.mockResolvedValue({ data: { url: "https://x/" } });
+    const { openWebEndpointView } =
+      await import("../../src/frontend/web-endpoint-api");
+    await expect(openWebEndpointView(7, "e1")).rejects.toThrow();
+  });
+});
+
+describe("onDesktop", () => {
+  it("reads app.desktop, which works inside a frame", async () => {
+    const { onDesktop, setWebEndpointDesktop } =
+      await import("../../src/frontend/web-endpoint-api");
+    setWebEndpointDesktop({ available: true });
+    expect(onDesktop()).toBe(true);
+    setWebEndpointDesktop({ available: false });
+    isElectron.mockReturnValue(true);
+    expect(onDesktop()).toBe(false);
+    setWebEndpointDesktop(null);
+    expect(onDesktop()).toBe(true);
   });
 });

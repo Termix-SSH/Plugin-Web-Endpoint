@@ -14,6 +14,7 @@ const manifest = manifestJson as unknown as PluginManifest;
 
 const forward = vi.fn();
 const openIsolatedWindow = vi.fn();
+const grantView = vi.fn();
 
 function endpoint(overrides: Record<string, unknown> = {}) {
   return {
@@ -55,9 +56,15 @@ async function start(
     endpoints?: unknown[];
     capabilities?: string[];
     tunnelsAvailable?: boolean;
+    desktop?: boolean;
+    baseUrl?: string;
+    grantView?: boolean;
   } = {},
 ) {
   mock = createMockCtx({
+    desktopAvailable: options.desktop ?? false,
+    baseUrl: options.baseUrl,
+    sandbox: true,
     manifest,
     pluginId: "web-endpoint",
     actor: "u1",
@@ -82,6 +89,9 @@ async function start(
   if (options.tunnelsAvailable !== false) {
     mock.ctx.services.provide("tunnels.access", { forward });
   }
+  // The mock has grantView from SDK 2.8; drop it to stand in for an older Termix.
+  (mock.ctx.desktop as { grantView?: unknown }).grantView =
+    options.grantView === false ? undefined : grantView;
 
   const app = express();
   app.use(express.json());
@@ -98,6 +108,8 @@ beforeEach(() => {
   forward.mockResolvedValue({ bindHost: "127.0.0.1", bindPort: 41234 });
   openIsolatedWindow.mockReset();
   openIsolatedWindow.mockResolvedValue({ success: true });
+  grantView.mockReset();
+  grantView.mockResolvedValue({ grant: "g".repeat(48), expiresAt: 1 });
 });
 
 afterEach(async () => {
@@ -530,5 +542,133 @@ describe("POST /open-termix", () => {
     mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
     expect((await open()).status).toBe(403);
     expect(proxy.open).not.toHaveBeenCalled();
+  });
+});
+
+describe("POST /view", () => {
+  const view = (body: unknown = { hostId: 7, endpointId: "e1" }) =>
+    fetch(`${baseUrl}/view`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+  it("grants a direct endpoint at the host's own address", async () => {
+    await start({
+      endpoints: [endpoint({ access: "direct", scheme: "https", port: 8006 })],
+    });
+    const res = await view();
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      grant: "g".repeat(48),
+      url: "https://10.0.0.5:8006/",
+    });
+    expect(grantView).toHaveBeenCalledWith({
+      url: "https://10.0.0.5:8006/",
+      ignoreCert: false,
+    });
+    expect(forward).not.toHaveBeenCalled();
+  });
+
+  it("takes the address and certificate rule from the saved endpoint, never the request", async () => {
+    await start({
+      desktop: true,
+      endpoints: [
+        endpoint({
+          access: "direct",
+          scheme: "https",
+          port: 8006,
+          ignoreCert: true,
+        }),
+      ],
+    });
+    const res = await view({
+      hostId: 7,
+      endpointId: "e1",
+      url: "https://evil.example/",
+      ignoreCert: false,
+    });
+    expect(res.status).toBe(200);
+    expect(grantView).toHaveBeenCalledWith({
+      url: "https://10.0.0.5:8006/",
+      ignoreCert: true,
+    });
+  });
+
+  it("never trusts a bad certificate in a browser, where the app can't honor it", async () => {
+    await start({
+      endpoints: [
+        endpoint({ access: "direct", scheme: "https", ignoreCert: true }),
+      ],
+    });
+    await view();
+    expect(grantView).toHaveBeenCalledWith(
+      expect.objectContaining({ ignoreCert: false }),
+    );
+  });
+
+  it("refuses a direct endpoint on Termix's own site in a browser", async () => {
+    for (const ip of ["termix.test", "app.termix.test"]) {
+      await start({
+        hostOverrides: { ip },
+        endpoints: [endpoint({ access: "direct" })],
+      });
+      const res = await view();
+      expect(res.status, ip).toBe(409);
+      expect(await res.json()).toMatchObject({
+        code: "direct-shares-session-cookie",
+      });
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
+    await start();
+    expect(grantView).not.toHaveBeenCalled();
+  });
+
+  it("allows that endpoint on the desktop, whose native view has its own session", async () => {
+    await start({
+      desktop: true,
+      hostOverrides: { ip: "termix.test" },
+      endpoints: [endpoint({ access: "direct" })],
+    });
+    expect((await view()).status).toBe(200);
+  });
+
+  it("opens a tunnel on loopback for the desktop", async () => {
+    await start({ desktop: true });
+    const res = await view();
+    expect(res.status).toBe(200);
+    expect(grantView).toHaveBeenCalledWith({
+      url: "http://127.0.0.1:41234/",
+      ignoreCert: false,
+    });
+  });
+
+  it("reaches a tunnel through the plugin's own proxy in a browser", async () => {
+    await start({ baseUrl: "https://termix.test/base" });
+    const res = await view();
+    expect(res.status).toBe(200);
+    const { url } = (await res.json()) as { url: string };
+    expect(
+      url.startsWith("https://termix.test/base/plugin-api/web-endpoint/p/"),
+    ).toBe(true);
+    expect(grantView).toHaveBeenCalledWith({ url, ignoreCert: false });
+  });
+
+  it("refuses an endpoint that opens through Termix", async () => {
+    await start({ endpoints: [endpoint({ access: "termix" })] });
+    expect((await view()).status).toBe(400);
+    expect(grantView).not.toHaveBeenCalled();
+  });
+
+  it("says so on a Termix without granted views", async () => {
+    await start({ grantView: false });
+    expect((await view()).status).toBe(501);
+  });
+
+  it("refuses a malformed request and a host the user can't reach", async () => {
+    await start();
+    expect((await view({ hostId: "7", endpointId: "e1" })).status).toBe(400);
+    expect((await view({ hostId: 99, endpointId: "e1" })).status).toBe(403);
+    expect(grantView).not.toHaveBeenCalled();
   });
 });

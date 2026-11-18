@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.1
+
+### Changed
+
+- Runs in its own process on Termix 26.11.2 and later, with no access to the server beyond what Termix allows it
+- Its screens run in a sandboxed frame on Termix 26.11.2 and later. The server picks the page a tab shows and Termix draws it, so the tab can't point it anywhere else or trust a bad certificate on its own
+- Its process stops when it has nothing to watch or run, and Termix starts it again when there is work, which saves memory on Termix 26.11.2 and later
+
+### Fixed
+
+- A very long mount path no longer keeps the server busy for a long time
+
 ## 1.2.0
 
 ### Added

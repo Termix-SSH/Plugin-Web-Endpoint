@@ -8,7 +8,7 @@ import type {
 import type { PluginHostRecord as Host } from "@termix-ssh/plugin-sdk/frontend";
 import { WebEndpointTab } from "./WebEndpointTab";
 import { HostEditorWebUiSection } from "./HostEditorWebUiSection";
-import { setWebEndpointApi } from "./web-endpoint-api";
+import { setWebEndpointApi, setWebEndpointDesktop } from "./web-endpoint-api";
 import { TAB_TYPE, endpointsOf, openEndpoint } from "./endpoints";
 import {
   WebEndpointCompanion,
@@ -36,7 +36,11 @@ function WebUiSection(props: HostEditorSectionProps) {
 
 export function activate(app: TermixApp): void {
   setWebEndpointApi(app.api);
-  app.onDispose(() => setWebEndpointApi(null));
+  setWebEndpointDesktop(app.desktop);
+  app.onDispose(() => {
+    setWebEndpointApi(null);
+    setWebEndpointDesktop(null);
+  });
 
   app.registerTab(TAB_TYPE, EndpointTab, {
     icon: Globe,

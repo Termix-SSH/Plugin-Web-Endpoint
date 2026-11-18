@@ -13,6 +13,9 @@
     },
     "POST /plugin-api/web-endpoint/proxy": {
       "access": "user"
+    },
+    "POST /plugin-api/web-endpoint/view": {
+      "access": "user"
     }
   }
 }

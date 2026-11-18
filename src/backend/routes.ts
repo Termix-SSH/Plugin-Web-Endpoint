@@ -13,6 +13,7 @@ import {
   normalizeMountPath,
   type ProxySessions,
 } from "./proxy.js";
+import { sharesCookieSiteWithPage } from "../shared/cookie-site.js";
 
 /** Matches the spec's ten minutes. */
 const WEB_ENDPOINT_IDLE_TIMEOUT_MS = 10 * 60 * 1000;
@@ -36,6 +37,19 @@ interface TunnelsAccess {
  * the host id in it is what the tunnels plugin checks before letting anyone
  * stop one by name.
  */
+/** ctx.desktop.grantView, Termix 26.11.2 and plugin API 2.8. */
+type GrantView = (request: {
+  url: string;
+  ignoreCert?: boolean;
+}) => Promise<{ grant: string; expiresAt: number }>;
+
+function grantViewOf(ctx: PluginContext): GrantView | null {
+  const desktop = ctx.desktop as { grantView?: GrantView };
+  return typeof desktop.grantView === "function"
+    ? (request) => desktop.grantView!(request)
+    : null;
+}
+
 function webEndpointTunnelName(hostId: number, endpointId: string): string {
   return `web:${hostId}:${endpointId}`;
 }
@@ -105,7 +119,9 @@ async function openTunnel(
   const userId = ctx.currentActor();
   let tunnels: TunnelsAccess | undefined;
   try {
-    tunnels = ctx.services.get<TunnelsAccess>("tunnels.access", { userId });
+    tunnels = await ctx.services.get<TunnelsAccess>("tunnels.access", {
+      userId,
+    });
   } catch {
     tunnels = undefined;
   }
@@ -163,8 +179,7 @@ function endpointUrl(
 ): string {
   const path = endpoint.path && endpoint.path.length > 0 ? endpoint.path : "/";
   if (endpoint.access !== "direct") {
-    // Electron's isolated window always dials the backend's own loopback,
-    // exactly like the renderer's own currentTunnelHost(true) does.
+    // The desktop app always dials the backend's own loopback.
     return `${endpoint.scheme}://127.0.0.1:${localPort}${path}`;
   }
   return `${endpoint.scheme}://${bracketIfIpv6(hostAddress)}:${endpoint.port}${path}`;
@@ -173,8 +188,33 @@ function endpointUrl(
 export function createWebEndpointRoutes(
   ctx: PluginContext,
   sessions: ProxySessions = createProxySessions(),
+  router: Router = express.Router(),
 ): Router {
-  const router = express.Router();
+  /** Opens the tunnel and a tokened path through this plugin's proxy. */
+  async function proxyPath(
+    userId: string,
+    hostId: number,
+    endpointId: string,
+    endpoint: WebEndpoint,
+    mount: string,
+  ): Promise<string> {
+    const handle = await openTunnel(ctx, hostId, endpointId, endpoint);
+    const { session } = sessions.mint(
+      {
+        userId,
+        hostId,
+        endpointId,
+        scheme: endpoint.scheme,
+        targetPort: endpoint.port,
+        localPort: handle.bindPort,
+      },
+      mount,
+    );
+    const path =
+      endpoint.path && endpoint.path.length > 1 ? endpoint.path : "/";
+    return session.publicPrefix + path.slice(1);
+  }
+
   // The router takes raw bodies so the proxy can stream them; these routes
   // parse their own small JSON bodies.
   const json = express.json({ limit: "64kb" });
@@ -381,7 +421,7 @@ export function createWebEndpointRoutes(
     }
     let proxy: ReverseProxyEndpoints | undefined;
     try {
-      proxy = ctx.services.get<ReverseProxyEndpoints>(
+      proxy = await ctx.services.get<ReverseProxyEndpoints>(
         "reverse-proxy.endpoints",
         { userId },
       );
@@ -489,25 +529,126 @@ export function createWebEndpointRoutes(
         .json({ error: "This endpoint does not use a tunnel" });
     }
     try {
-      const handle = await openTunnel(ctx, hostId, endpointId, endpoint);
-      const { session } = sessions.mint(
-        {
+      const path = await proxyPath(userId, hostId, endpointId, endpoint, mount);
+      return res.status(200).json({ path });
+    } catch (error) {
+      const status = (error as { status?: number }).status ?? 500;
+      const message = error instanceof Error ? error.message : String(error);
+      return res.status(status).json({ error: message });
+    }
+  });
+
+  /**
+   * @openapi
+   * /plugin-api/web-endpoint/view:
+   *   post:
+   *     summary: Show a host's web endpoint in a tab
+   *     description: Picks the page on the server (the host's own address for a direct endpoint; for a tunnelled one a tunnel on the desktop app or this plugin's proxy in a browser) and gives back a grant the app draws it from. The tab never picks the address or the certificate rule.
+   *     tags: [Web Endpoint]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required: [hostId, endpointId]
+   *             properties:
+   *               hostId: { type: integer }
+   *               endpointId: { type: string }
+   *     responses:
+   *       200: { description: "{ grant, url }" }
+   *       400: { description: Invalid request, or the endpoint opens through Termix. }
+   *       401: { description: Not signed in. }
+   *       403: { description: Host not found or access denied. }
+   *       409: { description: A direct endpoint on the same site as Termix would get its login cookie. }
+   *       501: { description: This Termix version can't show pages for plugin tabs. }
+   */
+  router.post("/view", json, async (req, res) => {
+    const userId = ctx.currentActor();
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+    const { hostId, endpointId } = req.body ?? {};
+    if (
+      !Number.isInteger(hostId) ||
+      hostId < 1 ||
+      typeof endpointId !== "string"
+    ) {
+      return res.status(400).json({ error: "Invalid web endpoint request" });
+    }
+    const grantView = grantViewOf(ctx);
+    if (!grantView) {
+      return res.status(501).json({
+        error: "This Termix version can't show web endpoints in a tab",
+      });
+    }
+    const resolved = await loadEndpoint(ctx, hostId, endpointId);
+    if ("error" in resolved) {
+      return res
+        .status(resolved.error.status)
+        .json({ error: resolved.error.message });
+    }
+    const { endpoint } = resolved;
+    if (endpoint.access === "termix") {
+      return res
+        .status(400)
+        .json({ error: "This endpoint opens through Termix" });
+    }
+    const host = await ctx.hosts.get(hostId);
+    if (!host) {
+      return res.status(403).json({ error: "Host not found or access denied" });
+    }
+
+    try {
+      // The desktop app shows the page in a native view with its own session.
+      const desktop = await ctx.desktop.available();
+      let url: string;
+      if (endpoint.access === "direct") {
+        if (!desktop) {
+          // Cookies ignore the port: a page on Termix's own site would get
+          // its login.
+          const pageHost = new URL(ctx.http.baseUrl(req)).hostname;
+          if (sharesCookieSiteWithPage(host.ip, pageHost)) {
+            return res.status(409).json({
+              error: "This endpoint shares Termix's site",
+              code: "direct-shares-session-cookie",
+            });
+          }
+        }
+        url = endpointUrl(host.ip, endpoint);
+      } else if (desktop) {
+        const handle = await openTunnel(ctx, hostId, endpointId, endpoint);
+        url = endpointUrl(host.ip, endpoint, handle.bindPort);
+      } else {
+        const base = new URL(ctx.http.baseUrl(req));
+        const mount = normalizeMountPath(
+          `${base.pathname.replace(/\/+$/, "")}/plugin-api/web-endpoint`,
+        );
+        if (!mount) {
+          return res
+            .status(400)
+            .json({ error: "Invalid web endpoint request" });
+        }
+        const path = await proxyPath(
           userId,
           hostId,
           endpointId,
-          scheme: endpoint.scheme,
-          targetPort: endpoint.port,
-          localPort: handle.bindPort,
-        },
-        mount,
-      );
-      const path =
-        endpoint.path && endpoint.path.length > 1 ? endpoint.path : "/";
-      return res
-        .status(200)
-        .json({ path: session.publicPrefix + path.slice(1) });
+          endpoint,
+          mount,
+        );
+        url = new URL(path, base.origin).href;
+      }
+      const { grant } = await grantView({
+        url,
+        // Only the saved endpoint can allow a bad certificate, never the request.
+        ignoreCert:
+          desktop &&
+          endpoint.access === "direct" &&
+          endpoint.ignoreCert === true,
+      });
+      return res.status(200).json({ grant, url });
     } catch (error) {
-      const status = (error as { status?: number }).status ?? 500;
+      const status = (error as { status?: number }).status ?? 502;
       const message = error instanceof Error ? error.message : String(error);
       return res.status(status).json({ error: message });
     }
