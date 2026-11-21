@@ -375,7 +375,7 @@ export function createWebEndpointRoutes(
    * /plugin-api/web-endpoint/open-termix:
    *   post:
    *     summary: Open an endpoint through Termix
-   *     description: Gives a one time address on the Reverse Proxy web endpoint domain that serves this endpoint through the server. Hosts with SSH go through a tunnel. Others need the admin setting that lets Termix reach hosts directly.
+   *     description: Gives a one time address on the Reverse Proxy web endpoint domain that serves this endpoint through the server. The endpoint's termixRoute picks an SSH tunnel or a direct connection; on auto, hosts with SSH go through a tunnel. Direct needs the admin setting that lets Termix reach hosts directly.
    *     tags: [Web Endpoint]
    *     requestBody:
    *       required: true
@@ -443,15 +443,21 @@ export function createWebEndpointRoutes(
           .status(403)
           .json({ error: "Host not found or access denied" });
       }
+      const route = endpoint.termixRoute ?? "auto";
       const direct =
-        host.enableSsh !== true && (host.connectionType ?? "ssh") !== "ssh";
+        route === "direct" ||
+        (route === "auto" &&
+          host.enableSsh !== true &&
+          (host.connectionType ?? "ssh") !== "ssh");
       if (
         direct &&
         (await ctx.settings.get<boolean>("allowServerTargets")) !== true
       ) {
         return res.status(403).json({
           error:
-            "This host has no SSH, and an admin has not let Termix reach hosts directly",
+            route === "direct"
+              ? "This endpoint connects directly, and an admin has not let Termix reach hosts directly"
+              : "This host has no SSH, and an admin has not let Termix reach hosts directly",
         });
       }
       const target = direct

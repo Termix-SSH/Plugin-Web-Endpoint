@@ -35,6 +35,19 @@ describe("normalizeWebEndpoints", () => {
     ]);
   });
 
+  it("keeps a Through Termix route and drops it anywhere else", () => {
+    const [termix] = normalizeWebEndpoints([
+      valid({ access: "termix", termixRoute: "direct" }),
+    ]);
+    expect(termix.termixRoute).toBe("direct");
+    const [direct] = normalizeWebEndpoints([valid({ termixRoute: "direct" })]);
+    expect(direct.termixRoute).toBeUndefined();
+    const [bad] = normalizeWebEndpoints([
+      valid({ access: "termix", termixRoute: "sideways" }),
+    ]);
+    expect(bad.termixRoute).toBeUndefined();
+  });
+
   it("drops an unknown or dangerous scheme", () => {
     expect(normalizeWebEndpoints([valid({ scheme: "ftp" })])).toEqual([]);
     expect(normalizeWebEndpoints([valid({ scheme: "javascript" })])).toEqual(

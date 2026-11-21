@@ -517,6 +517,36 @@ describe("POST /open-termix", () => {
     );
   });
 
+  it("connects directly to a host with SSH when the endpoint asks for it (#8)", async () => {
+    await start({
+      endpoints: [termix({ termixRoute: "direct" })],
+      hostOverrides: { enableSsh: true },
+    });
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+
+    expect((await open()).status).toBe(403);
+
+    await mock.ctx.settings.set("allowServerTargets", true);
+    expect((await open()).status).toBe(200);
+    expect(forward).not.toHaveBeenCalled();
+    expect(proxy.open).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ host: "10.0.0.5", port: 8006 }),
+      }),
+    );
+  });
+
+  it("tunnels when the endpoint asks for it, even without SSH on the host", async () => {
+    await start({
+      endpoints: [termix({ termixRoute: "tunnel" })],
+      hostOverrides: { enableSsh: false, connectionType: "rdp" },
+    });
+    mock.ctx.services.provide("reverse-proxy.endpoints", proxy);
+
+    expect((await open()).status).toBe(200);
+    expect(forward).toHaveBeenCalled();
+  });
+
   it("says what is missing without Reverse Proxy", async () => {
     await start({ endpoints: [termix()] });
     expect((await open()).status).toBe(503);

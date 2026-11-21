@@ -10,6 +10,8 @@
 
 type WebEndpointAccess = "direct" | "tunnel" | "termix";
 type WebEndpointRender = "external" | "embedded";
+/** How the server reaches a Through Termix endpoint. Auto picks SSH when the host has it. */
+export type WebEndpointTermixRoute = "auto" | "tunnel" | "direct";
 
 /** One web UI a host serves, declared in this plugin's host settings. */
 export interface WebEndpoint {
@@ -48,6 +50,8 @@ export interface WebEndpoint {
    * only publish ports it knows in advance.
    */
   localPort?: number;
+  /** Through Termix endpoints only. Left unset it is "auto". */
+  termixRoute?: WebEndpointTermixRoute;
 }
 
 export interface WebUiConfig {
@@ -178,6 +182,13 @@ function normalizeEndpoint(raw: unknown): WebEndpoint | null {
     // downstream has to re-derive that.
     ignoreCert: !isTunnel && input.ignoreCert === true,
   };
+
+  if (
+    access === "termix" &&
+    (input.termixRoute === "tunnel" || input.termixRoute === "direct")
+  ) {
+    endpoint.termixRoute = input.termixRoute;
+  }
 
   // Both are tunnel-only. Silently ignored on a direct endpoint rather than
   // rejected: they describe a forward that a direct endpoint never creates.

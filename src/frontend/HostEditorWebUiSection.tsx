@@ -23,6 +23,7 @@ import {
   MAX_WEB_ENDPOINTS,
   MAX_WEB_ENDPOINT_LABEL_LENGTH,
   type WebEndpoint,
+  type WebEndpointTermixRoute,
 } from "../shared/web-endpoint-config";
 import {
   webEndpointRefusalReason,
@@ -516,9 +517,47 @@ export function HostEditorWebUiSection({
                     )}
 
                     {endpoint.access === "termix" && (
-                      <p className="text-[11px] opacity-70">
-                        {t("hosts.webUiAccessTermixDesc")}
-                      </p>
+                      <div className="flex flex-col gap-1.5">
+                        <p className="text-[11px] opacity-70">
+                          {t("hosts.webUiAccessTermixDesc")}
+                        </p>
+                        <label className="text-[10px] font-bold text-muted-foreground">
+                          {t("hosts.webUiTermixRoute")}
+                        </label>
+                        <Select
+                          value={endpoint.termixRoute ?? "auto"}
+                          onValueChange={(value) =>
+                            update(index, {
+                              termixRoute:
+                                value === "auto"
+                                  ? undefined
+                                  : (value as WebEndpointTermixRoute),
+                            })
+                          }
+                        >
+                          <SelectTrigger
+                            aria-label={t("hosts.webUiTermixRoute")}
+                            size="sm"
+                            className="h-7 text-xs"
+                          >
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="auto" className="text-xs">
+                              {t("hosts.webUiTermixRouteAuto")}
+                            </SelectItem>
+                            <SelectItem value="tunnel" className="text-xs">
+                              {t("hosts.webUiTermixRouteTunnel")}
+                            </SelectItem>
+                            <SelectItem value="direct" className="text-xs">
+                              {t("hosts.webUiTermixRouteDirect")}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <p className="text-[11px] opacity-70">
+                          {t("hosts.webUiTermixRouteDesc")}
+                        </p>
+                      </div>
                     )}
 
                     {endpoint.access !== "tunnel" && (
